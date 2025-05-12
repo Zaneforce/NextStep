@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEXTSTEP</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="../CSS/login.css">
+    <link rel="logo icon" href="../Assets/logo.png" type="image/png">
+</head>
+<body>
+    <div class="container">
+        <div class="logo">NEXTSTEP</div>
+        <form id="loginForm">
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <div class="error-message" id="errorMessage"></div>
+            <button type="submit">Login</button>
+            <button type="button" class="google-btn" id="googleLogin">
+                <i class="fab fa-google"></i> Sign in with Google
+            </button>
+        </form>
+        <div class="register-link">
+            Don't have an account? <a href="../Pages/register.html">Register</a>
+        </div>
+    </div>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    <script src="../JS/firebase-config.js"></script>
+    <script src="../JS/login.js"></script>
+</body>
+</html>

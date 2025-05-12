@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEXTSTEP</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="../CSS/complete-profile.css">
+    <link rel="logo icon" href="../Assets/logo.png" type="image/png">
+</head>
+<body>
+    <div class="container">
+        <div class="logo">NEXTSTEP</div>
+        <h1>Complete Your Profile</h1>
+        <form id="profileForm">
+            <!-- Role Selection -->
+            <div class="role-selector">
+                <div class="role-option" data-role="student" onclick="selectRole('student')">
+                    🎓 Student
+                </div>
+                <div class="role-option" data-role="provider" onclick="selectRole('provider')">
+                    🏢 Provider
+                </div>
+            </div>
+
+            <!-- Student Fields -->
+            <div id="studentFields" class="hidden">
+                <div class="form-group">
+                    <input type="text" id="name" name="name" 
+                           placeholder="Username">
+                </div>
+                <div class="form-group">
+                    <input type="text" id="school" name="school" 
+                           placeholder="Nama Sekolah/Universitas">
+                </div>
+                <div class="form-group">
+                    <input type="text" id="nim" name="nim" 
+                           placeholder="NIM/NISN">
+                </div>
+                <div class="form-group">
+                    <input type="text" id="major" name="major" 
+                           placeholder="Jurusan">
+                </div>
+            </div>
+
+            <!-- Provider Fields -->
+            <div id="providerFields" class="hidden">
+                <div class="form-group">
+                    <input type="text" id="name" name="name" 
+                           placeholder="Username">
+                </div>
+                <div class="form-group">
+                    <input type="text" id="companyName" name="companyName" 
+                           placeholder="Nama Perusahaan/Lembaga">
+                </div>
+                <div class="form-group">
+                    <input type="text" id="address" name="address" 
+                           placeholder="Alamat Lengkap">
+                </div>
+            </div>
+
+            <button type="submit">Complete Registration</button>
+        </form>
+    </div>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    <script src="../JS/firebase-config.js"></script>
+    <script src="../JS/complete-profile.js"></script>
+</body>
+</html>
