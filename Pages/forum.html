@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Forums</title>
+  <link rel="stylesheet" href="../CSS/forum.css">
+  <link rel="logo icon" href="../Assets/logo.png" type="image/png">
+</head>
+<body>
+
+  <div class="forum-container">
+    <main class="forum-main">
+      <!-- Create Post Button -->
+      <div class="add-thread-bar" id="showCreatePostBtn">
+        <span class="add-thread-text">Add a new thread</span>
+        <button class="add-thread-plus" aria-label="Add new thread">
+          +
+        </button>
+      </div>
+
+      <!-- Create New Post (hidden by default) -->
+      <section id="createPostSection" style="display:none;">
+        <h2>New Post</h2>
+        <label for="category">Category:</label>
+        <select id="category">
+          <option value="Internship">Internship</option>
+          <option value="Scholarship">Scholarship</option>
+          <option value="Discussion">Discussion</option>
+        </select>
+        <input id="title" placeholder="Post Title">
+        <textarea id="content" placeholder="What's on your mind?"></textarea>
+        <button onclick="createPost()">Post</button>
+      </section>
+
+      <!-- Forum Threads + Sidebar -->
+      <div class="forum-threads-layout">
+        <aside id="categorySidebar">
+          <div class="sidebar-header">Categories</div>
+          <ul class="category-list">
+            <li><button class="cat-btn active" onclick="filterByCategory('All')"><span class="dot all"></span>All</button></li>
+            <li><button class="cat-btn" onclick="filterByCategory('Internship')"><span class="dot internship"></span>Internship</button></li>
+            <li><button class="cat-btn" onclick="filterByCategory('Scholarship')"><span class="dot scholarship"></span>Scholarship</button></li>
+            <li><button class="cat-btn" onclick="filterByCategory('Discussion')"><span class="dot discussion"></span>Discussion</button></li>
+          </ul>
+        </aside>
+        <section class="forum-threads-section">
+          <div id="forumContainer"></div>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <div id="postModal" class="modal">
+    <div class="modal-content">
+      <span id="closeModal">&times;</span>
+      <div id="modalContent"></div>
+    </div>
+  </div>
+
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js"></script>
+
+  <!-- Your Firebase config + logic -->
+  <script type="module" src="../JS/forum.js"></script>
+</body>
+</html>
