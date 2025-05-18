@@ -237,7 +237,7 @@ async function loadPosts() {
           <div class="post-buttons" style="display: flex; gap: 8px; align-items: center;">
             <button class="reply-toggle" onclick="event.stopPropagation(); showPostModal('${postId}')" style="display: flex; align-items: center; gap: 4px;">
               <span class="reply-toggle-icon" style="display: flex; align-items: center;">
-                <img src="../Assets/message-circle.png" alt="Message" style="width: 15px; height: 15px; cursor: pointer; padding: 5px;" />
+                <img src="../Assets/message-circle.png" alt="Message" style="width: 30px; height: 30px; cursor: pointer; padding: 5px;" />
               </span>
               <span class="reply-count">${replyCount}</span>
             </button>
