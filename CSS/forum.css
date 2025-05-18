@@ -1,44 +1,59 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
-body {
-  font-family: poppins;
-  background-color: #f2efea; 
-  color: #222;
+* {
   margin: 0;
-  padding: 0px;
-  padding-top: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+:root {
+  --background-color: #F4F2EE;
+  --primary-color: #fff;
+  --line-color: #DFDEDA;
+  --button-color: #EDF3F8;
+  --text-color: #000;
+  --grey-color: #6C757D;
+}
+
+body {
+  background-color: #f2efea;
+  color: #222;
+  padding-top: 100px;
+}
+
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
 }
 
 header {
-  position: static;
-  width: 100vw; 
-  left: 0;
-  right: 0;
-  transform: translateY(0);
-  transition: all 0.3s ease-in-out;
-  background-color: #fff;
-  border-bottom: var(--line-color) 2px solid;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-  z-index: 1000;
-  opacity: 1;
-  margin-bottom: 32px; 
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    transform: translateY(0);
+    transition: all 0.3s ease-in-out;
+    background-color: var(--primary-color);
+    border-bottom: var(--line-color) 2px solid;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
 }
 
-header.hidden{
+header.hidden {
   transform: translateY(-100%);
 }
 
 .navbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 15px 40px; 
-  max-width: 1600px;  
-  margin: 0 auto;     
-  box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 0;
 }
 
-.logo{
+.logo {
   font-size: 30px;
   font-weight: 700;
   color: var(--text-color);
@@ -49,7 +64,7 @@ header.hidden{
   -webkit-text-fill-color: transparent;
 }
 
-.search-bar{
+.search-bar {
   display: flex;
   align-items: center;
   background-color: var(--button-color);
@@ -60,7 +75,7 @@ header.hidden{
   border: 1px solid var(--line-color);
 }
 
-.search-bar input{
+.search-bar input {
   border: none;
   background: transparent;
   outline: none;
@@ -68,7 +83,7 @@ header.hidden{
   padding-left: 5px;
 }
 
-.nav-links{
+.nav-links {
   display: flex;
   gap: 40px;
 }
@@ -82,10 +97,10 @@ header.hidden{
 }
 
 .nav-links a:nth-child(4) {
-   margin-left: -15px;
+  margin-left: -15px;
 }
 
-.nav-link{
+.nav-link {
   display: flex;
   width: 48px;
   flex-direction: column;
@@ -106,10 +121,11 @@ header.hidden{
 
 .nav-link:hover svg,
 .nav-link.active svg {
-  fill: var(--text-color); 
+  fill: var(--text-color);
 }
 
-.nav-link.active, .nav-link:hover{
+.nav-link.active,
+.nav-link:hover {
   color: var(--text-color);
   border-bottom: 1px solid var(--text-color);
 }
@@ -128,15 +144,33 @@ header.hidden{
   font-size: 14px;
 }
 
-.bx-user-circle{
+.bx-user-circle {
   margin-top: -5px;
   font-size: 36px;
   color: var(--text-color);
 }
 
+.login-btn {
+    background-color: var(--primary-color);
+    border: 2px solid var(--line-color);
+    border-radius: 20px;
+    padding: 8px 15px;
+    color: var(--text-color);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.login-btn:hover {
+    transform: translateY(-2px);
+    border: 2px solid var(--text-color);
+}
+
 h1 {
   color: #222;
-  border-bottom: 2px solid #deddda; 
+  border-bottom: 2px solid #deddda;
   padding-bottom: 10px;
   text-align: center;
 }
@@ -150,18 +184,19 @@ h2 {
 
 /* New Post Section */
 section {
-  background-color: #ffffff; 
+  background-color: #ffffff;
   border-radius: 10px;
   padding: 15px;
   margin-bottom: 20px;
-  box-shadow: 0 2px 5px rgba(34,34,34,0.05);
+  box-shadow: 0 2px 5px rgba(34, 34, 34, 0.05);
 }
 
-input, textarea {
+input,
+textarea {
   width: 100%;
   padding: 10px;
   margin: 8px 0;
-  border: 1px solid #deddda; 
+  border: 1px solid #deddda;
   border-radius: 5px;
   box-sizing: border-box;
   font-family: inherit;
@@ -170,9 +205,9 @@ input, textarea {
 }
 
 button {
-  background-color: #eaf1f7; 
+  background-color: #eaf1f7;
   color: #222;
-  border: 1px solid #deddda; 
+  border: 1px solid #deddda;
   padding: 8px 15px;
   border-radius: 5px;
   cursor: pointer;
@@ -182,7 +217,7 @@ button {
 }
 
 button:hover {
-  background-color: #deddda; 
+  background-color: #deddda;
 }
 
 /* Posts Container */
@@ -193,11 +228,11 @@ button:hover {
 }
 
 .post {
-  background-color: #ffffff; 
+  background-color: #ffffff;
   border-radius: 10px;
   padding: 15px;
-  box-shadow: 0 2px 5px rgba(34,34,34,0.05);
-  border: 1px solid #deddda; 
+  box-shadow: 0 2px 5px rgba(34, 34, 34, 0.05);
+  border: 1px solid #deddda;
 }
 
 .post h3 {
@@ -223,7 +258,7 @@ button:hover {
   border-radius: 3px;
   font-size: 0.8em;
   margin-right: 5px;
-  background: #eaf1f7; 
+  background: #eaf1f7;
   color: #222;
 }
 
@@ -255,8 +290,8 @@ button:hover {
 }
 
 .reply {
-  background-color: #eaf1f7; 
-  border-left: 3px solid #deddda; 
+  background-color: #eaf1f7;
+  border-left: 3px solid #deddda;
   padding: 8px;
   margin: 8px 0;
   border-radius: 0 5px 5px 0;
@@ -269,12 +304,12 @@ button:hover {
   color: #888;
   font-size: 0.8em;
   margin-top: 10px;
-  border-top: 1px solid #deddda; 
+  border-top: 1px solid #deddda;
   padding-top: 10px;
 }
 
 .post button:hover {
-  background-color: #deddda; 
+  background-color: #deddda;
   color: #222;
 }
 
@@ -290,6 +325,7 @@ button:hover {
   min-width: 0;
   box-sizing: border-box;
 }
+
 .post-buttons button,
 .post-buttons .reply-toggle {
   width: 64px;
@@ -300,8 +336,8 @@ button:hover {
   justify-content: center;
   font-size: 1.1em;
   border-radius: 8px;
-  border: 1px solid #deddda; 
-  background: #eaf1f7; 
+  border: 1px solid #deddda;
+  background: #eaf1f7;
   color: #222;
   box-sizing: border-box;
   transition: background 0.2s, color 0.2s;
@@ -309,7 +345,7 @@ button:hover {
 
 .post-buttons button:hover,
 .post-buttons .reply-toggle:hover {
-  background-color: #deddda; 
+  background-color: #deddda;
   color: #222;
 }
 
@@ -321,7 +357,7 @@ button:hover {
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: rgba(0,0,0,0.5);
+  background: rgba(0, 0, 0, 0.5);
   z-index: 1000;
 }
 
@@ -352,7 +388,7 @@ button:hover {
   background: #f8f9fa;
   font-size: 1rem;
   color: #333;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
@@ -389,10 +425,12 @@ button:hover {
   background: #e0f7fa;
   color: #00796b;
 }
+
 .category-scholarship {
   background: #fff3e0;
   color: #e65100;
 }
+
 .category-discussion {
   background: #e3f2fd;
   color: #1565c0;
@@ -404,6 +442,7 @@ button:hover {
   cursor: pointer;
   padding: 2px 0;
 }
+
 .vote-column button[disabled] {
   opacity: 0.5;
   cursor: not-allowed;
@@ -441,6 +480,7 @@ button:hover {
 .category-list li {
   margin-bottom: 12px;
 }
+
 .cat-btn {
   width: 90%;
   margin: 0 auto;
@@ -468,12 +508,24 @@ button:hover {
   margin-right: 8px;
 }
 
-.cat-btn .dot.all { background: #bdbdbd; }
-.cat-btn .dot.internship { background: #4dd0e1; }
-.cat-btn .dot.scholarship { background: #ffd180; }
-.cat-btn .dot.discussion { background: #90caf9; }
+.cat-btn .dot.all {
+  background: #bdbdbd;
+}
 
-.cat-btn.active, .cat-btn:hover {
+.cat-btn .dot.internship {
+  background: #4dd0e1;
+}
+
+.cat-btn .dot.scholarship {
+  background: #ffd180;
+}
+
+.cat-btn .dot.discussion {
+  background: #90caf9;
+}
+
+.cat-btn.active,
+.cat-btn:hover {
   background: #ecebff;
   color: #4b3aff;
   font-weight: 600;
@@ -506,13 +558,14 @@ button:hover {
   gap: 2rem;
   margin-top: 80px;
   width: 100%;
-  max-width: none; 
+  max-width: none;
 }
 
 .forum-threads-section {
   flex: 1;
 
 }
+
 #categorySidebar {
   min-width: 220px;
   margin-top: 0;
@@ -529,7 +582,7 @@ button:hover {
 }
 
 body {
-  max-width: none; 
+  max-width: none;
 }
 
 .add-thread-bar {
@@ -587,6 +640,7 @@ body {
   line-height: 1;
   transition: color 0.2s;
 }
+
 .close-create-btn:hover {
   color: #4b3aff;
 }

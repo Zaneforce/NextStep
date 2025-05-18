@@ -43,12 +43,35 @@ async function getUserDataByUid(uid) {
 }
 
 // Watch auth state
-onAuthStateChanged(auth, user => {
+onAuthStateChanged(auth, async (user) => {
+  const profileSection = document.getElementById('profileSection');
+  const loginBtn = document.getElementById('loginBtn');
+  
   if (user) {
     currentUser = user;
-    loadPosts();
+    
+    // Ambil data pengguna dari Firestore
+    try {
+      const userDoc = await getDoc(doc(db, "users", user.uid)); // Perbaikan: gunakan user.uid
+      const userData = userDoc.data();
+
+      // Tampilkan profil
+      profileSection.style.display = 'flex';
+      document.getElementById('profileName').textContent = userData?.name || "Pengguna";
+      loginBtn.style.display = 'none';
+      
+      // Load posts setelah auth selesai
+      loadPosts();
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+      profileSection.style.display = 'none';
+      loginBtn.style.display = 'block';
+    }
   } else {
-    alert("You must be logged in to use the forum.");
+    // Tampilkan tombol login
+    profileSection.style.display = 'none';
+    loginBtn.style.display = 'block';
+    currentUser = null;
   }
 });
 
@@ -436,3 +459,22 @@ window.votePost = async function (postId, voteValue) {
     console.error("Voting error:", err);
   }
 };
+
+let lastScroll = 0;
+const header = document.querySelector('header');
+const scrollThreshold = 200; 
+
+window.addEventListener('scroll', () => {
+    const currentScroll = window.pageYOffset;
+    if (currentScroll <= 0) {
+        header.classList.remove('hidden');
+        return;
+    }
+    if (currentScroll > lastScroll && !header.classList.contains('hidden')) {
+        header.classList.add('hidden');
+    } 
+    else if (currentScroll < lastScroll && header.classList.contains('hidden')) {
+        header.classList.remove('hidden');
+    }
+    lastScroll = currentScroll;
+});
