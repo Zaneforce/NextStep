@@ -16,10 +16,26 @@
   --grey-color: #6C757D;
 }
 
+::-webkit-scrollbar {
+  width: 0 !important;
+  height: 0 !important;
+  background: transparent;
+}
+
+* {
+  scrollbar-width: none;
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   background-color: #f2efea;
   color: #222;
   padding-top: 100px;
+  overflow-y: hidden;
 }
 
 .container {
@@ -229,10 +245,17 @@ button:hover {
 
 .post {
   background-color: #ffffff;
-  border-radius: 10px;
-  padding: 15px;
-  box-shadow: 0 2px 5px rgba(34, 34, 34, 0.05);
-  border: 1px solid #deddda;
+  border-radius: 12px;
+  padding: 1.5rem;
+  transition: all 0.2s ease;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.05);
+  border: 1px solid #e0e7ff;
+}
+
+.post:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+  border-color: #c8d3f5;
 }
 
 .post h3 {
@@ -404,8 +427,8 @@ button:hover {
 /* Category tag styles */
 .category-tag {
   display: inline-block;
-  padding: 2px 10px;
-  border-radius: 12px;
+  padding: 4px 12px;
+  border-radius: 20px;
   font-size: 0.85em;
   font-weight: 600;
   margin-bottom: 6px;
@@ -436,11 +459,21 @@ button:hover {
   color: #1565c0;
 }
 
+.vote-column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-right: 1.5rem;
+}
+
 .vote-column button {
-  /* background: none;
-  border: none; */
   cursor: pointer;
   padding: 2px 0;
+  transition: transform 0.2s ease;
+}
+
+.vote-column button:hover {
+  transform: scale(1.1);
 }
 
 .vote-column button[disabled] {
@@ -556,15 +589,22 @@ button:hover {
   display: flex;
   align-items: flex-start;
   gap: 2rem;
-  margin-top: 80px;
+  margin-top: 20px;
   width: 100%;
   max-width: none;
 }
 
+
+
 .forum-threads-section {
   flex: 1;
-
+  display: grid;
+  gap: 1.5rem;
+  padding-right: 15px;
+  overflow-y: auto;
+  height: calc(100vh - 250px);
 }
+
 
 #categorySidebar {
   min-width: 220px;
@@ -576,9 +616,9 @@ button:hover {
 }
 
 .forum-container {
-  max-width: 800px;
-  margin: 0 auto;
-  width: 100%;
+  max-width: 1200px;
+  margin: 20px auto;
+  padding: 0 20px;
 }
 
 body {
@@ -595,11 +635,12 @@ body {
   padding: 20px 24px;
   margin-bottom: 24px;
   cursor: pointer;
-  transition: box-shadow 0.18s;
+  transition: transform 0.18s, box-shadow 0.18s;
 }
 
 .add-thread-bar:hover {
   box-shadow: 0 4px 24px rgba(76, 61, 255, 0.12);
+  transform: translateY(-2px);
 }
 
 .add-thread-text {
@@ -607,6 +648,11 @@ body {
   font-size: 1.25em;
   font-weight: 500;
   letter-spacing: 0.02em;
+  transition: all 0.2s ease;
+}
+
+.add-thread-bar:hover .add-thread-text {
+  color: black;
 }
 
 .add-thread-plus {
@@ -618,12 +664,14 @@ body {
   align-items: center;
   justify-content: center;
   font-size: 2em;
-  color: #aaa;
+  color: #a08383;
   margin-left: 16px;
+  transition: all 0.2s ease;
 }
 
 .add-thread-plus:hover {
   background: #deddda;
+  transform: rotate(90deg);
 }
 
 .close-create-btn {
@@ -648,3 +696,4 @@ body {
 #createPostSection {
   position: relative;
 }
+
