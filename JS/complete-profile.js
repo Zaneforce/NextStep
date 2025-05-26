@@ -49,12 +49,12 @@ document.getElementById('profileForm').addEventListener('submit', async (e) => {
 
     // Tambahkan data spesifik role
     if (selectedRole === 'student') {
-        userData.name = document.getElementById('name').value;
+        userData.name = document.getElementById('studentName').value;
         userData.school = document.getElementById('school').value;
         userData.nim = document.getElementById('nim').value;
         userData.major = document.getElementById('major').value;
     } else {
-        userData.name = document.getElementById('name').value;
+        userData.name = document.getElementById('providerName').value;
         userData.companyName = document.getElementById('companyName').value;
         userData.address = document.getElementById('address').value;
     }
