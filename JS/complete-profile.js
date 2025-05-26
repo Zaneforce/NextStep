@@ -14,7 +14,7 @@ function selectRole(role) {
     // Tampilkan field sesuai role & tambahkan required
     if (role === 'student') {
         document.getElementById('studentFields').style.display = 'block';
-        document.getElementById('name').setAttribute('required', '');
+        document.getElementById('studentName').setAttribute('required', '');
         document.getElementById('school').setAttribute('required', '');
         document.getElementById('nim').setAttribute('required', '');
         document.getElementById('major').setAttribute('required', '');
@@ -24,7 +24,7 @@ function selectRole(role) {
 
     } else if (role === 'provider') {
         document.getElementById('providerFields').style.display = 'block';
-        document.getElementById('name').setAttribute('required', '');
+        document.getElementById('providerName').setAttribute('required', '');
         document.getElementById('companyName').setAttribute('required', '');
         document.getElementById('address').setAttribute('required', '');
 
