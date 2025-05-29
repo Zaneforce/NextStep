@@ -14,7 +14,7 @@ function selectRole(role) {
     // Tampilkan field sesuai role & tambahkan required
     if (role === 'student') {
         document.getElementById('studentFields').style.display = 'block';
-        document.getElementById('name').setAttribute('required', '');
+        document.getElementById('studentName').setAttribute('required', '');
         document.getElementById('school').setAttribute('required', '');
         document.getElementById('nim').setAttribute('required', '');
         document.getElementById('major').setAttribute('required', '');
@@ -24,7 +24,7 @@ function selectRole(role) {
 
     } else if (role === 'provider') {
         document.getElementById('providerFields').style.display = 'block';
-        document.getElementById('name').setAttribute('required', '');
+        document.getElementById('providerName').setAttribute('required', '');
         document.getElementById('companyName').setAttribute('required', '');
         document.getElementById('address').setAttribute('required', '');
 
@@ -49,12 +49,12 @@ document.getElementById('profileForm').addEventListener('submit', async (e) => {
 
     // Tambahkan data spesifik role
     if (selectedRole === 'student') {
-        userData.name = document.getElementById('name').value;
+        userData.name = document.getElementById('studentName').value;
         userData.school = document.getElementById('school').value;
         userData.nim = document.getElementById('nim').value;
         userData.major = document.getElementById('major').value;
     } else {
-        userData.name = document.getElementById('name').value;
+        userData.name = document.getElementById('providerName').value;
         userData.companyName = document.getElementById('companyName').value;
         userData.address = document.getElementById('address').value;
     }
