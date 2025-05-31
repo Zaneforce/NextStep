@@ -3,13 +3,15 @@ import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/
 import {
     getFirestore,
     doc,
-    getDoc
+    getDoc,
+    setDoc
 } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
 import {
     getDatabase,
     ref,
     onValue
 } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-database.js";
+
 
 // Firebase Config
 const firebaseConfig = {
@@ -27,6 +29,7 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 const rtdb = getDatabase(app);
+let likedScholarshipIds = [];
 
 // Auth State
 onAuthStateChanged(auth, async (user) => {
@@ -41,6 +44,9 @@ onAuthStateChanged(auth, async (user) => {
         try {
             const userDocRef = doc(db, "users", user.uid);
             const userDocSnap = await getDoc(userDocRef);
+            const likedRef = doc(db, "likedScholarships", user.uid);
+            const likedSnap = await getDoc(likedRef);
+            likedScholarshipIds = likedSnap.exists() ? likedSnap.data().scholarshipIds || [] : [];
 
             if (userDocSnap.exists()) {
                 const userData = userDocSnap.data();
@@ -54,8 +60,21 @@ onAuthStateChanged(auth, async (user) => {
 
             loginBtn.style.display = "none";
             profileSection.style.display = "flex";
+            loadScholarships();
         } catch (error) {
             console.error("Error getting user data:", error);
+            console.error("Gagal ambil likedScholarships:", e);
+        }
+    }
+});
+
+document.getElementById("searchBar").addEventListener("keypress", function (e) {
+    if (e.key === "Enter") {
+        const keyword = e.target.value.trim().toLowerCase();
+        if (keyword === "") {
+            loadScholarships(); // Kembali ke semua data
+        } else {
+            searchScholarships(keyword);
         }
     }
 });
@@ -64,7 +83,7 @@ onAuthStateChanged(auth, async (user) => {
 function calculateTimeAgo(createdTimeStr) {
     const [datePart, timePart] = createdTimeStr.split(", ");
     const [day, month, year] = datePart.split("/").map(Number);
-    const [hours, minutes, seconds] = timePart.split(":").map(Number);
+    const [hours, minutes, seconds] = timePart.split(".").map(Number);
     const createdDate = new Date(year, month - 1, day, hours, minutes, seconds);
     const now = new Date();
     const diffInSeconds = Math.floor((now - createdDate) / 1000);
@@ -77,6 +96,8 @@ function calculateTimeAgo(createdTimeStr) {
 
 // Card Builder
 function createScholarshipCard(data) {
+    console.log("Rendering scholarship:", data.id);
+
     const maxTags = 5;
     const majors = Array.isArray(data.majors) ? data.majors : Object.values(data.majors || {});
     const requirements = data.requirements || [];
@@ -115,7 +136,7 @@ function createScholarshipCard(data) {
             <span class="read-more">...</span>
         </div>
         <div class="scholarship-card-footer">
-            <i class="bx bx-heart heart-icon" style="cursor: pointer;"></i>
+            <i class="bx bx-heart heart-icon" data-id="${data.id}" style="cursor: pointer;"></i>
             <div class="rating">
                 <i class="bx bx-star"></i>
                 <span>N/5</span>
@@ -123,22 +144,54 @@ function createScholarshipCard(data) {
         </div>
     `;
 
-    // Like/Unlike heart icon
     const heartIcon = wrapper.querySelector('.heart-icon');
-    heartIcon.addEventListener("click", (event) => {
-        event.stopPropagation(); // Prevent opening modal
-        if (heartIcon.classList.contains("bx-heart")) {
-            heartIcon.classList.remove("bx-heart");
-            heartIcon.classList.add("bxs-heart");
-            heartIcon.style.color = "red";
-        } else {
-            heartIcon.classList.remove("bxs-heart");
-            heartIcon.classList.add("bx-heart");
-            heartIcon.style.color = "";
+
+    // ✅ Tandai jika sudah dilike
+    if (likedScholarshipIds.includes(data.id)) {
+        heartIcon.classList.remove("bx-heart");
+        heartIcon.classList.add("bxs-heart");
+        heartIcon.style.color = "red";
+    }
+
+    // ✅ Like/Unlike event
+    heartIcon.addEventListener("click", async (event) => {
+        event.stopPropagation();
+        console.log("Heart clicked", data.id);
+
+        const user = auth.currentUser;
+        if (!user) {
+            alert("Please login to like scholarships.");
+            return;
+        }
+
+        const userDocRef = doc(db, "likedScholarships", user.uid);
+
+        try {
+            const userDocSnap = await getDoc(userDocRef);
+            let liked = userDocSnap.exists() ? userDocSnap.data().scholarshipIds || [] : [];
+
+            const isLiked = liked.includes(data.id);
+
+            if (isLiked) {
+                liked = liked.filter(id => id !== data.id);
+                heartIcon.classList.remove("bxs-heart");
+                heartIcon.classList.add("bx-heart");
+                heartIcon.style.color = "";
+            } else {
+                liked.push(data.id);
+                heartIcon.classList.remove("bx-heart");
+                heartIcon.classList.add("bxs-heart");
+                heartIcon.style.color = "red";
+            }
+
+            await setDoc(userDocRef, { scholarshipIds: liked });
+
+        } catch (err) {
+            console.error("Error updating wishlist:", err);
         }
     });
 
-    // Modal trigger
+    // ✅ Modal
     wrapper.addEventListener("click", () => {
         const modal = document.getElementById("scholarshipModal");
         const modalBody = document.getElementById("modalBody");
@@ -162,6 +215,47 @@ function createScholarshipCard(data) {
     return wrapper;
 }
 
+function searchScholarships(keyword) {
+    console.log("Searching...")
+    const scholarshipContainer = document.getElementById("scholarshipCards");
+    const scholarshipsRef = ref(rtdb, 'scholarships');
+
+    onValue(scholarshipsRef, (snapshot) => {
+        scholarshipContainer.innerHTML = "";
+
+        snapshot.forEach(childSnapshot => {
+            const data = childSnapshot.val();
+            data.id = childSnapshot.key;
+
+            const fieldsToSearch = [
+                data.companyName,
+                data.description,
+                data.title,
+                data.location,
+                ...(Array.isArray(data.majors) ? data.majors : Object.values(data.majors || {})),
+                ...(Array.isArray(data.requirements) ? data.requirements : Object.values(data.requirements || {}))
+            ];
+
+            const matchFound = fieldsToSearch.some(field =>
+                typeof field === "string" && field.toLowerCase().includes(keyword)
+            );
+
+            if (matchFound) {
+                const cardElement = createScholarshipCard(data);
+                scholarshipContainer.appendChild(cardElement);
+            }
+        });
+
+        if (scholarshipContainer.children.length === 0) {
+            scholarshipContainer.innerHTML = `<p style="padding: 2rem;">No scholarships matched your search.</p>`;
+        }
+    }, {
+        onlyOnce: true
+    });
+}
+
+
+
 // Modal Controls
 document.getElementById("closeModal").addEventListener("click", () => {
     document.getElementById("scholarshipModal").style.display = "none";
@@ -174,14 +268,48 @@ window.addEventListener("click", (event) => {
 });
 
 // Load Scholarships
-const scholarshipContainer = document.getElementById("scholarshipCards");
-const scholarshipsRef = ref(rtdb, 'scholarships');
-onValue(scholarshipsRef, (snapshot) => {
-    scholarshipContainer.innerHTML = "";
-    snapshot.forEach(childSnapshot => {
+function loadScholarships() {
+    const scholarshipContainer = document.getElementById("scholarshipCards");
+    const scholarshipsRef = ref(rtdb, 'scholarships');
+    
+    onValue(scholarshipsRef, (snapshot) => {
+        scholarshipContainer.innerHTML = "";
+        snapshot.forEach(childSnapshot => {
         const data = childSnapshot.val();
-        data.id = childSnapshot.key; // Inject Firebase ID
+        data.id = childSnapshot.key;
         const cardElement = createScholarshipCard(data);
         scholarshipContainer.appendChild(cardElement);
+        });
     });
+}
+
+function showLikedScholarships() {
+    const scholarshipContainer = document.getElementById("scholarshipCards");
+    const scholarshipsRef = ref(rtdb, 'scholarships');
+
+    onValue(scholarshipsRef, (snapshot) => {
+        scholarshipContainer.innerHTML = ""; // clear cards
+
+        snapshot.forEach(childSnapshot => {
+            const data = childSnapshot.val();
+            data.id = childSnapshot.key;
+
+            if (likedScholarshipIds.includes(data.id)) {
+                const cardElement = createScholarshipCard(data);
+                scholarshipContainer.appendChild(cardElement);
+            }
+        });
+
+        // Jika tidak ada yang di-like
+        if (scholarshipContainer.children.length === 0) {
+            scholarshipContainer.innerHTML = `<p style="padding: 2rem;">You haven't liked any scholarships yet.</p>`;
+        }
+    }, {
+        onlyOnce: true
+    });
+}
+
+document.querySelector(".liked-scholarship-container").addEventListener("click", (e) => {
+    e.preventDefault();
+    showLikedScholarships();
 });
