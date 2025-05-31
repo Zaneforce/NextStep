@@ -33,6 +33,7 @@ const auth = getAuth(app);
 const db = getFirestore(app);
 
 let currentUser = null;
+let isProviderUser = false;
 
 async function getUserDataByUid(uid) {
   const userDoc = await getDoc(doc(db, "users", uid));
@@ -54,6 +55,8 @@ onAuthStateChanged(auth, async (user) => {
     try {
       const userDoc = await getDoc(doc(db, "users", user.uid)); // Perbaikan: gunakan user.uid
       const userData = userDoc.data();
+
+      isProviderUser = (userData?.role === 'provider');
 
       // Tampilkan profil
       profileSection.style.display = 'flex';
@@ -176,8 +179,9 @@ async function loadPosts() {
       }
 
       const isAuthor = currentUser && currentUser.email === post.userEmail;
+      const canDelete = isAuthor || isProviderUser;
       // FIX: Prevent modal popup on delete by stopping propagation
-      const deleteBtn = isAuthor
+      const deleteBtn = canDelete
         ? `<button onclick="event.stopPropagation(); deletePost('${postId}')"> <img src="../Assets/trash-alt.png" alt="delete" style="width: 20px; height: 20px; cursor: pointer;" /></button>`
         : "";
 
@@ -341,7 +345,7 @@ window.showPostModal = async function (postId) {
     replySnap.forEach(r => {
       const data = r.data();
       const replyId = r.id;
-      const canDelete = currentUser && currentUser.email === data.userEmail;
+      const canDelete = currentUser && (currentUser.email === data.userEmail || isProviderUser);
       repliesHTML += `<div class="reply" style="display: flex; align-items: center; gap: 8px; padding: 8px; background: #f7f9fb; border-radius: 6px; margin-bottom: 6px;">
         <strong>${data.userName || data.userEmail}</strong>:&nbsp;<span>${data.content}</span>
         ${canDelete ? `<button onclick="event.stopPropagation(); deleteReply('${postId}', '${replyId}')"

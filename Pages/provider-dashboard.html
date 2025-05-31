@@ -6,19 +6,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Manage Scholarships</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <link rel="stylesheet" href="../CSS/style.css">
     <link rel="logo icon" href="../Assets/logo.png" type="image/png">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <script src="https://kit.fontawesome.com/608ec77317.js" crossorigin="anonymous"></script>
     <script src="https://unpkg.com/scrollreveal"></script>
+
+    <link rel="stylesheet" href="../CSS/provider-dashboard.css">
 </head>
 
 <body>
-    <!-- Navbar -->
-    <!-- <header>
+    <header>
         <div class="container">
             <nav class="navbar">
-                <a href="index.html" class="logo">NEXTSTEP</a>
+                <a href="provider-dashboard.html" class="logo">NEXTSTEP</a>
                 <div class="search-bar">
                     <svg xmlns="http://www.w3.org/2000/svg" width="40" height="41" viewBox="0 0 40 41" fill="none">
                         <path
@@ -28,8 +28,8 @@
                     <input type="text" placeholder="Search">
                 </div>
                 <div class="nav-links">
-                    <a href="index.html" class="nav-link active">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="26" height="30" viewBox="0 0 28 30">
+                    <a href="provider-dashboard.html" class="nav-link active"> <svg xmlns="http://www.w3.org/2000/svg"
+                            width="26" height="30" viewBox="0 0 28 30">
                             <path
                                 d="M4.00008 26.6667H9.00008V16.6667H19.0001V26.6667H24.0001V11.6667L14.0001 4.16667L4.00008 11.6667V26.6667ZM0.666748 30V10L14.0001 0L27.3334 10V30H15.6667V20H12.3334V30H0.666748Z" />
                         </svg>
@@ -52,72 +52,149 @@
                     <a href="forum.html" class="nav-link">
                         <svg xmlns="http://www.w3.org/2000/svg" width="26" height="30" viewBox="0 0 30 34">
                             <path
-                                d="M15 0.639648C23.2845 0.639648 30 7.35517 30 15.6397C30 23.9242 23.2845 30.6398 15 30.6398H3C2.20435 30.6398 1.44129 30.3237 0.87868 29.7611C0.31607 29.1985 0 28.4354 0 27.6398V15.6397C0 7.35517 6.7155 0.639648 15 0.639648ZM15 3.63966C11.8174 3.63966 8.76515 4.90395 6.51472 7.15439C4.26428 9.40484 3 12.4571 3 15.6397V27.6398H15C18.1826 27.6398 21.2348 26.3755 23.4853 24.125C25.7357 21.8746 27 18.8223 27 15.6397C27 12.4571 25.7357 9.40484 23.4853 7.15439C21.2348 4.90395 18.1826 3.63966 15 3.63966ZM15 18.6397C15.3823 18.6401 15.75 18.7865 16.0281 19.049C16.3061 19.3114 16.4734 19.6702 16.4958 20.0518C16.5182 20.4335 16.394 20.8093 16.1486 21.1025C15.9032 21.3957 15.5551 21.5841 15.1755 21.6292L15 21.6397H10.5C10.1177 21.6393 9.74995 21.4929 9.47195 21.2305C9.19394 20.968 9.02665 20.6093 9.00424 20.2276C8.98184 19.846 9.10601 19.4702 9.3514 19.177C9.59678 18.8838 9.94486 18.6954 10.3245 18.6502L10.5 18.6397H15ZM19.5 12.6397C19.8978 12.6397 20.2794 12.7977 20.5607 13.079C20.842 13.3603 21 13.7419 21 14.1397C21 14.5375 20.842 14.9191 20.5607 15.2004C20.2794 15.4817 19.8978 15.6397 19.5 15.6397H10.5C10.1022 15.6397 9.72064 15.4817 9.43934 15.2004C9.15804 14.9191 9 14.5375 9 14.1397C9 13.7419 9.15804 13.3603 9.43934 13.079C9.72064 12.7977 10.1022 12.6397 10.5 12.6397H19.5Z" />
+                                d="M15 0.639648C23.2845 0.639648 30 7.35517 30 15.6397C30 23.9242 23.2845 30.6398 15 30.6398H3C2.20435 30.6398 1.44129 30.3237 0.87868 29.7611C0.31607 29.1985 0 28.4354 0 27.6398V15.6397C0 7.35517 6.7155 0.639648 15 0.639648ZM15 3.63966C11.8174 3.63966 8.76515 4.90395 6.51472 7.15439C4.26428 9.40484 3 12.4571 3 15.6397V27.6398H15C18.1826 27.6398 21.2348 26.3755 23.4853 24.125C25.7357 21.8746 27 18.8223 27 15.6397C27 12.4571 25.7357 9.40484 23.4853 7.15439C21.2348 4.90395 18.1826 3.63966 15 3.63966ZM15 18.6397C15.3823 18.6401 15.75 18.7865 16.0281 19.049C16.3061 19.3114 16.4734 19.6702 16.4958 20.0518C16.5182 20.4335 16.394 20.8093 16.1486 21.1025C15.9032 21.3957 15.5551 21.5841 15.1755 21.6292L15 21.6397H10.5C10.1177 21.6393 9.74995 21.4929 9.47195 21.2305C9.19394 20.968 9.02665 20.6093 9.00424 20.2276C8.98184 19.846 9.10601 19.4702 9.3514 19.177C9.59678 18.8838 9.94486 18.6954 10.3245 18.6502L10.5 18.6397H19.5Z" />
                         </svg>
                         <span>Forum</span>
                     </a>
                 </div>
                 <div class="profile-section" id="profileSection" style="display: none;">
                     <i class='bx bx-user-circle'></i>
-                    <!-- <div class="profile-icon">
-                        
-                    </div> -->
-                    <!-- <span class="profile-name" id="profileName"></span>
+                    <span class="profile-name" id="profileName"></span>
                 </div>
                 <a href="./login.html" class="login-btn" id="loginBtn">Login</a>
             </nav>
         </div>
-    </header> -->
+    </header>
 
-    <div class="ManageScholarshipsContainer">
-        <h1>Manage Scholarships</h1>
-        <form>
-            <input placeholder="Scholarship ID" type="scholarshipId" id="scholarship_id" />
-            <input placeholder="Title" type="scholarshipTitle" id="scholarship_title" />
-            <input placeholder="Company Name (Provider)" type="companyName" id="scholarship_companyName" />
-            <input placeholder="Location" type="location" id="scholarship_location" />
-            <input placeholder="DD/MM/YEAR" type="startDate" id="scholarship_startDate" />
-            <input placeholder="Duration" type="duration" id="scholarship_duration"/>
-            <input placeholder="Requirements" type="Requirements" id="scholarship_requirements" />
-            <!-- <input placeholder="Created Time" type="createdTime" id="scholarship_createdTime" /> -->
-            <!-- <input placeholder="Update Time" type="updateTime" id="scholarship_updateTime" /> -->
-            <select id="scholarship_status" name="status">
-                <option value="Select Status">Select Status</option>
-                <option value="Open">Open</option>
-                <option value="Closed">Closed</option>
-            </select>
-            <input placeholder="Deadline Application" type="deadline" id="scholarship_deadline" />
-            <button type="button" id="AddScholarshipBtn">Add</button>
-            <button type="button" id="DeleteScholarshipBtn">Delete</button>
-            <button type="button" id="UpdateScholarshipBtn">Update</button>
-        </form>
+
+    <div class="container">
+        <button id="showAddEntryModalBtn" class="add-thread-bar">
+            <span class="add-thread-text">Add New Scholarship / Internship</span>
+            <span class="add-thread-plus">+</span>
+        </button>
+
+
+        <div id="addEntryModal" class="modal" style="display: none;">
+            <div class="modal-content">
+                <span id="closeAddEntryModal" class="close-button">&times;</span>
+                <form id="addEntryForm">
+                    <label for="entryType">Offer Type:</label>
+                    <select id="entryType" name="entryType">
+                        <option value="scholarship">Scholarship</option>
+                        <option value="internship">Internship</option>
+                    </select>
+
+                    <div id="scholarshipFields" class="entry-fields">
+                        <input placeholder="Title" type="text" id="modal_scholarship_title" />
+                        <input placeholder="Company Name (Provider)" type="text" id="modal_scholarship_companyName" />
+                        <input placeholder="Location" type="text" id="modal_scholarship_location" />
+                        <input placeholder="Start Date (DD/MM/YYYY)" type="text" id="modal_scholarship_startDate" />
+                        <input placeholder="Duration" type="text" id="modal_scholarship_duration" />
+
+                        <label for="modal_scholarship_requirements">Requirements (comma or newline separated):</label>
+                        <textarea id="modal_scholarship_requirements" rows="4"
+                            placeholder="e.g., Bachelor's Degree in CS, Strong communication skills, 2+ years experience"></textarea><br>
+
+                        <label for="modal_scholarship_majors">Majors (comma or newline separated):</label>
+                        <textarea id="modal_scholarship_majors" rows="4"
+                            placeholder="e.g., Computer Science, Information Systems, Software Engineering"></textarea><br>
+
+                        <textarea placeholder="Description" id="modal_scholarship_description"></textarea>
+                        <label for="modal_scholarship_status">Status : </label>
+                        <select id="modal_scholarship_status" name="status">
+                            <option value="Open">Open</option>
+                            <option value="Closed">Closed</option>
+                        </select>
+                        <input placeholder="Deadline Application (DD/MM/YYYY)" type="text"
+                            id="modal_scholarship_deadline" />
+
+                        <div class="manageOffers">
+                            <button type="button" id="modalAddScholarshipBtn">Add Scholarship</button>
+                            <button type="button" id="modalUpdateScholarshipBtn">Update Scholarship</button>
+                            <button type="button" id="modalDeleteScholarshipBtn">Delete Scholarship</button>
+                        </div>
+                    </div>
+
+                    <div id="internshipFields" class="entry-fields" style="display: none;">
+                        <input placeholder="Title" type="text" id="modal_internship_title" />
+                        <input placeholder="Company Name (Provider)" type="text" id="modal_internship_companyName" />
+                        <input placeholder="Location" type="text" id="modal_internship_location" />
+                        <input placeholder="Start Date (DD/MM/YYYY)" type="text" id="modal_internship_startDate" />
+                        <input placeholder="Duration" type="text" id="modal_internship_duration" />
+                        <input placeholder="Job " type="text" id="modal_internship_Job" />
+                        <input placeholder="Expected Salary " type="text" id="modal_internship_expectedSalary" />
+                        <textarea placeholder="Requirements" id="modal_internship_requirements"></textarea>
+                        <textarea placeholder="Description" id="modal_internship_description"></textarea>
+                        <label for="modal_internship_status">Status : </label>
+                        <select id="modal_internship_status" name="status">
+                            <option value="Open">Open</option>
+                            <option value="Closed">Closed</option>
+                        </select>
+                        <input placeholder="Deadline Application (DD/MM/YYYY)" type="text"
+                            id="modal_internship_deadline" />
+
+                        <div class="manageOffers">
+                            <button type="button" id="modalAddInternshipBtn">Add Internship</button>
+                            <button type="button" id="modalUpdateInternshipBtn">Update Internship</button>
+                            <button type="button" id="modalDeleteInternshipBtn">Delete Internship</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="dashboard-summary">
+            <div class="summary-item report-button-container">
+                <button class="report-button">Report</button>
+            </div>
+            <div class="summary-item summary-image-container">
+                <img src="../Assets/home.jpg" alt="Graduation Celebration" class="summary-image">
+            </div>
+            <div class="summary-item total-post-container">
+                <p>Total Post</p>
+                <span id="total-posts-count" class="total-posts-number">0</span>
+            </div>
+        </div>
+
+        <div class="containerss">
+            <section class="offers-section">
+                <h2>Your Active Scholarships Offer</h2>
+                <div class="scholarship-line"></div>
+                <div id="scholarships-container" class="cards-container">
+                    <div id="scholarshipCardsContainer" class="scholarship-card-container">
+                        <div id="scholarshipCards" class="cards-container"></div>
+                        <div id="scholarshipModal" class="modal-overlay" style="display: none;">
+                            <div class="modal-content">
+                                <span id="closeScholarshipModal" class="close-button">&times;</span>
+                                <div id="scholarshipModalBody"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="offers-section" style="margin-top: 40px;">
+                <h2>Your Active Internships Offer</h2>
+                <div class="scholarship-line"></div>
+                <div id="internships-container" class="cards-container">
+                    <div id="internshipCardsContainer" class="internship-card-container">
+                        <div id="internshipCards" class="cards-container"></div>
+                        <div id="internshipModal" class="modal-overlay" style="display: none;">
+                            <div class="modal-content">
+                                <span id="closeInternshipModal" class="close-button">&times;</span>
+                                <div id="internshipModalBody"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
     </div>
 
-    <div class="ManageInternshipsContainer">
-        <h1>Manage Internships</h1>
-        <form>
-            <input placeholder="Internship ID" type="internshipId" id="internship_id" />
-            <input placeholder="Title" type="internshipTitle" id="internship_title" />
-            <input placeholder="Company Name (Provider)" type="companyName" id="internship_companyName" />
-            <input placeholder="Location" type="location" id="internship_location" />
-            <input placeholder="DD/MM/YEAR" type="startDate" id="internship_startDate" />
-            <input placeholder="Duration" type="duration" id="internship_duration"/>
-            <input placeholder="Requirements" type="Requirements" id="internship_requirements" />
-            <!-- <input placeholder="Created Time" type="createdTime" id="internship_createdTime" /> -->
-            <!-- <input placeholder="Update Time" type="updateTime" id="internship_updateTime" /> -->
-            <select id="internship_status" name="status">
-                <option value="Select Status">Select Status</option>
-                <option value="Open">Open</option>
-                <option value="Closed">Closed</option>
-            </select>
-            <input placeholder="Deadline Application" type="deadline" id="internship_deadline"/>
-            <button type="button" id="AddInternshipBtn">Add</button>
-            <button type="button" id="DeleteInternshipBtn">Delete</button>
-            <button type="button" id="UpdateInternshipBtn">Update</button>
-        </form>
-    </div>
+    <script type="module" src="https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js"></script>
+    <script type="module" src="https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js"></script>
+    <script type="module" src="https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js"></script>
+    <script type="module" src="../JS/provider-dashboard.js"></script>
 </body>
-
-<script type="module" src="../JS/provider-dashboard.js"></script>
 
 </html>
