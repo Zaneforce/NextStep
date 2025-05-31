@@ -1,10 +1,771 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
-body {
-  font-family: poppins;
-  background-color: #f2efea; 
-  color: #222;
+/* Universal Reset and Base Properties */
+* {
   margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+:root {
+  --background-color: #F4F2EE;
+  --primary-color: #fff;
+  --line-color: #DFDEDA;
+  --button-color: #EDF3F8;
+  --text-color: #000;
+  --grey-color: #6C757D;
+}
+
+/* Scrollbar hiding for Webkit and standard browsers */
+::-webkit-scrollbar {
+  width: 0 !important;
+  height: 0 !important;
+  background: transparent;
+}
+
+* {
+  scrollbar-width: none;
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: #f2efea;
+  color: #222;
+  padding-top: 100px; /* Adjust padding-top for fixed header */
+  overflow-y: auto; /* Changed to auto to allow scrolling for dashboard content */
+  margin: 0;
+  padding: 20px; /* Add padding to body for content spacing */
+  max-width: none;
+}
+
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+/* --- Header/Navbar Styles --- */
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    transform: translateY(0);
+    transition: all 0.3s ease-in-out;
+    background-color: var(--primary-color);
+    border-bottom: var(--line-color) 2px solid;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
+
+header.hidden {
+  transform: translateY(-100%);
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 0;
+}
+
+.logo {
+  font-size: 30px;
+  font-weight: 700;
+  color: var(--text-color);
+  text-decoration: none;
+  background: linear-gradient(90deg, #000 0%, #666 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.search-bar {
+  display: flex;
+  align-items: center;
+  background-color: var(--button-color);
+  border-radius: 20px;
+  padding: 8px 15px;
+  width: 250px;
+  height: 40px;
+  border: 1px solid var(--line-color);
+}
+
+.search-bar input {
+  border: none;
+  background: transparent;
+  outline: none;
+  width: 100%;
+  padding-left: 5px;
+}
+
+.nav-links {
+  display: flex;
+  gap: 40px;
+}
+
+.nav-links a:nth-child(2) {
+  margin-right: 15px;
+}
+
+.nav-links a:nth-child(3) {
+  margin-right: 10px;
+}
+
+.nav-links a:nth-child(4) {
+  margin-left: -15px;
+}
+
+.nav-link {
+  display: flex;
+  width: 48px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  color: var(--grey-color);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.nav-link svg {
+  fill: var(--grey-color);
+  transition: fill 0.3s ease;
+}
+
+.nav-link:hover svg,
+.nav-link.active svg {
+  fill: var(--text-color);
+}
+
+.nav-link.active,
+.nav-link:hover {
+  color: var(--text-color);
+  border-bottom: 1px solid var(--text-color);
+}
+
+.profile-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  cursor: pointer;
+}
+
+.profile-name {
+  font-weight: 500;
+  color: #333;
+  font-size: 14px;
+}
+
+.bx-user-circle {
+  margin-top: -5px;
+  font-size: 36px;
+  color: var(--text-color);
+}
+
+.login-btn {
+    background-color: var(--primary-color);
+    border: 2px solid var(--line-color);
+    border-radius: 20px;
+    padding: 8px 15px;
+    color: var(--text-color);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.login-btn:hover {
+    transform: translateY(-2px);
+    border: 2px solid var(--text-color);
+}
+
+/* General button, input, textarea styles (used within the modal) */
+input,
+textarea {
+  width: 100%;
+  padding: 10px;
+  margin: 8px 0;
+  border: 1px solid #deddda;
+  border-radius: 5px;
+  box-sizing: border-box;
+  font-family: inherit;
+  background: #ffffff;
+  color: #222;
+}
+
+button {
+  background-color: #eaf1f7;
+  color: #222;
+  border: 1px solid #deddda;
+  padding: 8px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  margin-right: 5px;
+  transition: background 0.2s, color 0.2s;
+}
+
+button:hover {
+  background-color: #deddda;
+}
+
+/* --- Add Thread Button (.add-thread-bar from forum.html) --- */
+.add-thread-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #fff;
+  border-radius: 24px;
+  box-shadow: 0 2px 12px rgba(60, 80, 180, 0.08);
+  padding: 20px 24px;
+  margin-bottom: 24px;
+  cursor: pointer;
+  transition: transform 0.18s, box-shadow 0.18s;
+  width: 100%; /* Full width for the button */
+  margin: 100px auto 20px auto; /* Centers the button and adds top margin */
+}
+
+.add-thread-bar:hover {
+  box-shadow: 0 4px 24px rgba(76, 61, 255, 0.12);
+  transform: translateY(-2px);
+}
+
+.add-thread-text {
+  color: #b0b0b0;
+  font-size: 1.25em;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  transition: all 0.2s ease;
+}
+
+.add-thread-bar:hover .add-thread-text {
+  color: black;
+}
+
+.add-thread-plus {
+  background: #e5e5e5;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2em;
+  color: #a08383;
+  margin-left: 16px;
+  transition: all 0.2s ease;
+}
+
+.add-thread-plus:hover {
+  background: #deddda;
+  transform: rotate(90deg);
+}
+
+/* --- Modal Styles (adapted for #addEntryModal) --- */
+#addEntryModal.modal { /* Targets the specific modal ID from provider-dashboard.html */
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 2000; /* Ensures it's above the header */
+  display: flex; /* Use flexbox for centering */
+  justify-content: center; /* Centers horizontally */
+  align-items: center; /* Centers vertically */
+  padding: 20px; /* Provides some padding around the modal content */
+  overflow-y: auto; /* Allows scrolling if content is too long */
+}
+
+#addEntryModal .modal-content { /* Targets the content box within the specific modal */
+  background: #fff;
+  margin: 5% auto; /* Centers horizontally and provides top margin */
   padding: 20px;
-  margin: 0 auto;
+  width: 90%;
+  max-width: 600px;
+  border-radius: 8px;
+  position: relative;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); /* Added a subtle shadow for depth */
+}
+
+#closeAddEntryModal { /* Targets the specific close button ID from provider-dashboard.html */
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  cursor: pointer;
+  font-size: 1.5em;
+  color: #000;
+  font-weight: bold;
+  transition: color 0.2s;
+}
+
+#closeAddEntryModal:hover {
+  color: #555;
+}
+
+/* Specific modal form styles */
+.modal-content form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.modal-content input,
+.modal-content textarea,
+.modal-content select {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.modal-content .manageOffers button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    background-color: #4CAF50; /* Example color */
+    color: white;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.modal-content .manageOffers button:hover {
+    opacity: 0.9;
+}
+
+.entry-fields {
+    border-top: 1px solid #eee;
+}
+
+.manageOffers {
+    display: flex;
+    justify-content: space-evenly;
+    gap: 1rem;
+    padding: 1rem;
+}
+
+/* Styling for the new dashboard summary section */
+.dashboard-summary {
+    display: flex; /* Use flexbox for horizontal alignment */
+    justify-content: space-between; /* Distribute items with space between them */
+    align-items: center; /* Vertically align items in the middle */
+    margin-top: 20px; /* Space from "Add New Offers" */
+    margin-bottom: 20px; /* Space before the next sections */
+    background-color: #f0f0f0; /* A slightly darker grey background */
+    border-radius: 12px; /* Rounded corners for the entire summary box */
+    padding: 15px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08); /* Subtle shadow */
+    min-height: 120px; /* Ensure sufficient height for the image */
+    overflow: hidden; /* Important for border-radius on child elements */
+}
+
+.summary-item {
+    padding: 10px;
+    border-radius: 8px; /* Rounded corners for individual items */
+    text-align: center;
+    /* Optional: Add a subtle background to each item if desired */
+    /* background-color: #ffffff; */
+    /* box-shadow: inset 0 1px 3px rgba(0,0,0,0.05); */
+}
+
+.scholarship-line {
+    width: 100%; /* Make it span the full width of its parent (.offers-section) */
+    height: 2px; /* Set a height to make the line visible */
+    background-color: #ddd; /* A subtle grey color for the line */
+    margin-top: 10px; /* Space above the line */
+    margin-bottom: 20px; /* Space below the line, before the cards */
+    border-radius: 1px; /* Slightly rounded corners for a softer look */
+}
+
+/* You might want to adjust the margin-bottom of the h2 if it's too close to the line */
+.offers-section h2 {
+    /* Existing styles for h2 */
+    margin-bottom: 10px; /* Adjust this if needed */
+}
+
+/* Specific styling for the Report button */
+.report-button-container {
+    flex: 0 0 auto; /* Don't grow, don't shrink, size content */
+    width: 150px; /* Fixed width for the button container */
+}
+
+.report-button {
+    background-color: white; /* Light grey button */
+    color: #333;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+    width: 100%; /* Make button fill its container */
+}
+
+.report-button:hover {
+    background-color: #d0d0d0;
+}
+
+/* Styling for the image container */
+.summary-image-container {
+    flex-grow: 1; /* Allow the image container to take up available space */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden; /* Ensure image doesn't overflow rounded corners */
+}
+
+.summary-image {
+    max-width: 100%;
+    max-height: 150px; /* Control image height */
+    height: auto; /* Maintain aspect ratio */
+    border-radius: 8px; /* Rounded corners for the image itself */
+    object-fit: cover; /* Ensures image covers its area nicely */
+    object-position: center;
+}
+
+/* Styling for Total Post */
+.total-post-container {
+    flex: 0 0 auto; /* Don't grow, don't shrink, size content */
+    width: 150px; /* Fixed width for the total post container */
+    background-color: #ffffff; /* White background for visibility */
+    padding: 15px 10px; /* More padding */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05); /* Small shadow */
+}
+
+.total-post-container p {
+    font-size: 0.9em;
+    color: #666;
+    margin-bottom: 5px;
+}
+
+.total-posts-number {
+    font-size: 2.2em; /* Larger font size for the number */
+    font-weight: bold;
+    color: #007bff; /* Consistent blue color */
+}
+
+.scholarship-card{
+    display: flex;
+    flex-direction: column;
+    height: 320px;
+    min-width: 99%;
+    background-color: #ffffff;
+    padding: 1.5rem;
+    margin: 5px;
+    border-radius: 12px;
+    transition: all 0.2s ease;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.05);
+    border: 1px solid #e0e7ff;
+    box-sizing: border-box;
+}
+
+.scholarship-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+    border-color: #c8d3f5;
+}
+
+.scholarship-card-header{
+    display: flex;
+    position: relative; /* Needed for absolute child positioning */
+    border-bottom: 1px solid #cecece;
+    padding: 2px;
+}
+
+.scholarship-card-header h3{
+    font-size: 24px;
+}
+
+.scholarship-card-header p{
+    color: #666;
+}
+
+.scholarship-card-header span{
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 14px;
+    color: #999;
+}
+
+.scholarship-card-tags{
+    margin: 5px 0;
+    
+}
+
+.scholarship-card-tags span{
+    background-color: var(--button-color);
+    margin: 0 2px;
+    padding: 5px 10px;
+    border-radius: 10px;
+    font-size: 12px;
+}
+
+.scholarship-card-body {
+    height: 150px;
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    padding: 10px 2px;
+}
+
+.scholarship-card-body h4 {
+    font-size: 1.1rem;
+    margin-bottom: 0.3rem;
+}
+
+.scholarship-card-body ul {
+    list-style: none;
+    margin: 0;
+    padding-left: 1rem;
+}
+.scholarship-card-body ul li::before {
+    content: "";
+    margin-right: 0.5rem;
+}
+
+
+.description {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 6; /* tampil 5 baris */
+    -webkit-box-orient: vertical;
+}
+
+.read-more {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    background: linear-gradient(to right, transparent, white 50%);
+    padding-left: 20px;
+    color: #666;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.scholarship-card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 15px;
+    border-top: 1px solid var(--line-color);
+}
+
+.scholarship-card-footer i{
+    font-size: 25px;
+}
+
+.rating {
+    display: flex;
+    align-items: center;
+}
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+}
+
+.modal-content {
+    background: #fff;
+    padding: 2rem;
+    border-radius: 12px;
+    max-width: 600px;
+    width: 90%;
+    max-height: 90%;
+    overflow-y: auto;
+    position: relative;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.close-button {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    font-size: 28px;
+    cursor: pointer;
+}
+
+.apply-btn {
+    margin-top: 20px;
+    background-color: #007bff;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    float: right;
+}
+
+.truncate-text {
+    max-height: 5.5rem; /* Adjust as needed */
+    overflow: hidden;
+    position: relative;
+}
+
+.truncate-text::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 1.5rem;
+    background: linear-gradient(to top, white, rgba(255,255,255,0));
+}
+
+.tag {
+    background-color: #eef6ff;
+    color: #000000;
+    padding: 4px 8px;
+    border-radius: 12px;
+    margin: 4px 4px 4px 0;
+    display: inline-block;
+    font-size: 12px;
+}
+
+/* provider-dashboard.css */
+
+/* ... (All your existing CSS code from the prompt above this line) ... */
+
+
+/* --- New Internship Card Container Styles (mirroring scholarship-card-container) --- */
+
+
+/* --- New Internship Card Styles (mirroring scholarship-card) --- */
+.internship-card{
+    display: flex;
+    flex-direction: column;
+    height: 320px;
+    min-width: 99%;
+    background-color: #ffffff;
+    padding: 1.5rem;
+    margin: 5px;
+    border-radius: 12px;
+    transition: all 0.2s ease;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.05);
+    border: 1px solid #e0e7ff;
+    box-sizing: border-box;
+}
+
+.internship-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+    border-color: #c8d3f5;
+}
+
+/* --- New Internship Card Sub-elements (mirroring scholarship-card sub-elements) --- */
+.internship-card-header{
+    display: flex;
+    position: relative;
+    border-bottom: 1px solid #cecece;
+    padding: 2px;
+}
+
+.internship-card-header h3{
+    font-size: 24px;
+}
+
+.internship-card-header p{
+    color: #666;
+}
+
+.internship-card-header span{
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 14px;
+    color: #999;
+}
+
+.internship-card-tags{
+    margin: 5px 0;
+}
+
+.internship-card-tags span{
+    background-color: var(--button-color);
+    margin: 0 2px;
+    padding: 5px 10px;
+    border-radius: 10px;
+    font-size: 12px;
+}
+
+.internship-card-body {
+    height: 150px;
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    padding: 10px 2px;
+}
+
+.internship-card-body h4 {
+    font-size: 1.1rem;
+    margin-bottom: 0.3rem;
+}
+
+.internship-card-body ul {
+    list-style: none;
+    margin: 0;
+    padding-left: 1rem;
+}
+.internship-card-body ul li::before {
+    content: "";
+    margin-right: 0.5rem;
+}
+
+.internship-card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 15px;
+    border-top: 1px solid var(--line-color);
+}
+
+.internship-card-footer i{
+    font-size: 25px;
+}
+
+/* Specific style for internship tags (if you want a different color than default .tag) */
+.internship-tag {
+    background-color: #e0f7fa; /* Light blue example */
+    color: #00796b;
+}
+
+/* --- Modal Styles (ensuring both scholarship and internship modals are covered) --- */
+/* Your existing .modal-overlay, .modal-content, .close-button are general.
+   They will apply to both #scholarshipModal and #internshipModal as long as
+   those HTML elements have these classes. */
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .dashboard-summary {
+        flex-direction: column; /* Stack items vertically on smaller screens */
+        align-items: stretch; /* Stretch items to full width */
+    }
+    .summary-item {
+        width: 100%; /* Full width for stacked items */
+        margin-bottom: 15px; /* Space between stacked items */
+    }
+    .summary-item:last-child {
+        margin-bottom: 0; /* No margin after the last item */
+    }
 }
