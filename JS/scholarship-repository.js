@@ -31,7 +31,6 @@ const db = getFirestore(app);
 const rtdb = getDatabase(app);
 let likedScholarshipIds = [];
 
-// Auth State
 onAuthStateChanged(auth, async (user) => {
     const loginBtn = document.getElementById('loginBtn');
     const profileSection = document.getElementById('profileSection');
@@ -72,7 +71,7 @@ document.getElementById("searchBar").addEventListener("keypress", function (e) {
     if (e.key === "Enter") {
         const keyword = e.target.value.trim().toLowerCase();
         if (keyword === "") {
-            loadScholarships(); // Kembali ke semua data
+            loadScholarships();
         } else {
             searchScholarships(keyword);
         }
@@ -146,14 +145,14 @@ function createScholarshipCard(data) {
 
     const heartIcon = wrapper.querySelector('.heart-icon');
 
-    // ✅ Tandai jika sudah dilike
+    // Tandai jika sudah dilike
     if (likedScholarshipIds.includes(data.id)) {
         heartIcon.classList.remove("bx-heart");
         heartIcon.classList.add("bxs-heart");
         heartIcon.style.color = "red";
     }
 
-    // ✅ Like/Unlike event
+    // Like/Unlike event
     heartIcon.addEventListener("click", async (event) => {
         event.stopPropagation();
         console.log("Heart clicked", data.id);
@@ -191,7 +190,7 @@ function createScholarshipCard(data) {
         }
     });
 
-    // ✅ Modal
+    // Modal
     wrapper.addEventListener("click", () => {
         const modal = document.getElementById("scholarshipModal");
         const modalBody = document.getElementById("modalBody");
@@ -299,8 +298,7 @@ function showLikedScholarships() {
                 scholarshipContainer.appendChild(cardElement);
             }
         });
-
-        // Jika tidak ada yang di-like
+        
         if (scholarshipContainer.children.length === 0) {
             scholarshipContainer.innerHTML = `<p style="padding: 2rem;">You haven't liked any scholarships yet.</p>`;
         }

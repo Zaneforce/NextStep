@@ -245,11 +245,12 @@ header.hidden {
 }
 
 .cards-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    display: flex; /* Susun item horizontal */
     gap: 20px;
     padding: 20px 0;
-    overflow-x: hidden;
+    overflow-x: auto; /* Aktifkan scroll horizontal */
+    overflow-y: hidden; /* Hindari scroll vertikal */
+    scroll-behavior: smooth; /* Opsional: scroll halus */
 }
 
 .card {
@@ -581,4 +582,445 @@ footer {
     .apply-btn {
         width: 100%;
     }
+}
+
+/* scholarship */
+
+.scholarship-card-container {
+    display: flex; /* Ubah dari grid ke flex untuk scroll horizontal */
+    gap: 1.5rem;
+    padding-bottom: 15px;
+    overflow-x: auto; /* Scroll horizontal */
+    overflow-y: hidden; /* Hilangkan scroll vertikal */
+    height: auto; /* Biarkan tinggi menyesuaikan konten */
+    /* background-color: white; */
+    border-radius: 15px;
+    scroll-behavior: smooth; /* Opsional: animasi halus saat scroll */
+}
+
+.scholarship-card{
+    display: flex;
+    flex-direction: column;
+    height: 320px;
+    min-width: 800px;
+    background-color: #ffffff;
+    padding: 1.5rem;
+    margin: 5px;
+    margin-left: 12px;
+    border-radius: 12px;
+    transition: all 0.2s ease;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.05);
+    border: 1px solid #e0e7ff;
+    box-sizing: border-box;
+}
+
+.scholarship-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+    border-color: #c8d3f5;
+}
+
+.scholarship-card-header{
+    display: flex;
+    position: relative; /* Needed for absolute child positioning */
+    border-bottom: 1px solid #cecece;
+    padding: 2px;
+}
+
+.scholarship-card-header h3{
+    font-size: 24px;
+}
+
+.scholarship-card-header p{
+    color: #666;
+}
+
+.scholarship-card-header span{
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 14px;
+    color: #999;
+}
+
+.scholarship-card-tags{
+    margin: 5px 0;
+    
+}
+
+.scholarship-card-tags span{
+    background-color: var(--button-color);
+    margin: 0 2px;
+    padding: 5px 10px;
+    border-radius: 10px;
+    font-size: 12px;
+}
+
+.scholarship-card-body {
+    height: 150px;
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    padding: 10px 2px;
+}
+
+.scholarship-card-body h4 {
+    font-size: 1.1rem;
+    margin-bottom: 0.3rem;
+}
+
+.scholarship-card-body ul {
+    list-style: none;
+    margin: 0;
+    padding-left: 1rem;
+}
+.scholarship-card-body ul li::before {
+    content: "";
+    margin-right: 0.5rem;
+}
+
+
+.description {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    /* -webkit-line-clamp: 6; */
+    -webkit-box-orient: vertical;
+}
+
+.read-more {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    background: linear-gradient(to right, transparent, white 50%);
+    padding-left: 20px;
+    color: #666;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.scholarship-card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 15px;
+    border-top: 1px solid var(--line-color);
+}
+
+.scholarship-card-footer i{
+    font-size: 25px;
+}
+
+.rating {
+    display: flex;
+    align-items: center;
+}
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+}
+
+.modal-content {
+    background: #fff;
+    padding: 2rem;
+    border-radius: 12px;
+    max-width: 600px;
+    width: 90%;
+    max-height: 90%;
+    overflow-y: auto;
+    position: relative;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.close-button {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    font-size: 28px;
+    cursor: pointer;
+}
+
+.apply-btn {
+    margin-top: 20px;
+    background-color: #007bff;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    float: right;
+}
+
+.truncate-text {
+    max-height: 5.5rem; /* Adjust as needed */
+    overflow: hidden;
+    position: relative;
+}
+
+.truncate-text::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 1.5rem;
+    background: linear-gradient(to top, white, rgba(255,255,255,0));
+}
+
+.tag {
+    background-color: #eef6ff;
+    color: #000000;
+    padding: 4px 8px;
+    border-radius: 12px;
+    margin: 4px 4px 4px 0;
+    display: inline-block;
+    font-size: 12px;
+}
+
+.heart-icon {
+    cursor: pointer;
+    font-size: 20px;
+    color: gray;
+    transition: color 0.2s ease;
+}
+
+.heart-icon.liked {
+    color: red;
+}
+
+/* internship */
+
+.internship-card-container{
+    display: flex; /* Ubah dari grid ke flex untuk scroll horizontal */
+    gap: 1.5rem;
+    padding-bottom: 15px;
+    overflow-x: auto; /* Scroll horizontal */
+    overflow-y: hidden; /* Hilangkan scroll vertikal */
+    height: auto; /* Biarkan tinggi menyesuaikan konten */
+    /* background-color: white; */
+    border-radius: 15px;
+    scroll-behavior: smooth; /* Opsional: animasi halus saat scroll */
+}
+
+.internship-card-container::-webkit-scrollbar {
+    display: none;
+}
+
+.internship-card{
+    display: flex;
+    flex-direction: column;
+    height: 320px;
+    min-width: 800px;
+    background-color: #ffffff;
+    padding: 1.5rem;
+    margin: 5px;
+    margin-left: 12px;
+    border-radius: 12px;
+    transition: all 0.2s ease;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.05);
+    border: 1px solid #e0e7ff;
+    box-sizing: border-box;
+}
+
+.internship-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+    border-color: #c8d3f5;
+}
+
+.internship-card-header{
+    display: flex;
+    position: relative; /* Needed for absolute child positioning */
+    border-bottom: 1px solid #cecece;
+    padding: 2px;
+}
+
+.internship-card-header h3{
+    font-size: 24px;
+}
+
+.internship-card-header p{
+    color: #666;
+}
+
+.internship-card-header p.internship-salary {
+    margin-top: 4px;
+    color: #2e7d32;
+    font-weight: bold;
+}
+
+.internship-card-header span{
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 14px;
+    color: #999;
+}
+
+.salary {
+    font-size: 14px;
+    color: #4CAF50; /* Hijau untuk gaji */
+    font-weight: 500;
+    margin-top: 3px;
+}
+
+.job-tag {
+    background-color: var(--button-color);
+    padding: 6px 12px;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 500;
+    color: #333;
+    display: inline-block;
+    margin-top: 8px;
+}
+
+.internship-card-body {
+    height: 150px;
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    padding: 10px 2px;
+}
+
+.internship-card-body h4 {
+    font-size: 1.1rem;
+    margin-bottom: 0.3rem;
+}
+
+.internship-card-body ul {
+    list-style: none;
+    margin: 0;
+    padding-left: 1rem;
+}
+.internship-card-body ul li::before {
+    content: "";
+    margin-right: 0.5rem;
+}
+
+
+.description {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    /* -webkit-line-clamp: 6; */
+    -webkit-box-orient: vertical;
+}
+
+.read-more {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    background: linear-gradient(to right, transparent, white 50%);
+    padding-left: 20px;
+    color: #666;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.internship-card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 15px;
+    border-top: 1px solid var(--line-color);
+}
+
+.internship-card-footer i{
+    font-size: 25px;
+}
+
+.rating {
+    display: flex;
+    align-items: center;
+}
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+}
+
+.modal-content {
+    background: #fff;
+    padding: 2rem;
+    border-radius: 12px;
+    max-width: 600px;
+    width: 90%;
+    max-height: 90%;
+    overflow-y: auto;
+    position: relative;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.close-button {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    font-size: 28px;
+    cursor: pointer;
+}
+
+.apply-btn {
+    margin-top: 20px;
+    background-color: #007bff;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    float: right;
+}
+
+.truncate-text {
+    max-height: 5.5rem; /* Adjust as needed */
+    overflow: hidden;
+    position: relative;
+}
+
+.truncate-text::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 1.5rem;
+    background: linear-gradient(to top, white, rgba(255,255,255,0));
+}
+
+.tag {
+    background-color: #eef6ff;
+    color: #000000;
+    padding: 4px 8px;
+    border-radius: 12px;
+    margin: 4px 4px 4px 0;
+    display: inline-block;
+    font-size: 12px;
+}
+
+.heart-icon {
+    cursor: pointer;
+    font-size: 20px;
+    color: gray;
+    transition: color 0.2s ease;
+}
+
+.heart-icon.liked {
+    color: red;
 }

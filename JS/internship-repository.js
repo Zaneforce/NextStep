@@ -32,7 +32,7 @@ const rtdb = getDatabase(app);
 const internshipContainer = document.getElementById("internshipCards");
 const internshipsRef = ref(rtdb, "internships");
 
-let likedInternshipIds = new Set(); // ✅ store liked IDs
+let likedInternshipIds = new Set();
 let allInternshipsData = [];
 
 function renderInternships(snapshot) {
@@ -42,7 +42,7 @@ function renderInternships(snapshot) {
     snapshot.forEach((childSnapshot) => {
         const data = childSnapshot.val();
         data.id = childSnapshot.key;
-        allInternshipsData.push(data); // simpan ke cache
+        allInternshipsData.push(data);
 
         const card = createInternshipCard(data);
         internshipContainer.appendChild(card);
@@ -55,7 +55,6 @@ document.getElementById("searchBar").addEventListener("keydown", (e) => {
         internshipContainer.innerHTML = "";
 
         if (!query) {
-            // Jika kosong, tampilkan semua
             allInternshipsData.forEach(data => {
                 const card = createInternshipCard(data);
                 internshipContainer.appendChild(card);
@@ -88,8 +87,6 @@ document.getElementById("searchBar").addEventListener("keydown", (e) => {
     }
 });
 
-
-// 🔄 Listen to internships and likes after auth
 onAuthStateChanged(auth, async (user) => {
     const loginBtn = document.getElementById('loginBtn');
     const profileSection = document.getElementById('profileSection');
@@ -115,7 +112,7 @@ onAuthStateChanged(auth, async (user) => {
             loginBtn.style.display = "none";
             profileSection.style.display = "flex";
 
-            // 🔄 Listen to liked internships
+            // liked internships
             const likedDocRef = doc(db, "likedInternships", user.uid);
             const likedSnap = await getDoc(likedDocRef);
             likedInternshipIds.clear();
@@ -272,7 +269,7 @@ document.getElementById("liked-internship-btn").addEventListener("click", async 
     }
 
     try {
-        // 🔄 Ambil dari Firestore
+        // Ambil dari Firestore
         const likedDocRef = doc(db, "likedInternships", user.uid);
         const likedSnap = await getDoc(likedDocRef);
 
@@ -283,7 +280,7 @@ document.getElementById("liked-internship-btn").addEventListener("click", async 
 
         const likedIds = likedSnap.data().internshipIds || [];
 
-        // 🔄 Ambil semua internship dari Realtime DB
+        // Ambil semua internship dari Realtime DB
         onValue(internshipsRef, (snapshot) => {
             internshipContainer.innerHTML = "";
 

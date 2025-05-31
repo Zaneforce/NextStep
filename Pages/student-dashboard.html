@@ -75,119 +75,21 @@
             <h2>Scholarship Offers</h2>
             <a href="scholarships.html" class="view-more">View More</a>
         </div>
-        <div class="cards-container">
-            <div class="card">
-                <div class="card-header">
-                    <!-- <img src="https://images.unsplash.com/photo-1523580494863-6f3031224c94" alt="Card 1"> -->
-                    <h3 class="card-title">Nama Institusi</h3>
-                    <p class="card-subtitle">Lokasi Institusi <span class="time-ago">n min ago</span></p>
-                </div>
-                <div class="tags">
-                    <span class="tag">Jurusan yg ad</span>
-                    <span class="tag">Jurusan yg ad</span>
-                    <span class="tag">Jurusan yg ad</span>
-                    <span class="tag">Jurusan yg ad</span>
-                    <span class="tag">+n</span>
-                </div>
-                <div class="card-body">
-                    Lorem ipsum dolor a aaaaaaaaaaaaaaaaaaaaa aaaa aaaaaaaaa aaaaaaaa aaaaa aaaa aaaa aaa a aaa a aaaaaaa a aaaa aaaaa aaa aaaaaaaa aaaaa aaaaa aaa a aaa a aaa a aaaaa aaa aaaaaaaaaaaaaaaaa aaaaaaaa aaaa aaa aaa
-                    <span class="read-more">...</span>
-                </div>
-                <div class="card-footer">
-                    <i class="far fa-heart"></i>
-                    <div class="rating">
-                        <i class="far fa-star"></i>
-                        <span>N/5</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-header">
-                    <!-- <img src="https://images.unsplash.com/photo-1523580494863-6f3031224c94" alt="Card 1"> -->
-                    <h3 class="card-title">Nama Institusi</h3>
-                    <p class="card-subtitle">Lokasi Institusi <span class="time-ago">n min ago</span></p>
-                </div>
-                <div class="tags">
-                    <span class="tag">Jurusan yg ad</span>
-                    <span class="tag">Jurusan yg ad</span>
-                    <span class="tag">Jurusan yg ad</span>
-                    <span class="tag">Jurusan yg ad</span>
-                    <span class="tag">+n</span>
-                </div>
-                <div class="card-body">
-                    Lorem ipsum dolor a aaaaaaaaaaaaaaaaaaaaa aaaa aaaaaaaaa aaaaaaaa aaaaa aaaa aaaa aaa a aaa a aaaaaaa a aaaa aaaaa aaa aaaaaaaa aaaaa aaaaa aaa a aaa a aaa a aaaaa aaa aaaaaaaaaaaaaaaaa aaaaaaaa aaaa aaa aaa
-                    <span class="read-more">...</span>
-                </div>
-                <div class="card-footer">
-                    <i class="far fa-heart"></i>
-                    <div class="rating">
-                        <i class="far fa-star"></i>
-                        <span>N/5</span>
-                    </div>
-                </div>
-            </div>
-
-
-            <div class="card">
-                <div class="card-header">
-                    <!-- <img src="https://images.unsplash.com/photo-1523580494863-6f3031224c94" alt="Card 1"> -->
-                    <h3 class="card-title">Nama Institusi</h3>
-                    <p class="card-subtitle">Lokasi Institusi <span class="time-ago">n min ago</span></p>
-                </div>
-                <div class="tags">
-                    <span class="tag">Jurusan yg ad</span>
-                    <span class="tag">Jurusan yg ad</span>
-                    <span class="tag">Jurusan yg ad</span>
-                    <span class="tag">Jurusan yg ad</span>
-                    <span class="tag">+n</span>
-                </div>
-                <div class="card-body">
-                    Lorem ipsum dolor a aaaaaaaaaaaaaaaaaaaaa aaaa aaaaaaaaa aaaaaaaa aaaaa aaaa aaaa aaa a aaa a aaaaaaa a aaaa aaaaa aaa aaaaaaaa aaaaa aaaaa aaa a aaa a aaa a aaaaa aaa aaaaaaaaaaaaaaaaa aaaaaaaa aaaa aaa aaa
-                    <span class="read-more">...</span>
-                </div>
-                <div class="card-footer">
-                    <i class="far fa-heart"></i>
-                    <div class="rating">
-                        <i class="far fa-star"></i>
-                        <span>N/5</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-header">
-                    <!-- <img src="https://images.unsplash.com/photo-1523580494863-6f3031224c94" alt="Card 1"> -->
-                    <h3 class="card-title">Nama Institusi</h3>
-                    <p class="card-subtitle">Lokasi Institusi <span class="time-ago">n min ago</span></p>
-                </div>
-                <div class="tags">
-                    <span class="tag">Jurusan yg ad</span>
-                    <span class="tag">Jurusan yg ad</span>
-                    <span class="tag">Jurusan yg ad</span>
-                    <span class="tag">Jurusan yg ad</span>
-                    <span class="tag">+n</span>
-                </div>
-                <div class="card-body">
-                    Lorem ipsum dolor a aaaaaaaaaaaaaaaaaaaaa aaaa aaaaaaaaa aaaaaaaa aaaaa aaaa aaaa aaa a aaa a aaaaaaa a aaaa aaaaa aaa aaaaaaaa aaaaa aaaaa aaa a aaa a aaa a aaaaa aaa aaaaaaaaaaaaaaaaa aaaaaaaa aaaa aaa aaa
-                    <span class="read-more">...</span>
-                </div>
-                <div class="card-footer">
-                    <i class="far fa-heart"></i>
-                    <div class="rating">
-                        <i class="far fa-star"></i>
-                        <span>N/5</span>
-                    </div>
-                </div>
-            </div>
-
+        <div id="scholarshipCardsContainer" class="scholarship-card-container">
+            <div id="scholarshipCards" class="cards-container"></div>
         </div>
 
         <!-- <div class="slider-controls">
             <button class="slide-btn prev-btn">&lt;</button>
             <button class="slide-btn next-btn">&gt;</button>
         </div> -->
-    
+    <div id="scholarshipModal" class="modal-overlay" style="display: none;">
+        <div class="modal-content">
+            <span id="closeModal" class="close-button">&times;</span>
+            <div id="scholarshipModalBody"></div>
+            <!-- <button class="apply-btn">Apply Now</button> -->
+        </div>
+    </div>
     </section>
 
     <!-- Internships Section -->
@@ -196,142 +98,21 @@
             <h2>Internship Offers</h2>
             <a href="internships.html" class="view-more">View More</a>
         </div>
-        <div class="cards-container">
-            <div class="card">
-                <div class="card-header">
-                    <!-- <img src="https://images.unsplash.com/photo-1523580494863-6f3031224c94" alt="Card 1"> -->
-                    <h3 class="card-title">Nama Institusi</h3>
-                    <p class="card-subtitle">Lokasi Institusi <span class="time-ago">n min ago</span></p>
-                    <p class="card-subtitle">Rp.[Gaji Kira-kira]-Rp.[Gaji kira-kira]</p>
-                </div>
-                <div class="tags">
-                    <span class="tag">Pekerjaan yg ad</span>
-                    <span class="tag">Pekerjaan yg ad</span>
-                    <span class="tag">Pekerjaan yg ad</span>
-                    <span class="tag">+n</span>
-                </div>
-                <div class="card-body">
-                    Lorem ipsum dolor a aaaaaaaaaaaaaaaaaaaaa aaaa aaaaaaaaa aaaaaaaa aaaaa aaaa aaaa aaa a aaa a aaaaaaa a aaaa aaaaa aaa aaaaaaaa aaaaa aaaaa aaa a aaa a aaa a aaaaa aaa aaaaaaaaaaaaaaaaa aaaaaaaa aaaa aaa aaa
-                    <span class="read-more">...</span>
-                </div>
-                <div class="card-footer">
-                    <i class="far fa-heart"></i>
-                    <div class="rating">
-                        <i class="far fa-star"></i>
-                        <span>N/5</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-header">
-                    <!-- <img src="https://images.unsplash.com/photo-1523580494863-6f3031224c94" alt="Card 1"> -->
-                    <h3 class="card-title">Nama Institusi</h3>
-                    <p class="card-subtitle">Lokasi Institusi <span class="time-ago">n min ago</span></p>
-                    <p class="card-subtitle">Rp.[Gaji Kira-kira]-Rp.[Gaji kira-kira]</p>
-                </div>
-                <div class="tags">
-                    <span class="tag">Pekerjaan yg ad</span>
-                    <span class="tag">Pekerjaan yg ad</span>
-                    <span class="tag">Pekerjaan yg ad</span>
-                    <span class="tag">+n</span>
-                </div>
-                <div class="card-body">
-                    Lorem ipsum dolor a aaaaaaaaaaaaaaaaaaaaa aaaa aaaaaaaaa aaaaaaaa aaaaa aaaa aaaa aaa a aaa a aaaaaaa a aaaa aaaaa aaa aaaaaaaa aaaaa aaaaa aaa a aaa a aaa a aaaaa aaa aaaaaaaaaaaaaaaaa aaaaaaaa aaaa aaa aaa
-                    <span class="read-more">...</span>
-                </div>
-                <div class="card-footer">
-                    <i class="far fa-heart"></i>
-                    <div class="rating">
-                        <i class="far fa-star"></i>
-                        <span>N/5</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-header">
-                    <!-- <img src="https://images.unsplash.com/photo-1523580494863-6f3031224c94" alt="Card 1"> -->
-                    <h3 class="card-title">Nama Institusi</h3>
-                    <p class="card-subtitle">Lokasi Institusi <span class="time-ago">n min ago</span></p>
-                    <p class="card-subtitle">Rp.[Gaji Kira-kira]-Rp.[Gaji kira-kira]</p>
-                </div>
-                <div class="tags">
-                    <span class="tag">Pekerjaan yg ad</span>
-                    <span class="tag">Pekerjaan yg ad</span>
-                    <span class="tag">Pekerjaan yg ad</span>
-                    <span class="tag">+n</span>
-                </div>
-                <div class="card-body">
-                    Lorem ipsum dolor a aaaaaaaaaaaaaaaaaaaaa aaaa aaaaaaaaa aaaaaaaa aaaaa aaaa aaaa aaa a aaa a aaaaaaa a aaaa aaaaa aaa aaaaaaaa aaaaa aaaaa aaa a aaa a aaa a aaaaa aaa aaaaaaaaaaaaaaaaa aaaaaaaa aaaa aaa aaa
-                    <span class="read-more">...</span>
-                </div>
-                <div class="card-footer">
-                    <i class="far fa-heart"></i>
-                    <div class="rating">
-                        <i class="far fa-star"></i>
-                        <span>N/5</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-header">
-                    <!-- <img src="https://images.unsplash.com/photo-1523580494863-6f3031224c94" alt="Card 1"> -->
-                    <h3 class="card-title">Nama Institusi</h3>
-                    <p class="card-subtitle">Lokasi Institusi <span class="time-ago">n min ago</span></p>
-                    <p class="card-subtitle">Rp.[Gaji Kira-kira]-Rp.[Gaji kira-kira]</p>
-                </div>
-                <div class="tags">
-                    <span class="tag">Pekerjaan yg ad</span>
-                    <span class="tag">Pekerjaan yg ad</span>
-                    <span class="tag">Pekerjaan yg ad</span>
-                    <span class="tag">+n</span>
-                </div>
-                <div class="card-body">
-                    Lorem ipsum dolor a aaaaaaaaaaaaaaaaaaaaa aaaa aaaaaaaaa aaaaaaaa aaaaa aaaa aaaa aaa a aaa a aaaaaaa a aaaa aaaaa aaa aaaaaaaa aaaaa aaaaa aaa a aaa a aaa a aaaaa aaa aaaaaaaaaaaaaaaaa aaaaaaaa aaaa aaa aaa
-                    <span class="read-more">...</span>
-                </div>
-                <div class="card-footer">
-                    <i class="far fa-heart"></i>
-                    <div class="rating">
-                        <i class="far fa-star"></i>
-                        <span>N/5</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-header">
-                    <!-- <img src="https://images.unsplash.com/photo-1523580494863-6f3031224c94" alt="Card 1"> -->
-                    <h3 class="card-title">Nama Institusi</h3>
-                    <p class="card-subtitle">Lokasi Institusi <span class="time-ago">n min ago</span></p>
-                    <p class="card-subtitle">Rp.[Gaji Kira-kira]-Rp.[Gaji kira-kira]</p>
-                </div>
-                <div class="tags">
-                    <span class="tag">Pekerjaan yg ad</span>
-                    <span class="tag">Pekerjaan yg ad</span>
-                    <span class="tag">Pekerjaan yg ad</span>
-                    <span class="tag">+n</span>
-                </div>
-                <div class="card-body">
-                    Lorem ipsum dolor a aaaaaaaaaaaaaaaaaaaaa aaaa aaaaaaaaa aaaaaaaa aaaaa aaaa aaaa aaa a aaa a aaaaaaa a aaaa aaaaa aaa aaaaaaaa aaaaa aaaaa aaa a aaa a aaa a aaaaa aaa aaaaaaaaaaaaaaaaa aaaaaaaa aaaa aaa aaa
-                    <span class="read-more">...</span>
-                </div>
-                <div class="card-footer">
-                    <i class="far fa-heart"></i>
-                    <div class="rating">
-                        <i class="far fa-star"></i>
-                        <span>N/5</span>
-                    </div>
-                </div>
-            </div>
+        <div id="internshipCardsContainer" class="internship-card-container">
+            <div id="internshipCards" class="cards-container"></div>
         </div>
 
         <!-- <div class="slider-controls">
             <button class="slide-btn prev-btn">&lt;</button>
             <button class="slide-btn next-btn">&gt;</button>
         </div> -->
+    <div id="internshipModal" class="modal-overlay" style="display: none;">
+        <div class="modal-content">
+            <span id="closeModal" class="close-button">&times;</span>
+            <div id="internshipModalBody"></div>
+            <!-- <button class="apply-btn">Apply Now</button> -->
+        </div>
+    </div>
     </section>
 
     <!-- Testimoni Section -->
@@ -424,6 +205,6 @@
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
     <script src="../JS/firebase-config.js"></script>
-    <script src="../JS/script.js"></script>
+    <script type ="module" src="../JS/script.js"></script>
 </body>
 </html>
