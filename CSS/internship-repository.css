@@ -177,7 +177,7 @@ header.hidden {
 
 /*Scholarship Contents*/
 
-.scholarship-container{
+.internship-container{
     display: flex;
     flex-direction: column;
     gap: 15px;
@@ -186,14 +186,14 @@ header.hidden {
     /* padding: 0 20px; */
 }
 
-.scholarship-main{
+.internship-main{
     display: flex;
     flex-direction: row;
     margin: 20px;
 }
 
 /*Scholarship Contents sidebar*/
-.scholarship-sidebar{
+.internship-sidebar{
     width: 270px;
     max-height: 100vh;
     /* background: #fff; */
@@ -207,7 +207,7 @@ header.hidden {
 }
 
 /*Scholarship Contents sidebar profile*/
-.scholarship-sidebar-side-profile {
+.internship-sidebar-side-profile {
     background-color: #fff;
     margin-bottom: 5px;
     border-radius: 24px;
@@ -251,7 +251,7 @@ header.hidden {
 
 
 /*Scholarship Contents sidebar accessibles*/
-.scholarship-user-feature{
+.internship-user-feature{
     background: #fff;
     border-radius: 24px;
     /* margin: 0 px; */
@@ -324,9 +324,9 @@ header.hidden {
     background-color: transparent;
 }
 
-/*Scholarships card*/
+/*internship card*/
 
-.scholarship-card-container{
+.internship-card-container{
     display: flex;
     flex-direction: column;
     height: 1000px;
@@ -336,7 +336,7 @@ header.hidden {
     /* overflow: hidden; */
 }
 
-.scholarship-card{
+.internship-card{
     display: flex;
     flex-direction: column;
     height: 320px;
@@ -351,28 +351,34 @@ header.hidden {
     box-sizing: border-box;
 }
 
-.scholarship-card:hover {
+.internship-card:hover {
     transform: translateY(-3px);
     box-shadow: 0 10px 20px rgba(0,0,0,0.08);
     border-color: #c8d3f5;
 }
 
-.scholarship-card-header{
+.internship-card-header{
     display: flex;
     position: relative; /* Needed for absolute child positioning */
     border-bottom: 1px solid #cecece;
     padding: 2px;
 }
 
-.scholarship-card-header h3{
+.internship-card-header h3{
     font-size: 24px;
 }
 
-.scholarship-card-header p{
+.internship-card-header p{
     color: #666;
 }
 
-.scholarship-card-header span{
+.internship-card-header p.internship-salary {
+    margin-top: 4px;
+    color: #2e7d32;
+    font-weight: bold;
+}
+
+.internship-card-header span{
     position: absolute;
     top: 10px;
     right: 10px;
@@ -380,20 +386,25 @@ header.hidden {
     color: #999;
 }
 
-.scholarship-card-tags{
-    margin: 5px 0;
-    
+.salary {
+    font-size: 14px;
+    color: #4CAF50; /* Hijau untuk gaji */
+    font-weight: 500;
+    margin-top: 3px;
 }
 
-.scholarship-card-tags span{
+.job-tag {
     background-color: var(--button-color);
-    margin: 0 2px;
-    padding: 5px 10px;
+    padding: 6px 12px;
     border-radius: 10px;
-    font-size: 12px;
+    font-size: 13px;
+    font-weight: 500;
+    color: #333;
+    display: inline-block;
+    margin-top: 8px;
 }
 
-.scholarship-card-body {
+.internship-card-body {
     height: 150px;
     width: 100%;
     overflow: hidden;
@@ -401,17 +412,17 @@ header.hidden {
     padding: 10px 2px;
 }
 
-.scholarship-card-body h4 {
+.internship-card-body h4 {
     font-size: 1.1rem;
     margin-bottom: 0.3rem;
 }
 
-.scholarship-card-body ul {
+.internship-card-body ul {
     list-style: none;
     margin: 0;
     padding-left: 1rem;
 }
-.scholarship-card-body ul li::before {
+.internship-card-body ul li::before {
     content: "";
     margin-right: 0.5rem;
 }
@@ -436,7 +447,7 @@ header.hidden {
     cursor: pointer;
 }
 
-.scholarship-card-footer {
+.internship-card-footer {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -444,7 +455,7 @@ header.hidden {
     border-top: 1px solid var(--line-color);
 }
 
-.scholarship-card-footer i{
+.internship-card-footer i{
     font-size: 25px;
 }
 
