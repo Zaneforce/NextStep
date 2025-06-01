@@ -237,7 +237,7 @@ function openEditInternshipModal(id, data) {
 }
 
 /**
- * Loads scholarships from Firebase Realtime Database for the current user and displays them.
+ * Loads scholarships from Firebase Realtime Database for the current user (or all if admin) and displays them.
  */
 function loadScholarships() {
   const scholarshipContainer = document.getElementById("scholarshipCards");
@@ -254,14 +254,22 @@ function loadScholarships() {
     return;
   }
 
-  const userScholarshipsQuery = query(
-    ref(database, "scholarships"),
-    orderByChild("creatorId"),
-    equalTo(currentUser.uid)
-  );
+  let scholarshipsQuery;
+  // Check if the current user has the 'admin' role
+  if (currentUser.role === 'admin') {
+    console.log("Admin user detected. Loading all scholarships.");
+    scholarshipsQuery = ref(database, "scholarships"); // Load all scholarships
+  } else {
+    console.log("Provider user detected. Loading user-specific scholarships.");
+    scholarshipsQuery = query(
+      ref(database, "scholarships"),
+      orderByChild("creatorId"),
+      equalTo(currentUser.uid) // Filter by current user's ID
+    );
+  }
 
   onValue(
-    userScholarshipsQuery,
+    scholarshipsQuery, // Use the dynamically determined query
     (snapshot) => {
       scholarshipContainer.innerHTML = "";
       let count = 0;
@@ -274,17 +282,17 @@ function loadScholarships() {
           count++;
         });
       } else {
-        console.log("No scholarships found for this user.");
+        console.log("No scholarships found."); // Admin will see this if no scholarships exist at all
         scholarshipContainer.innerHTML =
-          "<p>You haven't added any scholarships yet.</p>";
+          "<p>No scholarships found yet.</p>";
       }
       currentScholarshipCount = count;
       updateCombinedTotal();
     },
     (error) => {
-      console.error("Error fetching user scholarships:", error);
+      console.error("Error fetching scholarships:", error);
       scholarshipContainer.innerHTML =
-        "<p>Error loading your scholarships. Please try again.</p>";
+        "<p>Error loading scholarships. Please try again.</p>";
       currentScholarshipCount = 0;
       updateCombinedTotal();
     }
@@ -292,7 +300,7 @@ function loadScholarships() {
 }
 
 /**
- * Loads internships from Firebase Realtime Database for the current user and displays them.
+ * Loads internships from Firebase Realtime Database for the current user (or all if admin) and displays them.
  */
 function loadInternships() {
   const internshipContainer = document.getElementById("internshipCards");
@@ -309,14 +317,22 @@ function loadInternships() {
     return;
   }
 
-  const userInternshipsQuery = query(
-    ref(database, "internships"),
-    orderByChild("creatorId"),
-    equalTo(currentUser.uid)
-  );
+  let internshipsQuery;
+  // Check if the current user has the 'admin' role
+  if (currentUser.role === 'admin') {
+    console.log("Admin user detected. Loading all internships.");
+    internshipsQuery = ref(database, "internships"); // Load all internships
+  } else {
+    console.log("Provider user detected. Loading user-specific internships.");
+    internshipsQuery = query(
+      ref(database, "internships"),
+      orderByChild("creatorId"),
+      equalTo(currentUser.uid) // Filter by current user's ID
+    );
+  }
 
   onValue(
-    userInternshipsQuery,
+    internshipsQuery, // Use the dynamically determined query
     (snapshot) => {
       internshipContainer.innerHTML = "";
       let count = 0;
@@ -329,17 +345,17 @@ function loadInternships() {
           count++;
         });
       } else {
-        console.log("No internships found for this user.");
+        console.log("No internships found."); // Admin will see this if no internships exist at all
         internshipContainer.innerHTML =
-          "<p>You haven't added any internships yet.</p>";
+          "<p>No internships found yet.</p>";
       }
       currentInternshipCount = count;
       updateCombinedTotal();
     },
     (error) => {
-      console.error("Error fetching user internships:", error);
+      console.error("Error fetching internships:", error);
       internshipContainer.innerHTML =
-        "<p>Error loading your internships. Please try again.</p>";
+        "<p>Error loading internships. Please try again.</p>";
       currentInternshipCount = 0;
       updateCombinedTotal();
     }
@@ -380,7 +396,7 @@ onAuthStateChanged(auth, async (user) => {
   const loginBtn = document.getElementById("loginBtn");
   const logoutBtn = document.getElementById("logoutBtn");
 
-  // Define the URL to redirect students to (e.g., a home page or an access denied page)
+  
   const redirectPageForStudents = 'student-dashboard.html'; // Or 'access-denied.html'
 
   if (user) {
@@ -391,11 +407,12 @@ onAuthStateChanged(auth, async (user) => {
       const userDoc = await getDoc(doc(db, "users", user.uid));
       if (userDoc.exists()) {
         userData = userDoc.data();
+        currentUser.role = userData.role; // **IMPORTANT: Attach role to currentUser object**
         console.log("User profile data found:", userData);
 
         // --- NEW: Role-based access control ---
-        if (userData.role === 'provider') {
-          // User is a provider, display the page content
+        if (userData.role === 'provider' || userData.role === 'admin') { // Allow 'admin' role as well
+          // User is a provider or admin, display the page content
           if (profileSection) profileSection.style.display = "flex";
           if (profileNameElement) {
             profileNameElement.textContent = userData?.name || user.displayName || user.email || "Pengguna";
@@ -407,10 +424,10 @@ onAuthStateChanged(auth, async (user) => {
           currentScholarshipCount = 0;
           currentInternshipCount = 0;
           updateCombinedTotal();
-          loadScholarships();
-          loadInternships();
+          loadScholarships(); // Will now check currentUser.role
+          loadInternships();  // Will now check currentUser.role
 
-          console.log("User logged in as provider:", currentUser.uid);
+          console.log(`User logged in as ${userData.role}:`, currentUser.uid);
         } else if (userData.role === 'student') {
           // User is a student, redirect them
           console.warn("Student user attempted to access provider page. Redirecting...");
