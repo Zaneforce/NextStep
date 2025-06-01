@@ -374,49 +374,89 @@ const modalDeleteInternshipBtn = document.getElementById(
 // --- Event Listeners ---
 
 // Watch auth state and update UI, load data
-// Watch auth state and update UI, load data
 onAuthStateChanged(auth, async (user) => {
   const profileSection = document.getElementById("profileSection");
   const profileNameElement = document.getElementById("profileName");
   const loginBtn = document.getElementById("loginBtn");
   const logoutBtn = document.getElementById("logoutBtn");
 
+  // Define the URL to redirect students to (e.g., a home page or an access denied page)
+  const redirectPageForStudents = 'student-dashboard.html'; // Or 'access-denied.html'
+
   if (user) {
     currentUser = user;
     let userData = null;
 
     try {
-      // Attempt to fetch user data from Firestore
       const userDoc = await getDoc(doc(db, "users", user.uid));
       if (userDoc.exists()) {
         userData = userDoc.data();
         console.log("User profile data found:", userData);
+
+        // --- NEW: Role-based access control ---
+        if (userData.role === 'provider') {
+          // User is a provider, display the page content
+          if (profileSection) profileSection.style.display = "flex";
+          if (profileNameElement) {
+            profileNameElement.textContent = userData?.name || user.displayName || user.email || "Pengguna";
+          }
+          if (loginBtn) loginBtn.style.display = "none";
+          if (logoutBtn) logoutBtn.style.display = "block";
+
+          // Reset counts and load data for the current user
+          currentScholarshipCount = 0;
+          currentInternshipCount = 0;
+          updateCombinedTotal();
+          loadScholarships();
+          loadInternships();
+
+          console.log("User logged in as provider:", currentUser.uid);
+        } else if (userData.role === 'student') {
+          // User is a student, redirect them
+          console.warn("Student user attempted to access provider page. Redirecting...");
+          alert("You do not have permission to access this page. Redirecting..."); // Optional: user-friendly message
+          window.location.href = redirectPageForStudents; // Redirect to a different page
+          // Also hide any sensitive elements just in case the redirect is slow
+          if (profileSection) profileSection.style.display = "none";
+          if (loginBtn) loginBtn.style.display = "block"; // Show login for potential other roles
+          if (logoutBtn) logoutBtn.style.display = "none";
+          return; // Stop further execution for students on this page
+        } else {
+          // Handle other roles or no role defined (e.g., redirect or show message)
+          console.warn("User has an unknown role or no role. Redirecting or blocking access.");
+          alert("Your role does not permit access to this page. Redirecting...");
+          window.location.href = redirectPageForStudents; // Default redirect for unknown roles
+          if (profileSection) profileSection.style.display = "none";
+          if (loginBtn) loginBtn.style.display = "block";
+          if (logoutBtn) logoutBtn.style.display = "none";
+          return;
+        }
+
       } else {
         console.warn("User document not found in Firestore for UID:", user.uid);
+        // If user doc not found, treat as unprivileged or redirect
+        alert("Your user data could not be found. Please contact support or try logging in again.");
+        window.location.href = redirectPageForStudents; // Redirect or clear content
+        // Also ensure UI is hidden
+        if (profileSection) profileSection.style.display = "none";
+        if (loginBtn) loginBtn.style.display = "block";
+        if (logoutBtn) logoutBtn.style.display = "none";
+        return;
       }
     } catch (error) {
       console.error("Error fetching user data from Firestore:", error);
-      // Even if there's an error fetching Firestore data, the user is still authenticated via Firebase Auth
+      // If there's an error fetching data, assume no access for safety
+      alert("There was an error loading your user data. Please try again or contact support.");
+      window.location.href = redirectPageForStudents; // Redirect on error
+      if (profileSection) profileSection.style.display = "none";
+      if (loginBtn) loginBtn.style.display = "block";
+      if (logoutBtn) logoutBtn.style.display = "none";
+      return;
     }
 
-    // Update UI based on authentication status and fetched data
-    if (profileSection) profileSection.style.display = "flex";
-    if (profileNameElement) {
-      profileNameElement.textContent = userData?.name || user.displayName || user.email || "Pengguna";
-    }
-    if (loginBtn) loginBtn.style.display = "none";
-    if (logoutBtn) logoutBtn.style.display = "block";
-
-    // Reset counts and load data for the current user
-    currentScholarshipCount = 0;
-    currentInternshipCount = 0;
-    updateCombinedTotal();
-    loadScholarships();
-    loadInternships();
-
-    console.log("User logged in:", currentUser.uid);
   } else {
     // User is logged out
+    console.log("User logged out, clearing content and displaying login.");
     if (profileSection) profileSection.style.display = "none";
     if (loginBtn) loginBtn.style.display = "block";
     if (logoutBtn) logoutBtn.style.display = "none";
@@ -434,7 +474,9 @@ onAuthStateChanged(auth, async (user) => {
     currentScholarshipCount = 0;
     currentInternshipCount = 0;
     updateCombinedTotal();
-    console.log("User logged out, offers cleared.");
+
+    // Optional: Redirect if logged out users shouldn't see this page at all
+    // window.location.href = 'login.html'; // Redirect to login page if desired
   }
 });
 
