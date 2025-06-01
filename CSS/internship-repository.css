@@ -327,13 +327,19 @@ header.hidden {
 /*internship card*/
 
 .internship-card-container{
-    display: flex;
-    flex-direction: column;
-    height: 1000px;
-    width: 75%;
-    background-color: #fff;
-    border-radius: 14px;
-    /* overflow: hidden; */
+    align-items: center;
+    flex: 1;
+    display: grid;
+    gap: 1.5rem;
+    padding-right: 15px;
+    overflow-y: auto;
+    height: calc(111vh - 250px);
+    background-color: white;
+    border-radius: 15px;
+}
+
+.internship-card-container::-webkit-scrollbar {
+    display: none;
 }
 
 .internship-card{
@@ -344,6 +350,7 @@ header.hidden {
     background-color: #ffffff;
     padding: 1.5rem;
     margin: 5px;
+    margin-left: 12px;
     border-radius: 12px;
     transition: all 0.2s ease;
     box-shadow: 0 3px 6px rgba(0,0,0,0.05);
