@@ -56,7 +56,7 @@ onAuthStateChanged(auth, async (user) => {
       const userDoc = await getDoc(doc(db, "users", user.uid)); // Perbaikan: gunakan user.uid
       const userData = userDoc.data();
 
-      isProviderUser = (userData?.role === 'provider');
+      isProviderUser = (userData?.role === 'admin');
 
       // Tampilkan profil
       profileSection.style.display = 'flex';
