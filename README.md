@@ -47,5 +47,5 @@ NEXTSTEP is an all-in-one platform that connects **university students** with **
 ├── 📁 CSS/                 # All stylesheets
 ├── 📁 JS/                  # Core scripts (auth, dashboard, forum, etc.)
 ├── 📁 Pages/               # Main app pages (login, dashboards, forum, etc.)
-├── index.html             # Landing page (optional)
-└── README.md              # You’re reading this 😎
+├── index.html              # Landing page 
+└── README.md               # You’re reading this 😎
