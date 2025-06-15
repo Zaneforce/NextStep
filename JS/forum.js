@@ -56,6 +56,15 @@ onAuthStateChanged(auth, async (user) => {
       const userDoc = await getDoc(doc(db, "users", user.uid)); // Perbaikan: gunakan user.uid
       const userData = userDoc.data();
 
+      const userDocRef = doc(db, "users", user.uid);
+      const userDocSnap = await getDoc(userDocRef);
+      if (userDocSnap.exists()) {
+        const userData = userDocSnap.data();
+        // Simpan role di localStorage
+        localStorage.setItem('userRole', userData.role);
+      }
+
+
       isProviderUser = (userData?.role === 'admin');
 
       // Tampilkan profil
@@ -75,6 +84,39 @@ onAuthStateChanged(auth, async (user) => {
     profileSection.style.display = 'none';
     loginBtn.style.display = 'block';
     currentUser = null;
+    localStorage.removeItem('userRole');
+  }
+});
+
+document.getElementById('homeLogo')?.addEventListener('click', function(e) {
+  e.preventDefault();
+  
+  const userRole = localStorage.getItem('userRole');
+  
+  if (userRole === 'student') {
+    window.location.href = 'student-dashboard.html';
+  } 
+  else if (userRole === 'provider' || userRole === 'admin') {
+    window.location.href = 'provider-dashboard.html';
+  } 
+  else {
+    window.location.href = 'index.html';
+  }
+});
+
+document.getElementById('homeLink')?.addEventListener('click', function(e) {
+  e.preventDefault();
+  
+  const userRole = localStorage.getItem('userRole');
+  
+  if (userRole === 'student') {
+    window.location.href = 'student-dashboard.html';
+  } 
+  else if (userRole === 'provider' || userRole === 'admin') {
+    window.location.href = 'provider-dashboard.html';
+  } 
+  else {
+    window.location.href = 'index.html';
   }
 });
 

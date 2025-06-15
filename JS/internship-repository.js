@@ -73,6 +73,7 @@ onAuthStateChanged(auth, async (user) => {
                 sidebarProfileName.textContent = userData.name || "User";
                 sidebarProfileSchool.textContent = userData.school || "Unknown School";
                 sidebarProfileMajor.textContent = userData.major || "Unknown Major";
+                localStorage.setItem('userRole', userData.role);
             }
 
             // 🔄 Listen to liked internships
@@ -96,7 +97,40 @@ onAuthStateChanged(auth, async (user) => {
     } else {
         // Not logged in
         loadInternships();
+        localStorage.removeItem('userRole');
     }
+});
+
+document.getElementById('homeLogo')?.addEventListener('click', function(e) {
+  e.preventDefault();
+  
+  const userRole = localStorage.getItem('userRole');
+  
+  if (userRole === 'student') {
+    window.location.href = 'student-dashboard.html';
+  } 
+  else if (userRole === 'provider' || userRole === 'admin') {
+    window.location.href = 'provider-dashboard.html';
+  } 
+  else {
+    window.location.href = 'index.html';
+  }
+});
+
+document.getElementById('homeLink')?.addEventListener('click', function(e) {
+  e.preventDefault();
+  
+  const userRole = localStorage.getItem('userRole');
+  
+  if (userRole === 'student') {
+    window.location.href = 'student-dashboard.html';
+  } 
+  else if (userRole === 'provider' || userRole === 'admin') {
+    window.location.href = 'provider-dashboard.html';
+  } 
+  else {
+    window.location.href = 'index.html';
+  }
 });
 
 document.getElementById("searchBar").addEventListener("keydown", (e) => {
