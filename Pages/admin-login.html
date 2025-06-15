@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login - NEXTSTEP</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="logo icon" href="../Assets/logo.png" type="image/png">
+    <link rel="stylesheet" href="../CSS/admin-login.css">
+</head>
+<body>
+    <i class="floating-icon fas fa-shield-alt icon-1"></i>
+    <i class="floating-icon fas fa-lock icon-2"></i>
+    <i class="floating-icon fas fa-user-shield icon-3"></i>
+    <i class="floating-icon fas fa-key icon-4"></i>
+    <i class="floating-icon fas fa-database icon-5"></i>
+    
+    <div class="admin-container">
+        <div class="admin-header">
+            <div class="admin-logo">NEXTSTEP</div>
+            <h1 class="admin-title">Admin Portal</h1>
+        </div>
+        
+        <form id="adminLoginForm" class="admin-form">
+            <div class="input-group">
+                <i class="fas fa-user"></i>
+                <input type="email" id="adminEmail" placeholder="Admin Email" required>
+            </div>
+            
+            <div class="input-group">
+                <i class="fas fa-lock"></i>
+                <input type="password" id="adminPassword" placeholder="Password" required>
+            </div>
+            
+            <div class="error-message" id="errorMessage"></div>
+            
+            <button type="submit" class="admin-btn">Login to Dashboard</button>
+        </form>
+        
+        
+        <div class="admin-footer">
+            <p>For authorized personnel only. Unauthorized access is prohibited.</p>
+        </div>
+    </div>
+    <script type="module" src="../JS/admin-login.js"></script>
+</body>
+</html>
