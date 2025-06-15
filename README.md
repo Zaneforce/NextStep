@@ -1,6 +1,6 @@
 # 🚀 NEXTSTEP — Scholarship & Internship Platform for Students
 
-![NextStep Banner](https://raw.githubusercontent.com/Zaneforce/NextStep/main/Assets/home.jpg)
+![NextStep Banner](https://github.com/Zaneforce/NextStep/blob/main/Assets/home.jpg)
 
 NEXTSTEP is an all-in-one platform that connects **university students** with **scholarship** and **internship** opportunities. It provides tailored listings, real-time application tracking, and a forum to foster collaborative discussions among students and educational institutions.
 
