@@ -312,10 +312,11 @@ header.hidden {
 
 .add-thread-text {
     color: #b0b0b0;
-    font-size: 1.1em; /* Adjusted font size */
+    font-size: 1.1em;
     font-weight: 500;
     letter-spacing: 0.02em;
     transition: all 0.2s ease;
+    width: 200px;
 }
 
 .add-thread-bar:hover .add-thread-text {
@@ -332,7 +333,7 @@ header.hidden {
     justify-content: center;
     font-size: 2em;
     color: #a08383;
-    margin-left: 16px;
+    /* margin-left: 16px; */
     transition: all 0.2s ease;
     border: none; /* Make sure it doesn't get a default button border */
 }
