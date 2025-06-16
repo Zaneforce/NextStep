@@ -36,10 +36,10 @@ html {
 body {
   background-color: #f2efea;
   color: #222;
-  padding-top: 100px; /* Adjust padding-top for fixed header */
-  overflow-y: auto; /* Changed to auto to allow scrolling for dashboard content */
+  padding-top: 100px;
+  overflow-y: auto;
   margin: 0;
-  padding: 20px; /* Add padding to body for content spacing */
+  padding: 20px;
   max-width: none;
 }
 
@@ -153,11 +153,66 @@ header.hidden {
 }
 
 .profile-section {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 3px;
-  cursor: pointer;
+    position: relative; 
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 2px;
+    width: 60px;
+    cursor: pointer;
+    color: var(--grey-color);
+}
+
+.profile-section:hover,
+.profile-section:hover .bx-user-circle {
+    color: var(--text-color); /* Change color on hover */
+}
+
+.profile-section .bx-user-circle {
+    font-size: 34px; /* Matched to other icons */
+    color: inherit; /* Inherit color from parent */
+    transition: color 0.3s ease;
+}
+
+.profile-section .profile-name {
+    color: inherit; /* Inherit color from parent */
+    transition: color 0.3s ease;
+}
+
+/* The dropdown box itself */
+.profile-section .dropdown-content {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #fff;
+    min-width: 140px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.15);
+    z-index: 1000;
+    border-radius: 8px;
+    border: 1px solid var(--line-color);
+    margin-left: 40px;
+    overflow: hidden;
+}
+
+.profile-section:hover .dropdown-content {
+    display: block;
+}
+
+.profile-section .dropdown-content a {
+    color: #333;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    text-align: center;
+    font-weight: 500;
+}
+
+.profile-section .dropdown-content a:hover {
+    background-color: #f1f1f1;
+    color: var(--text-color);
 }
 
 .profile-name {
@@ -767,5 +822,53 @@ button:hover {
     }
     .summary-item:last-child {
         margin-bottom: 0; /* No margin after the last item */
+    }
+
+    /* NAV */
+    body {
+      overflow-x: hidden;
+      padding-top: 120px;
+      transition: padding-top 0.3s ease-in-out; 
+    }
+    
+    body:has(header.hidden) {
+        padding-top: 20px; 
+    }
+
+    /* --- Header/Navbar Styles --- */
+    header {
+        transition: transform 0.3s ease-in-out;
+        background-color: var(--primary-color);
+        border-bottom: var(--line-color) 2px solid;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        z-index: 1000;
+    }
+    
+    .navbar {
+      flex-wrap: wrap;
+    }
+    
+    .nav-links {
+      order: 2;
+      width: 100%;
+      margin-top: 5px;
+      justify-content: center;
+      gap: 40px;
+    }
+    
+    .nav-link {
+      font-size: 12px;
+    }
+    
+    .login-btn {
+      order: 3;
+      margin-top: 15px;
+      width: 100%;
+    }
+    
+    .search-bar {
+      order: 1;
+      width: 100%;
+      margin: 15px 0;
     }
 }
