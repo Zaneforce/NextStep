@@ -12,182 +12,197 @@
     <script src="https://unpkg.com/scrollreveal"></script>
 
     <link rel="stylesheet" href="../CSS/provider-dashboard.css">
+    <link rel="stylesheet" href="../CSS/loading.css">
 </head>
 
 <body>
-    <header>
+    <div id="loader-wrapper">
+        <div class="bouncing-loader">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+        <p>Loading...</p>
+    </div>
+    <div id="page-content">
+
+        <header>
+            <div class="container">
+                <nav class="navbar">
+                    <a href="provider-dashboard.html" id="homeLogo" class="logo">NEXTSTEP</a>
+                    <div class="search-bar">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="41" viewBox="0 0 40 41" fill="none">
+                            <path
+                                d="M28.1551 28.6998L33.2884 33.8332M31.6668 19.6665C31.6668 22.9817 30.3498 26.1611 28.0056 28.5053C25.6614 30.8495 22.482 32.1665 19.1668 32.1665C15.8515 32.1665 12.6721 30.8495 10.3279 28.5053C7.98371 26.1611 6.66675 22.9817 6.66675 19.6665C6.66675 16.3513 7.98371 13.1719 10.3279 10.8277C12.6721 8.48346 15.8515 7.1665 19.1668 7.1665C22.482 7.1665 25.6614 8.48346 28.0056 10.8277C30.3498 13.1719 31.6668 16.3513 31.6668 19.6665Z"
+                                stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                        <input type="text" placeholder="Search">
+                    </div>
+                    <div class="nav-links">
+                        <a href="provider-dashboard.html" class="nav-link active"> <svg xmlns="http://www.w3.org/2000/svg"
+                                width="26" height="30" viewBox="0 0 28 30">
+                                <path
+                                    d="M4.00008 26.6667H9.00008V16.6667H19.0001V26.6667H24.0001V11.6667L14.0001 4.16667L4.00008 11.6667V26.6667ZM0.666748 30V10L14.0001 0L27.3334 10V30H15.6667V20H12.3334V30H0.666748Z" />
+                            </svg>
+                            <span>Home</span>
+                        </a>
+                        <a href="scholarship-provider.html" class="nav-link">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="34" height="30" viewBox="0 0 38 32">
+                                <path
+                                    d="M37.5 12.0243C37.5008 11.5261 37.3685 11.0367 37.1167 10.6056C36.8649 10.1746 36.5026 9.81742 36.0664 9.57037L20.4823 0.396868C20.0331 0.136956 19.5225 0 19.0025 0C18.4825 0 17.9718 0.136956 17.5227 0.396868L1.91537 9.57037C1.48408 9.8242 1.1268 10.185 0.878645 10.6172C0.63049 11.0495 0.5 11.5383 0.5 12.0358C0.5 12.5332 0.63049 13.022 0.878645 13.4543C1.1268 13.8865 1.48408 14.2473 1.91537 14.5011L6.35477 17.0697V23.5141C6.35745 24.0177 6.49072 24.5122 6.74178 24.95C6.99284 25.3878 7.35325 25.7542 7.78833 26.0139L17.6151 31.6326C18.0539 31.8736 18.5472 32 19.0487 32C19.5502 32 20.0435 31.8736 20.4823 31.6326L30.3091 26.0139C30.7442 25.7542 31.1046 25.3878 31.3556 24.95C31.6067 24.5122 31.74 24.0177 31.7426 23.5141V17.0009L34.6098 15.3267V21.5647H37.5V12.0243ZM28.8755 23.4912L19.0025 29.1329L9.24501 23.5141V18.7668L17.5227 23.6517C17.9733 23.9071 18.4834 24.0415 19.0025 24.0415C19.5215 24.0415 20.0316 23.9071 20.4823 23.6517L28.8524 18.698L28.8755 23.4912ZM19.0025 21.1749L3.39517 12.0013L19.0025 2.80491L34.6098 11.9784L19.0025 21.1749Z" />
+                            </svg>
+                            <span>Scholarships</span>
+                        </a>
+                        <a href="internship-provider.html" class="nav-link">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="29" height="30" viewBox="0 0 34 32">
+                                <path
+                                    d="M28.9 5.66667H23.8V3.94444C23.8 3.03092 23.4418 2.15481 22.8042 1.50885C22.1665 0.862896 21.3017 0.5 20.4 0.5H13.6C12.6983 0.5 11.8335 0.862896 11.1958 1.50885C10.5582 2.15481 10.2 3.03092 10.2 3.94444V5.66667H5.1C3.7474 5.66667 2.45019 6.21101 1.49376 7.17995C0.53732 8.14889 0 9.46305 0 10.8333V26.3333C0 27.7036 0.53732 29.0178 1.49376 29.9867C2.45019 30.9557 3.7474 31.5 5.1 31.5H28.9C30.2526 31.5 31.5498 30.9557 32.5062 29.9867C33.4627 29.0178 34 27.7036 34 26.3333V10.8333C34 9.46305 33.4627 8.14889 32.5062 7.17995C31.5498 6.21101 30.2526 5.66667 28.9 5.66667ZM13.6 3.94444H20.4V5.66667H13.6V3.94444ZM30.6 26.3333C30.6 26.7901 30.4209 27.2281 30.1021 27.5511C29.7833 27.8741 29.3509 28.0556 28.9 28.0556H5.1C4.64913 28.0556 4.21673 27.8741 3.89792 27.5511C3.57911 27.2281 3.4 26.7901 3.4 26.3333V16.6717L11.356 19.4444C11.5365 19.469 11.7195 19.469 11.9 19.4444H22.1C22.2843 19.4408 22.4673 19.4118 22.644 19.3583L30.6 16.6717V26.3333ZM30.6 13.0378L21.828 16H12.172L3.4 13.0378V10.8333C3.4 10.3766 3.57911 9.93852 3.89792 9.61554C4.21673 9.29256 4.64913 9.11111 5.1 9.11111H28.9C29.3509 9.11111 29.7833 9.29256 30.1021 9.61554C30.4209 9.93852 30.6 10.3766 30.6 10.8333V13.0378Z" />
+                            </svg>
+                            <span>Internships</span>
+                        </a>
+                        <a href="forum.html" class="nav-link">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="26" height="30" viewBox="0 0 30 34">
+                                <path
+                                    d="M15 0.639648C23.2845 0.639648 30 7.35517 30 15.6397C30 23.9242 23.2845 30.6398 15 30.6398H3C2.20435 30.6398 1.44129 30.3237 0.87868 29.7611C0.31607 29.1985 0 28.4354 0 27.6398V15.6397C0 7.35517 6.7155 0.639648 15 0.639648ZM15 3.63966C11.8174 3.63966 8.76515 4.90395 6.51472 7.15439C4.26428 9.40484 3 12.4571 3 15.6397V27.6398H15C18.1826 27.6398 21.2348 26.3755 23.4853 24.125C25.7357 21.8746 27 18.8223 27 15.6397C27 12.4571 25.7357 9.40484 23.4853 7.15439C21.2348 4.90395 18.1826 3.63966 15 3.63966ZM15 18.6397C15.3823 18.6401 15.75 18.7865 16.0281 19.049C16.3061 19.3114 16.4734 19.6702 16.4958 20.0518C16.5182 20.4335 16.394 20.8093 16.1486 21.1025C15.9032 21.3957 15.5551 21.5841 15.1755 21.6292L15 21.6397H10.5C10.1177 21.6393 9.74995 21.4929 9.47195 21.2305C9.19394 20.968 9.02665 20.6093 9.00424 20.2276C8.98184 19.846 9.10601 19.4702 9.3514 19.177C9.59678 18.8838 9.94486 18.6954 10.3245 18.6502L10.5 18.6397H19.5Z" />
+                            </svg>
+                            <span>Forum</span>
+                        </a>
+                    </div>
+                    <div class="profile-section" id="profileSection" style="display: none;">
+                        <i class='bx bx-user-circle'></i>
+                        <span class="profile-name" id="profileName"></span>
+                        <div class="dropdown-content" id="profileDropdownContent">
+                            <a href="#" id="logoutBtn">Logout</a>
+                        </div>
+                    </div>
+                    <a href="./login.html" class="login-btn" id="loginBtn">Login</a>
+                </nav>
+            </div>
+        </header>
+    
+    
         <div class="container">
-            <nav class="navbar">
-                <a href="provider-dashboard.html" id="homeLogo" class="logo">NEXTSTEP</a>
-                <div class="search-bar">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="41" viewBox="0 0 40 41" fill="none">
-                        <path
-                            d="M28.1551 28.6998L33.2884 33.8332M31.6668 19.6665C31.6668 22.9817 30.3498 26.1611 28.0056 28.5053C25.6614 30.8495 22.482 32.1665 19.1668 32.1665C15.8515 32.1665 12.6721 30.8495 10.3279 28.5053C7.98371 26.1611 6.66675 22.9817 6.66675 19.6665C6.66675 16.3513 7.98371 13.1719 10.3279 10.8277C12.6721 8.48346 15.8515 7.1665 19.1668 7.1665C22.482 7.1665 25.6614 8.48346 28.0056 10.8277C30.3498 13.1719 31.6668 16.3513 31.6668 19.6665Z"
-                            stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                    </svg>
-                    <input type="text" placeholder="Search">
-                </div>
-                <div class="nav-links">
-                    <a href="provider-dashboard.html" class="nav-link active"> <svg xmlns="http://www.w3.org/2000/svg"
-                            width="26" height="30" viewBox="0 0 28 30">
-                            <path
-                                d="M4.00008 26.6667H9.00008V16.6667H19.0001V26.6667H24.0001V11.6667L14.0001 4.16667L4.00008 11.6667V26.6667ZM0.666748 30V10L14.0001 0L27.3334 10V30H15.6667V20H12.3334V30H0.666748Z" />
-                        </svg>
-                        <span>Home</span>
-                    </a>
-                    <a href="scholarship-repository.html" class="nav-link">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="34" height="30" viewBox="0 0 38 32">
-                            <path
-                                d="M37.5 12.0243C37.5008 11.5261 37.3685 11.0367 37.1167 10.6056C36.8649 10.1746 36.5026 9.81742 36.0664 9.57037L20.4823 0.396868C20.0331 0.136956 19.5225 0 19.0025 0C18.4825 0 17.9718 0.136956 17.5227 0.396868L1.91537 9.57037C1.48408 9.8242 1.1268 10.185 0.878645 10.6172C0.63049 11.0495 0.5 11.5383 0.5 12.0358C0.5 12.5332 0.63049 13.022 0.878645 13.4543C1.1268 13.8865 1.48408 14.2473 1.91537 14.5011L6.35477 17.0697V23.5141C6.35745 24.0177 6.49072 24.5122 6.74178 24.95C6.99284 25.3878 7.35325 25.7542 7.78833 26.0139L17.6151 31.6326C18.0539 31.8736 18.5472 32 19.0487 32C19.5502 32 20.0435 31.8736 20.4823 31.6326L30.3091 26.0139C30.7442 25.7542 31.1046 25.3878 31.3556 24.95C31.6067 24.5122 31.74 24.0177 31.7426 23.5141V17.0009L34.6098 15.3267V21.5647H37.5V12.0243ZM28.8755 23.4912L19.0025 29.1329L9.24501 23.5141V18.7668L17.5227 23.6517C17.9733 23.9071 18.4834 24.0415 19.0025 24.0415C19.5215 24.0415 20.0316 23.9071 20.4823 23.6517L28.8524 18.698L28.8755 23.4912ZM19.0025 21.1749L3.39517 12.0013L19.0025 2.80491L34.6098 11.9784L19.0025 21.1749Z" />
-                        </svg>
-                        <span>Scholarships</span>
-                    </a>
-                    <a href="internship-repository.html" class="nav-link">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="29" height="30" viewBox="0 0 34 32">
-                            <path
-                                d="M28.9 5.66667H23.8V3.94444C23.8 3.03092 23.4418 2.15481 22.8042 1.50885C22.1665 0.862896 21.3017 0.5 20.4 0.5H13.6C12.6983 0.5 11.8335 0.862896 11.1958 1.50885C10.5582 2.15481 10.2 3.03092 10.2 3.94444V5.66667H5.1C3.7474 5.66667 2.45019 6.21101 1.49376 7.17995C0.53732 8.14889 0 9.46305 0 10.8333V26.3333C0 27.7036 0.53732 29.0178 1.49376 29.9867C2.45019 30.9557 3.7474 31.5 5.1 31.5H28.9C30.2526 31.5 31.5498 30.9557 32.5062 29.9867C33.4627 29.0178 34 27.7036 34 26.3333V10.8333C34 9.46305 33.4627 8.14889 32.5062 7.17995C31.5498 6.21101 30.2526 5.66667 28.9 5.66667ZM13.6 3.94444H20.4V5.66667H13.6V3.94444ZM30.6 26.3333C30.6 26.7901 30.4209 27.2281 30.1021 27.5511C29.7833 27.8741 29.3509 28.0556 28.9 28.0556H5.1C4.64913 28.0556 4.21673 27.8741 3.89792 27.5511C3.57911 27.2281 3.4 26.7901 3.4 26.3333V16.6717L11.356 19.4444C11.5365 19.469 11.7195 19.469 11.9 19.4444H22.1C22.2843 19.4408 22.4673 19.4118 22.644 19.3583L30.6 16.6717V26.3333ZM30.6 13.0378L21.828 16H12.172L3.4 13.0378V10.8333C3.4 10.3766 3.57911 9.93852 3.89792 9.61554C4.21673 9.29256 4.64913 9.11111 5.1 9.11111H28.9C29.3509 9.11111 29.7833 9.29256 30.1021 9.61554C30.4209 9.93852 30.6 10.3766 30.6 10.8333V13.0378Z" />
-                        </svg>
-                        <span>Internships</span>
-                    </a>
-                    <a href="forum.html" class="nav-link">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="26" height="30" viewBox="0 0 30 34">
-                            <path
-                                d="M15 0.639648C23.2845 0.639648 30 7.35517 30 15.6397C30 23.9242 23.2845 30.6398 15 30.6398H3C2.20435 30.6398 1.44129 30.3237 0.87868 29.7611C0.31607 29.1985 0 28.4354 0 27.6398V15.6397C0 7.35517 6.7155 0.639648 15 0.639648ZM15 3.63966C11.8174 3.63966 8.76515 4.90395 6.51472 7.15439C4.26428 9.40484 3 12.4571 3 15.6397V27.6398H15C18.1826 27.6398 21.2348 26.3755 23.4853 24.125C25.7357 21.8746 27 18.8223 27 15.6397C27 12.4571 25.7357 9.40484 23.4853 7.15439C21.2348 4.90395 18.1826 3.63966 15 3.63966ZM15 18.6397C15.3823 18.6401 15.75 18.7865 16.0281 19.049C16.3061 19.3114 16.4734 19.6702 16.4958 20.0518C16.5182 20.4335 16.394 20.8093 16.1486 21.1025C15.9032 21.3957 15.5551 21.5841 15.1755 21.6292L15 21.6397H10.5C10.1177 21.6393 9.74995 21.4929 9.47195 21.2305C9.19394 20.968 9.02665 20.6093 9.00424 20.2276C8.98184 19.846 9.10601 19.4702 9.3514 19.177C9.59678 18.8838 9.94486 18.6954 10.3245 18.6502L10.5 18.6397H19.5Z" />
-                        </svg>
-                        <span>Forum</span>
-                    </a>
-                </div>
-                <div class="profile-section" id="profileSection" style="display: none;">
-                    <i class='bx bx-user-circle'></i>
-                    <span class="profile-name" id="profileName"></span>
-                </div>
-                <a href="./login.html" class="login-btn" id="loginBtn">Login</a>
-            </nav>
-        </div>
-    </header>
-
-
-    <div class="container">
-        <button id="showAddEntryModalBtn" class="add-thread-bar">
-            <span class="add-thread-text">Add New Scholarship / Internship</span>
-            <span class="add-thread-plus">+</span>
-        </button>
-
-
-        <div id="addEntryModal" class="modal" style="display: none;">
-            <div class="modal-content">
-                <span id="closeAddEntryModal" class="close-button">&times;</span>
-                <form id="addEntryForm">
-                    <label for="entryType">Offer Type:</label>
-                    <select id="entryType" name="entryType">
-                        <option value="scholarship">Scholarship</option>
-                        <option value="internship">Internship</option>
-                    </select>
-
-                    <div id="scholarshipFields" class="entry-fields">
-                        <input placeholder="Title" type="text" id="modal_scholarship_title" />
-                        <input placeholder="Company Name (Provider)" type="text" id="modal_scholarship_companyName" />
-                        <input placeholder="Location" type="text" id="modal_scholarship_location" />
-                        <input placeholder="Start Date (DD/MM/YYYY)" type="text" id="modal_scholarship_startDate" />
-                        <input placeholder="Duration" type="text" id="modal_scholarship_duration" />
-
-                        <label for="modal_scholarship_requirements">Requirements (comma or newline separated):</label>
-                        <textarea id="modal_scholarship_requirements" rows="4"
-                            placeholder="e.g., Bachelor's Degree in CS, Strong communication skills, 2+ years experience"></textarea><br>
-
-                        <label for="modal_scholarship_majors">Majors (comma or newline separated):</label>
-                        <textarea id="modal_scholarship_majors" rows="4"
-                            placeholder="e.g., Computer Science, Information Systems, Software Engineering"></textarea><br>
-
-                        <textarea placeholder="Description" id="modal_scholarship_description"></textarea>
-                        <label for="modal_scholarship_status">Status : </label>
-                        <select id="modal_scholarship_status" name="status">
-                            <option value="Open">Open</option>
-                            <option value="Closed">Closed</option>
+            <button id="showAddEntryModalBtn" class="add-thread-bar">
+                <span class="add-thread-text">Add New Scholarship / Internship</span>
+                <span class="add-thread-plus">+</span>
+            </button>
+    
+    
+            <div id="addEntryModal" class="modal" style="display: none;">
+                <div class="modal-content">
+                    <span id="closeAddEntryModal" class="close-button">&times;</span>
+                    <form id="addEntryForm">
+                        <label for="entryType">Offer Type:</label>
+                        <select id="entryType" name="entryType">
+                            <option value="scholarship">Scholarship</option>
+                            <option value="internship">Internship</option>
                         </select>
-                        <input placeholder="Deadline Application (DD/MM/YYYY)" type="text"
-                            id="modal_scholarship_deadline" />
-
-                        <div class="manageOffers">
-                            <button type="button" id="modalAddScholarshipBtn">Add Scholarship</button>
-                            <button type="button" id="modalUpdateScholarshipBtn">Update Scholarship</button>
-                            <button type="button" id="modalDeleteScholarshipBtn">Delete Scholarship</button>
+    
+                        <div id="scholarshipFields" class="entry-fields">
+                            <input placeholder="Title" type="text" id="modal_scholarship_title" />
+                            <input placeholder="Company Name (Provider)" type="text" id="modal_scholarship_companyName" />
+                            <input placeholder="Location" type="text" id="modal_scholarship_location" />
+                            <input placeholder="Start Date (DD/MM/YYYY)" type="text" id="modal_scholarship_startDate" />
+                            <input placeholder="Duration" type="text" id="modal_scholarship_duration" />
+    
+                            <label for="modal_scholarship_requirements">Requirements (comma or newline separated):</label>
+                            <textarea id="modal_scholarship_requirements" rows="4"
+                                placeholder="e.g., Bachelor's Degree in CS, Strong communication skills, 2+ years experience"></textarea><br>
+    
+                            <label for="modal_scholarship_majors">Majors (comma or newline separated):</label>
+                            <textarea id="modal_scholarship_majors" rows="4"
+                                placeholder="e.g., Computer Science, Information Systems, Software Engineering"></textarea><br>
+    
+                            <textarea placeholder="Description" id="modal_scholarship_description"></textarea>
+                            <label for="modal_scholarship_status">Status : </label>
+                            <select id="modal_scholarship_status" name="status">
+                                <option value="Open">Open</option>
+                                <option value="Closed">Closed</option>
+                            </select>
+                            <input placeholder="Deadline Application (DD/MM/YYYY)" type="text"
+                                id="modal_scholarship_deadline" />
+    
+                            <div class="manageOffers">
+                                <button type="button" id="modalAddScholarshipBtn">Add Scholarship</button>
+                                <button type="button" id="modalUpdateScholarshipBtn">Update Scholarship</button>
+                                <button type="button" id="modalDeleteScholarshipBtn">Delete Scholarship</button>
+                            </div>
                         </div>
-                    </div>
-
-                    <div id="internshipFields" class="entry-fields" style="display: none;">
-                        <input placeholder="Title" type="text" id="modal_internship_title" />
-                        <input placeholder="Company Name (Provider)" type="text" id="modal_internship_companyName" />
-                        <input placeholder="Location" type="text" id="modal_internship_location" />
-                        <input placeholder="Start Date (DD/MM/YYYY)" type="text" id="modal_internship_startDate" />
-                        <input placeholder="Duration" type="text" id="modal_internship_duration" />
-                        <input placeholder="Job " type="text" id="modal_internship_Job" />
-                        <input placeholder="Expected Salary " type="text" id="modal_internship_expectedSalary" />
-                        <textarea placeholder="Requirements" id="modal_internship_requirements"></textarea>
-                        <textarea placeholder="Description" id="modal_internship_description"></textarea>
-                        <label for="modal_internship_status">Status : </label>
-                        <select id="modal_internship_status" name="status">
-                            <option value="Open">Open</option>
-                            <option value="Closed">Closed</option>
-                        </select>
-                        <input placeholder="Deadline Application (DD/MM/YYYY)" type="text"
-                            id="modal_internship_deadline" />
-
-                        <div class="manageOffers">
-                            <button type="button" id="modalAddInternshipBtn">Add Internship</button>
-                            <button type="button" id="modalUpdateInternshipBtn">Update Internship</button>
-                            <button type="button" id="modalDeleteInternshipBtn">Delete Internship</button>
+    
+                        <div id="internshipFields" class="entry-fields" style="display: none;">
+                            <input placeholder="Title" type="text" id="modal_internship_title" />
+                            <input placeholder="Company Name (Provider)" type="text" id="modal_internship_companyName" />
+                            <input placeholder="Location" type="text" id="modal_internship_location" />
+                            <input placeholder="Start Date (DD/MM/YYYY)" type="text" id="modal_internship_startDate" />
+                            <input placeholder="Duration" type="text" id="modal_internship_duration" />
+                            <input placeholder="Job " type="text" id="modal_internship_Job" />
+                            <input placeholder="Expected Salary " type="text" id="modal_internship_expectedSalary" />
+                            <textarea placeholder="Requirements" id="modal_internship_requirements"></textarea>
+                            <textarea placeholder="Description" id="modal_internship_description"></textarea>
+                            <label for="modal_internship_status">Status : </label>
+                            <select id="modal_internship_status" name="status">
+                                <option value="Open">Open</option>
+                                <option value="Closed">Closed</option>
+                            </select>
+                            <input placeholder="Deadline Application (DD/MM/YYYY)" type="text"
+                                id="modal_internship_deadline" />
+    
+                            <div class="manageOffers">
+                                <button type="button" id="modalAddInternshipBtn">Add Internship</button>
+                                <button type="button" id="modalUpdateInternshipBtn">Update Internship</button>
+                                <button type="button" id="modalDeleteInternshipBtn">Delete Internship</button>
+                            </div>
                         </div>
-                    </div>
-                </form>
+                    </form>
+                </div>
             </div>
-        </div>
-
-        <div class="dashboard-summary">
-            <div class="summary-item report-button-container">
-                <button class="report-button">Report</button>
+    
+            <div class="dashboard-summary">
+                <div class="summary-item report-button-container">
+                    <button class="report-button">Report</button>
+                </div>
+                <div class="summary-item summary-image-container">
+                    <img src="../Assets/home.jpg" alt="Graduation Celebration" class="summary-image">
+                </div>
+                <div class="summary-item total-post-container">
+                    <p>Total Post</p>
+                    <span id="total-posts-count" class="total-posts-number">0</span>
+                </div>
             </div>
-            <div class="summary-item summary-image-container">
-                <img src="../Assets/home.jpg" alt="Graduation Celebration" class="summary-image">
-            </div>
-            <div class="summary-item total-post-container">
-                <p>Total Post</p>
-                <span id="total-posts-count" class="total-posts-number">0</span>
-            </div>
-        </div>
-
-        <div class="containerss">
-            <section class="offers-section">
-                <h2>Your Active Scholarships Offer</h2>
-                <div class="scholarship-line"></div>
-                <div id="scholarships-container" class="cards-container">
-                    <div id="scholarshipCardsContainer" class="scholarship-card-container">
-                        <div id="scholarshipCards" class="cards-container"></div>
-                        <div id="scholarshipModal" class="modal-overlay" style="display: none;">
-                            <div class="modal-content">
-                                <span id="closeScholarshipModal" class="close-button">&times;</span>
-                                <div id="scholarshipModalBody"></div>
+    
+            <div class="containerss">
+                <section class="offers-section">
+                    <h2>Your Active Scholarships Offer</h2>
+                    <div class="scholarship-line"></div>
+                    <div id="scholarships-container" class="cards-container">
+                        <div id="scholarshipCardsContainer" class="scholarship-card-container">
+                            <div id="scholarshipCards" class="cards-container"></div>
+                            <div id="scholarshipModal" class="modal-overlay" style="display: none;">
+                                <div class="modal-content">
+                                    <span id="closeScholarshipModal" class="close-button">&times;</span>
+                                    <div id="scholarshipModalBody"></div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </section>
-
-            <section class="offers-section" style="margin-top: 40px;">
-                <h2>Your Active Internships Offer</h2>
-                <div class="scholarship-line"></div>
-                <div id="internships-container" class="cards-container">
-                    <div id="internshipCardsContainer" class="internship-card-container">
-                        <div id="internshipCards" class="cards-container"></div>
-                        <div id="internshipModal" class="modal-overlay" style="display: none;">
-                            <div class="modal-content">
-                                <span id="closeInternshipModal" class="close-button">&times;</span>
-                                <div id="internshipModalBody"></div>
+                </section>
+    
+                <section class="offers-section" style="margin-top: 40px;">
+                    <h2>Your Active Internships Offer</h2>
+                    <div class="scholarship-line"></div>
+                    <div id="internships-container" class="cards-container">
+                        <div id="internshipCardsContainer" class="internship-card-container">
+                            <div id="internshipCards" class="cards-container"></div>
+                            <div id="internshipModal" class="modal-overlay" style="display: none;">
+                                <div class="modal-content">
+                                    <span id="closeInternshipModal" class="close-button">&times;</span>
+                                    <div id="internshipModalBody"></div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </section>
+                </section>
+            </div>
         </div>
     </div>
 

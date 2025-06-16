@@ -3,14 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NEXTSTEP</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <link rel="stylesheet" href="../CSS/style.css">
+    <title>NextStep Scholarship Provider</title>
+    <link rel="stylesheet" href="../CSS/scholarship-provider.css">
     <link rel="stylesheet" href="../CSS/loading.css">
     <link rel="logo icon" href="../Assets/logo.png" type="image/png">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-    <script src="https://kit.fontawesome.com/608ec77317.js" crossorigin="anonymous"></script>
-    <script src="https://unpkg.com/scrollreveal"></script>
 </head>
 <body>
     <div id="loader-wrapper">
@@ -23,29 +20,30 @@
     </div>
     <div id="page-content">
         <header>
+            <!-- Navbar -->
             <div class="container">
                 <nav class="navbar">
-                    <a href="student-dashboard.html" class="logo">NEXTSTEP</a>
+                    <a href="provider-dashboard.html" class="logo">NEXTSTEP</a>
                     <div class="search-bar">
                         <svg xmlns="http://www.w3.org/2000/svg" width="40" height="41" viewBox="0 0 40 41" fill="none">
                             <path d="M28.1551 28.6998L33.2884 33.8332M31.6668 19.6665C31.6668 22.9817 30.3498 26.1611 28.0056 28.5053C25.6614 30.8495 22.482 32.1665 19.1668 32.1665C15.8515 32.1665 12.6721 30.8495 10.3279 28.5053C7.98371 26.1611 6.66675 22.9817 6.66675 19.6665C6.66675 16.3513 7.98371 13.1719 10.3279 10.8277C12.6721 8.48346 15.8515 7.1665 19.1668 7.1665C22.482 7.1665 25.6614 8.48346 28.0056 10.8277C30.3498 13.1719 31.6668 16.3513 31.6668 19.6665Z" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                             </svg>
-                        <input type="text" placeholder="Search">
+                        <input type="text" id="searchBar" placeholder="Search">
                     </div>
                     <div class="nav-links">
-                        <a href="student-dashboard.html" class="nav-link active">
+                        <a href="provider-dashboard.html" class="nav-link" id="homeLink">
                             <svg xmlns="http://www.w3.org/2000/svg" width="26" height="30" viewBox="0 0 28 30">
                                 <path d="M4.00008 26.6667H9.00008V16.6667H19.0001V26.6667H24.0001V11.6667L14.0001 4.16667L4.00008 11.6667V26.6667ZM0.666748 30V10L14.0001 0L27.3334 10V30H15.6667V20H12.3334V30H0.666748Z"/>
                                 </svg>
                             <span>Home</span>
                         </a>
-                        <a href="scholarship-repository.html" class="nav-link">
+                        <a href="scholarship-provider.html" class="nav-link active">
                             <svg xmlns="http://www.w3.org/2000/svg" width="34" height="30" viewBox="0 0 38 32">
                                 <path d="M37.5 12.0243C37.5008 11.5261 37.3685 11.0367 37.1167 10.6056C36.8649 10.1746 36.5026 9.81742 36.0664 9.57037L20.4823 0.396868C20.0331 0.136956 19.5225 0 19.0025 0C18.4825 0 17.9718 0.136956 17.5227 0.396868L1.91537 9.57037C1.48408 9.8242 1.1268 10.185 0.878645 10.6172C0.63049 11.0495 0.5 11.5383 0.5 12.0358C0.5 12.5332 0.63049 13.022 0.878645 13.4543C1.1268 13.8865 1.48408 14.2473 1.91537 14.5011L6.35477 17.0697V23.5141C6.35745 24.0177 6.49072 24.5122 6.74178 24.95C6.99284 25.3878 7.35325 25.7542 7.78833 26.0139L17.6151 31.6326C18.0539 31.8736 18.5472 32 19.0487 32C19.5502 32 20.0435 31.8736 20.4823 31.6326L30.3091 26.0139C30.7442 25.7542 31.1046 25.3878 31.3556 24.95C31.6067 24.5122 31.74 24.0177 31.7426 23.5141V17.0009L34.6098 15.3267V21.5647H37.5V12.0243ZM28.8755 23.4912L19.0025 29.1329L9.24501 23.5141V18.7668L17.5227 23.6517C17.9733 23.9071 18.4834 24.0415 19.0025 24.0415C19.5215 24.0415 20.0316 23.9071 20.4823 23.6517L28.8524 18.698L28.8755 23.4912ZM19.0025 21.1749L3.39517 12.0013L19.0025 2.80491L34.6098 11.9784L19.0025 21.1749Z"/>
                                 </svg>
                             <span>Scholarships</span>
                         </a>
-                        <a href="internship-repository.html" class="nav-link">
+                        <a href="internship-provider.html" class="nav-link">
                             <svg xmlns="http://www.w3.org/2000/svg" width="29" height="30" viewBox="0 0 34 32">
                                 <path d="M28.9 5.66667H23.8V3.94444C23.8 3.03092 23.4418 2.15481 22.8042 1.50885C22.1665 0.862896 21.3017 0.5 20.4 0.5H13.6C12.6983 0.5 11.8335 0.862896 11.1958 1.50885C10.5582 2.15481 10.2 3.03092 10.2 3.94444V5.66667H5.1C3.7474 5.66667 2.45019 6.21101 1.49376 7.17995C0.53732 8.14889 0 9.46305 0 10.8333V26.3333C0 27.7036 0.53732 29.0178 1.49376 29.9867C2.45019 30.9557 3.7474 31.5 5.1 31.5H28.9C30.2526 31.5 31.5498 30.9557 32.5062 29.9867C33.4627 29.0178 34 27.7036 34 26.3333V10.8333C34 9.46305 33.4627 8.14889 32.5062 7.17995C31.5498 6.21101 30.2526 5.66667 28.9 5.66667ZM13.6 3.94444H20.4V5.66667H13.6V3.94444ZM30.6 26.3333C30.6 26.7901 30.4209 27.2281 30.1021 27.5511C29.7833 27.8741 29.3509 28.0556 28.9 28.0556H5.1C4.64913 28.0556 4.21673 27.8741 3.89792 27.5511C3.57911 27.2281 3.4 26.7901 3.4 26.3333V16.6717L11.356 19.4444C11.5365 19.469 11.7195 19.469 11.9 19.4444H22.1C22.2843 19.4408 22.4673 19.4118 22.644 19.3583L30.6 16.6717V26.3333ZM30.6 13.0378L21.828 16H12.172L3.4 13.0378V10.8333C3.4 10.3766 3.57911 9.93852 3.89792 9.61554C4.21673 9.29256 4.64913 9.11111 5.1 9.11111H28.9C29.3509 9.11111 29.7833 9.29256 30.1021 9.61554C30.4209 9.93852 30.6 10.3766 30.6 10.8333V13.0378Z"/>
                                 </svg>
@@ -70,154 +68,105 @@
             </div>
         </header>
     
-        <!-- Slide Section -->
-        <section class="slider">
-            <div class="container">
-                <div class="slide-content">
-                    <img src="https://unsplash.com/photos/people-throwing-hats-on-air-_kd5cxwZOK4" alt="">
-                    <h1>Temukan Beasiswa & Magang Terbaik<br>Untuk Masa Depanmu!</h1>
-                    <a href="about.html" class="slider-btn">About Us</a>    
+        <main class="provider-container">
+            <aside class="list-panel">
+                <div class="panel-header">
+                    <h2>Your Scholarships</h2>
+                    <button id="addNewScholarshipBtn" class="add-thread-bar">
+                        <span class="add-thread-text">Add New Scholarship</span>
+                        <span class="add-thread-plus">+</span>
+                    </button>
                 </div>
-            </div>
-        </section>
+                <ul id="scholarshipList" class="scholarship-list">
+                    <li><p>Loading your scholarships...</p></li>
+                </ul>
+            </aside>
     
-        <!-- Scholarships Section -->
-        <section class="section container">
-            <div class="section-header">
-                <h2>Scholarship Offers</h2>
-                <a href="scholarship-repository.html" class="view-more">View More</a>
-            </div>
-            <div id="scholarshipCardsContainer" class="scholarship-card-container">
-                <div id="scholarshipCards" class="cards-container"></div>
-            </div>
+            <section class="applicant-view-panel">
+                <div id="applicantPanelHeader">
+                    <h2 id="selectedScholarshipTitle">Select a Scholarship to View Applicants</h2>
+                </div>
+                <div class="table-container">
+                    <table id="applicantsTable">
+                        <thead>
+                            <tr>
+                                <th>Applicant Name</th>
+                                <th>School</th>
+                                <th>Applied Date</th>
+                                <th>Current Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="applicantsTableBody">
+                            <tr>
+                                <td colspan="5" style="text-align:center; padding: 2rem;">No scholarship selected.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
     
-            <!-- <div class="slider-controls">
-                <button class="slide-btn prev-btn">&lt;</button>
-                <button class="slide-btn next-btn">&gt;</button>
-            </div> -->
-        <div id="scholarshipModal" class="modal-overlay" style="display: none;">
+        <div id="addScholarshipModal" class="modal-overlay" style="display:none;">
             <div class="modal-content">
-                <span id="closeModal" class="close-button">&times;</span>
-                <div id="scholarshipModalBody"></div>
-                <!-- <button class="apply-btn">Apply Now</button> -->
+                <span class="close-button" id="closeAddModal">&times;</span>
+                <h2 id="modalTitle">Add New Scholarship</h2>
+                <form id="addScholarshipForm">
+                    <label for="sch-title">Title</label>
+                    <input type="text" id="sch-title" placeholder="Scholarship Title" required>
+    
+                    <label for="sch-location">Location</label>
+                    <input type="text" id="sch-location" placeholder="e.g., Online, Jakarta, Indonesia" required>
+    
+                    <div class="form-row">
+                        <div>
+                            <label for="sch-startDate">Start Date</label>
+                            <input type="date" id="sch-startDate" required>
+                        </div>
+                        <div>
+                            <label for="sch-deadline">Application Deadline</label>
+                            <input type="date" id="sch-deadline" required>
+                        </div>
+                    </div>
+    
+                    <label for="sch-duration">Duration</label>
+                    <input type="text" id="sch-duration" placeholder="e.g., 4 Years, 1 Semester">
+    
+                    <label for="sch-requirements">Requirements (one per line)</label>
+                    <textarea id="sch-requirements" rows="4" placeholder="e.g., Bachelor's Degree in CS, Strong communication skills, 2+ years experience"></textarea>
+    
+                    <label for="sch-majors">Majors (one per line)</label>
+                    <textarea id="sch-majors" rows="3" placeholder="e.g., Computer Science, Information Systems, Software Engineering"></textarea>
+    
+                    <label for="sch-description">Description</label>
+                    <textarea id="sch-description" rows="4" placeholder="Detailed description of the scholarship"></textarea>
+                    
+                    <label for="sch-status">Status</label>
+                    <select id="sch-status" name="status">
+                        <option value="Open" selected>Open</option>
+                        <option value="Closed">Closed</option>
+                    </select>
+    
+                    <button type="submit" class="btn-primary" id="modalSubmitBtn">Add Scholarship</button>
+                </form>
             </div>
         </div>
-        </section>
     
-        <!-- Internships Section -->
-        <section class="section container">
-            <div class="section-header">
-                <h2>Internship Offers</h2>
-                <a href="internship-repository.html" class="view-more">View More</a>
-            </div>
-            <div id="internshipCardsContainer" class="internship-card-container">
-                <div id="internshipCards" class="cards-container"></div>
-            </div>
-    
-            <!-- <div class="slider-controls">
-                <button class="slide-btn prev-btn">&lt;</button>
-                <button class="slide-btn next-btn">&gt;</button>
-            </div> -->
-        <div id="internshipModal" class="modal-overlay" style="display: none;">
+        <div id="applicantDetailModal" class="modal-overlay" style="display:none;">
             <div class="modal-content">
-                <span id="closeModal" class="close-button">&times;</span>
-                <div id="internshipModalBody"></div>
-                <!-- <button class="apply-btn">Apply Now</button> -->
-            </div>
-        </div>
-        </section>
-    
-        <!-- Testimoni Section -->
-        <!-- <section class="testimonials container">
-            <div class="section-header">
-                <h2>What They Talk About Us?</h2>
-            </div>
-    
-            <div class="testimonial-cards">
-                <div class="testimonial-card">
-                    <div class="avatar">
-                        <i class="fas fa-user"></i>
-                    </div>
-                    <h3 class="user-name">Davian G</h3>
-                    <p class="user-title">Student</p>
-                    <p class="testimonial-text">
-                        NEXTSTEP sangat membantu saya menemukan beasiswa terbaik!
-                    </p>
-                    <div class="stars">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="far fa-star"></i>
-                    </div>
-                </div>
-    
-                <div class="testimonial-card">
-                    <div class="avatar">
-                        <i class="fas fa-user"></i>
-                    </div>
-                    <h3 class="user-name">Justin V</h3>
-                    <p class="user-title">Student</p>
-                    <p class="testimonial-text">
-                        NEXTSTEP sangat membantu, saya menemukan institusi terbaik!
-                    </p>
-                    <div class="stars">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                    </div>
-                </div>
-    
-                <div class="testimonial-card">
-                    <div class="avatar">
-                        <i class="fas fa-user"></i>
-                    </div>
-                    <h3 class="user-name">Jason L</h3>
-                    <p class="user-title">Student</p>
-                    <p class="testimonial-text">
-                        NEXTSTEP sangat praktis, saya menemukan beasiswa terbaik!
-                    </p>
-                    <div class="stars">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                    </div>
-                </div>
-            </div>
-        </section> -->
-    
-        <!-- footer -->
-        <footer>
-            <div class="container">
-                <p>NextStep © 2025</p>
-            </div>
-        </footer>
-    
-        <!-- Internships Modal -->
-        <div id="detailModal" class="modal">
-            <div class="modal-content">
-                <span class="close">&times;</span>
-                <!-- <img id="modalImage" src="" alt="Detail Image" class="modal-image"> -->
-                <h2 id="modalTitle"></h2>
-                <div class="modal-info">
-                    <p id="modalLocation"></p>
-                    <p id="modalSalary"></p>
-                    <div id="modalTags" class="modal-tags"></div>
-                </div>
-                <p id="modalDescription" class="modal-desc"></p>
-                <button class="apply-btn">Apply Now</button>
+                <span class="close-button" id="closeDetailModal">&times;</span>
+                <h2>Applicant Details</h2>
+                <div id="applicantDetailBody"></div>
             </div>
         </div>
     </div>
-    
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
-    <script src="../JS/firebase-config.js"></script>
-    <script type ="module" src="../JS/script.js"></script>
+
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js"></script>
+
+    <!-- Your Firebase config + logic -->
+    <script type="module" src="../JS/scholarship-provider.js"></script>
 </body>
 </html>
