@@ -469,6 +469,8 @@ onAuthStateChanged(auth, async (user) => {
       if (loginBtn) loginBtn.style.display = "block";
       if (logoutBtn) logoutBtn.style.display = "none";
       return;
+    } finally {
+      document.body.classList.add('loaded');
     }
 
   } else {
@@ -997,18 +999,36 @@ if (modalDeleteInternshipBtn) {
  * @param {string} createdTimeStr - The creation time string in "DD/MM/YYYY, HH:MM:SS" format.
  * @returns {string} A human-readable string representing the time ago.
  */
-function calculateTimeAgo(createdTimeStr) {
-  const [datePart, timePart] = createdTimeStr.split(", ");
-  const [day, month, year] = datePart.split("/").map(Number);
-  const [hours, minutes, seconds] = timePart.split(":").map(Number); // Changed to ":"
-  const createdDate = new Date(year, month - 1, day, hours, minutes, seconds);
-  const now = new Date();
-  const diffInSeconds = Math.floor((now - createdDate) / 1000);
+function calculateTimeAgo(timestamp) {
+    if (!timestamp || typeof timestamp !== 'string') {
+        return 'a while ago';
+    }
+    try {
+        const [datePart, timePart] = timestamp.split(', ');
+        const [day, month, year] = datePart.split('/');
+        const [hours, minutes, seconds] = timePart.split(':');
 
-  if (diffInSeconds < 60) return `${diffInSeconds} seconds ago`;
-  if (diffInSeconds < 3600) return `${Math.floor(diffInSeconds / 60)} minutes ago`;
-  if (diffInSeconds < 86400) return `${Math.floor(diffInSeconds / 3600)} hours ago`;
-  return `${Math.floor(diffInSeconds / 86400)} days ago`;
+        const postDate = new Date(year, month - 1, day, hours, minutes, seconds);
+        const now = new Date();
+        const secondsPast = (now.getTime() - postDate.getTime()) / 1000;
+
+        if (secondsPast < 60)
+          return `${Math.floor(secondsPast)} seconds ago`;
+        if (secondsPast < 3600)
+          return `${Math.floor(secondsPast / 60)} minutes ago`;
+        
+        if (secondsPast <= 86400)
+          return `${Math.floor(secondsPast / 3600)} hours ago`;
+        if (secondsPast <= 2592000)
+          return `${Math.floor(secondsPast / 86400)} days ago`;
+        if (secondsPast <= 31536000)
+          return `${Math.floor(secondsPast / 2592000)} months ago`;
+        return `over a year ago`;
+
+    } catch (error) {
+        console.error("Could not parse timestamp:", timestamp, error);
+        return 'invalid date';
+    }
 }
 
 /**
@@ -1159,3 +1179,23 @@ function createInternshipCard(data, id) {
 
   return wrapper;
 }
+
+const logoutBtn = document.getElementById('logoutBtn');
+logoutBtn.addEventListener('click', (e) => {
+    // Prevent the link's default behavior
+    e.preventDefault(); 
+    
+    // Use the Firebase signOut function
+    signOut(auth)
+        .then(() => {
+            // When sign-out is successful:
+            alert("You have been successfully logged out.");
+            // Redirect the user to the login page
+            window.location.href = 'login.html';
+        })
+        .catch((error) => {
+            // If there's an error during logout:
+            console.error("Logout Error:", error);
+            alert("Failed to log out. Please try again.");
+        });
+});

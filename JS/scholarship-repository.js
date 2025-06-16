@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js";
-import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js";
+import { getAuth, onAuthStateChanged, signOut} from "https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js";
 import {
     getFirestore,
     doc,
@@ -36,6 +36,7 @@ const db = getFirestore(app);
 const rtdb = getDatabase(app);
 let likedScholarshipIds = [];
 let currentUserId = null;
+let currentUserEmail = null;
 
 // Auth State
 onAuthStateChanged(auth, async (user) => {
@@ -48,6 +49,7 @@ onAuthStateChanged(auth, async (user) => {
 
     if (user) {
         currentUserId = user.uid;
+        currentUserEmail = user.email;
         try {
             const userDocRef = doc(db, "users", user.uid);
             const userDocSnap = await getDoc(userDocRef);
@@ -73,6 +75,8 @@ onAuthStateChanged(auth, async (user) => {
             loadScholarships();
         } catch (error) {
             console.error("Error getting user data:", error);
+        } finally {
+            document.body.classList.add('loaded');
         }
     }else {
         localStorage.removeItem('userRole');
@@ -446,10 +450,9 @@ applyNowBtnModal.addEventListener('click', async () => {
 
     try {
         const scholarshipApplicationDocRef = doc(db, "appliedScholar", scholarshipId);
-
         const docSnap = await getDoc(scholarshipApplicationDocRef);
 
-        if (docSnap.exists() && docSnap.data() && docSnap.data()[currentUserId]) {
+        if (docSnap.exists() && docSnap.data()?.[currentUserId]) {
             alert(`You have already applied for "${scholarshipTitle}".`);
             document.getElementById("scholarshipModal").style.display = "none";
             applyNowBtnModal.disabled = false;
@@ -457,13 +460,15 @@ applyNowBtnModal.addEventListener('click', async () => {
             return;
         }
         
+        // --- PERUBAHAN UTAMA ADA DI SINI ---
         const userApplicationData = {
             scholarshipTitle: scholarshipTitle,
             status: "applied",
             appliedAt: serverTimestamp(),
             userName: document.getElementById('sidebarProfileName').textContent,
             userSchool: document.getElementById('sidebarProfileSchool').textContent,
-            userMajor: document.getElementById('sidebarProfileMajor').textContent
+            userMajor: document.getElementById('sidebarProfileMajor').textContent,
+            userEmail: currentUserEmail // Menambahkan email pengguna
         };
 
         const dataToWrite = {
@@ -472,24 +477,23 @@ applyNowBtnModal.addEventListener('click', async () => {
         
         await setDoc(scholarshipApplicationDocRef, dataToWrite, { merge: true });
 
-        console.log(`Application submitted for user ${currentUserId} to scholarship ${scholarshipId}`);
-        alert(`Successfully applied for "${scholarshipTitle}"! Your application status is "applied".`);
+        alert(`Successfully applied for "${scholarshipTitle}"!`);
         
+        // Update a list in the user's own document
         try {
             const userDocRef = doc(db, "users", currentUserId);
             await setDoc(userDocRef, {
                 appliedScholarshipIds: arrayUnion(scholarshipId) 
             }, { merge: true });
-            console.log(`Added ${scholarshipId} to user's applied list.`);
         } catch (denormError) {
-            console.error("Error updating user's applied list (denormalization):", denormError);
+            console.error("Error updating user's applied list:", denormError);
         }
             
         document.getElementById("scholarshipModal").style.display = "none";
 
     } catch (error) {
         console.error("Error submitting application: ", error);
-        alert("Failed to submit application. Please try again. Check console for details.");
+        alert("Failed to submit application. Please try again.");
     } finally {
         applyNowBtnModal.disabled = false;
         applyNowBtnModal.textContent = "Apply Now";
@@ -579,7 +583,7 @@ async function showInProgressApplications() {
     scholarshipContainer.innerHTML = `<p style="padding: 2rem;">Loading your in-progress applications...</p>`;
 
     // Daftar status "In Progress"
-    const inProgressTargetStatuses = ["applied", "under review", "interview scheduled", "documents pending", "pending decision"];
+    const inProgressTargetStatuses = ["applied", "under review", "shortlisted", "interview scheduled", "documents pending", "pending decision", "accepted", "rejected"];
 
 
     try {
@@ -659,3 +663,18 @@ if (inProgressBtn) {
         showInProgressApplications();
     });
 }
+
+const logoutBtn = document.getElementById('logoutBtn');
+logoutBtn.addEventListener('click', (e) => {
+    e.preventDefault(); 
+    
+    signOut(auth)
+        .then(() => {
+            alert("You have been successfully logged out.");
+            window.location.href = 'login.html';
+        })
+        .catch((error) => {
+            console.error("Logout Error:", error);
+            alert("Failed to log out. Please try again.");
+        });
+});

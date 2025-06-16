@@ -1,6 +1,6 @@
 // Firebase config and initialization
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js";
-import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js";
+import { getAuth, onAuthStateChanged, signOut} from "https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js";
 import {
   getFirestore,
   collection,
@@ -78,6 +78,8 @@ onAuthStateChanged(auth, async (user) => {
       console.error("Error fetching user data:", error);
       profileSection.style.display = 'none';
       loginBtn.style.display = 'block';
+    } finally {
+      document.body.classList.add('loaded');
     }
   } else {
     // Tampilkan tombol login
@@ -114,6 +116,38 @@ document.getElementById('homeLink')?.addEventListener('click', function(e) {
   } 
   else if (userRole === 'provider' || userRole === 'admin') {
     window.location.href = 'provider-dashboard.html';
+  } 
+  else {
+    window.location.href = 'index.html';
+  }
+});
+
+document.getElementById('scholarLink')?.addEventListener('click', function(e) {
+  e.preventDefault();
+  
+  const userRole = localStorage.getItem('userRole');
+  
+  if (userRole === 'student') {
+    window.location.href = 'scholarship-repository.html';
+  } 
+  else if (userRole === 'provider' || userRole === 'admin') {
+    window.location.href = 'scholarship-provider.html';
+  } 
+  else {
+    window.location.href = 'index.html';
+  }
+});
+
+document.getElementById('internLink')?.addEventListener('click', function(e) {
+  e.preventDefault();
+  
+  const userRole = localStorage.getItem('userRole');
+  
+  if (userRole === 'student') {
+    window.location.href = 'internship-repository.html';
+  } 
+  else if (userRole === 'provider' || userRole === 'admin') {
+    window.location.href = 'internship-provider.html';
   } 
   else {
     window.location.href = 'index.html';
@@ -523,4 +557,24 @@ window.addEventListener('scroll', () => {
         header.classList.remove('hidden');
     }
     lastScroll = currentScroll;
+});
+
+const logoutBtn = document.getElementById('logoutBtn');
+logoutBtn.addEventListener('click', (e) => {
+    // Prevent the link's default behavior
+    e.preventDefault(); 
+    
+    // Use the Firebase signOut function
+    signOut(auth)
+        .then(() => {
+            // When sign-out is successful:
+            alert("You have been successfully logged out.");
+            // Redirect the user to the login page
+            window.location.href = 'login.html';
+        })
+        .catch((error) => {
+            // If there's an error during logout:
+            console.error("Logout Error:", error);
+            alert("Failed to log out. Please try again.");
+        });
 });

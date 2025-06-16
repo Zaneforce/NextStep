@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js";
-import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js";
+import { getAuth, onAuthStateChanged, signOut} from "https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js";
 import {
     getFirestore,
     doc,
@@ -39,6 +39,7 @@ const internshipsRef = ref(rtdb, "internships");
 let likedInternshipIds = new Set(); // ✅ store liked IDs
 let allInternshipsData = [];
 let currentUserId = null;
+let currentUserEmail = null;
 
 function displayInternships(internshipList) {
     internshipContainer.innerHTML = "";
@@ -63,6 +64,7 @@ onAuthStateChanged(auth, async (user) => {
     
     if (user) {
         currentUserId = user.uid;
+        currentUserEmail = user.email;
         try {
             const userDocRef = doc(db, "users", user.uid);
             const userDocSnap = await getDoc(userDocRef);
@@ -93,6 +95,8 @@ onAuthStateChanged(auth, async (user) => {
         } catch (error) {
             console.error("Error getting user data:", error);
             loadInternships();
+        } finally {
+            document.body.classList.add('loaded');
         }
     } else {
         // Not logged in
@@ -514,7 +518,8 @@ applyNowBtnModal.addEventListener("click", async () => {
             appliedAt: serverTimestamp(),
             userName: document.getElementById('sidebarProfileName').textContent,
             userSchool: document.getElementById('sidebarProfileSchool').textContent,
-            userMajor: document.getElementById('sidebarProfileMajor').textContent
+            userMajor: document.getElementById('sidebarProfileMajor').textContent,
+            userEmail: currentUserEmail
         };
 
         const dataToWrite = {
@@ -705,4 +710,19 @@ async function showInProgressApplications() {
 document.getElementById("inprogress-internship-btn").addEventListener("click", (e) => {
     e.preventDefault();
     showInProgressApplications();
+});
+
+const logoutBtn = document.getElementById('logoutBtn');
+logoutBtn.addEventListener('click', (e) => {
+    e.preventDefault(); 
+    
+    signOut(auth)
+        .then(() => {
+            alert("You have been successfully logged out.");
+            window.location.href = 'login.html';
+        })
+        .catch((error) => {
+            console.error("Logout Error:", error);
+            alert("Failed to log out. Please try again.");
+        });
 });

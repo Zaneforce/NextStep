@@ -1,6 +1,6 @@
 // === Firebase SDK ===
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js";
-import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js";
+import { getAuth, onAuthStateChanged, signOut} from "https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js";
 import {
     getFirestore,
     doc,
@@ -96,12 +96,14 @@ onAuthStateChanged(auth, async (user) => {
             loadInternships();
         } catch (error) {
             console.error("Error getting user data:", error);
+        } finally {
+            document.body.classList.add('loaded');
         }
     } else {
         if (loginBtn) loginBtn.style.display = "block";
         if (profileSection) profileSection.style.display = "none";
         loadScholarships();
-    }
+    } 
 });
 
 // === Time Ago Utility ===
@@ -262,3 +264,18 @@ function loadInternships() {
     });
 }
 
+// LOGOUT FUNCTIONALITY
+const logoutBtn = document.getElementById('logoutBtn');
+logoutBtn.addEventListener('click', (e) => {
+    e.preventDefault(); 
+    
+    signOut(auth)
+        .then(() => {
+            alert("You have been successfully logged out.");
+            window.location.href = 'login.html';
+        })
+        .catch((error) => {
+            console.error("Logout Error:", error);
+            alert("Failed to log out. Please try again.");
+        });
+});
