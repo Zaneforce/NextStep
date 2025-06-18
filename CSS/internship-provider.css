@@ -1,6 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
-/* Universal Reset and Base Properties */
 * {
   margin: 0;
   padding: 0;
@@ -17,7 +16,6 @@
   --grey-color: #6C757D;
 }
 
-/* Scrollbar hiding for Webkit and standard browsers */
 ::-webkit-scrollbar {
   width: 0 !important;
   height: 0 !important;
@@ -26,7 +24,7 @@
 
 * {
   scrollbar-width: none;
-  -ms-overflow-style: none; /* IE and Edge */
+  -ms-overflow-style: none; 
 }
 
 html {
@@ -49,7 +47,7 @@ body {
     padding: 0 15px;
 }
 
-/* --- Header/Navbar Styles --- */
+/*Navbar*/
 header {
     position: fixed;
     top: 0;
@@ -165,21 +163,20 @@ header.hidden {
 
 .profile-section:hover,
 .profile-section:hover .bx-user-circle {
-    color: var(--text-color); /* Change color on hover */
-}
+    color: var(--text-color);
 
 .profile-section .bx-user-circle {
-    font-size: 34px; /* Matched to other icons */
-    color: inherit; /* Inherit color from parent */
+    font-size: 34px;
+    color: inherit;
     transition: color 0.3s ease;
 }
 
 .profile-section .profile-name {
-    color: inherit; /* Inherit color from parent */
+    color: inherit;
     transition: color 0.3s ease;
 }
 
-/* The dropdown box itself */
+/* Dropdown */
 .profile-section .dropdown-content {
     display: none;
     position: absolute;
@@ -262,7 +259,7 @@ header.hidden {
     max-height: 85vh;
 }
 
-/* --- Left Panel (Scholarship List) --- */
+/* Left Panel */
 .list-panel {
     flex: 1;
     max-width: 380px;
@@ -279,7 +276,7 @@ header.hidden {
 .panel-header {
     display: flex;
     flex-direction: column;
-    align-items: flex-start; /* Align text to the left */
+    align-items: flex-start;
     border-bottom: 1px solid var(--line-color);
     padding-bottom: 1rem;
     margin-bottom: 1rem;
@@ -297,7 +294,7 @@ header.hidden {
     background: #fff;
     border-radius: 24px;
     box-shadow: 0 2px 12px rgba(60, 80, 180, 0.08);
-    padding: 15px 20px; /* Adjusted padding slightly */
+    padding: 15px 20px;
     cursor: pointer;
     transition: transform 0.18s, box-shadow 0.18s;
     width: 100%;
@@ -335,7 +332,7 @@ header.hidden {
     color: #a08383;
     /* margin-left: 16px; */
     transition: all 0.2s ease;
-    border: none; /* Make sure it doesn't get a default button border */
+    border: none;
 }
 
 .add-thread-bar:hover .add-thread-plus {
@@ -370,7 +367,7 @@ header.hidden {
     font-weight: bold;
 }
 
-/* --- Right Panel (Applicant Table) --- */
+/* Right Panel */
 .applicant-view-panel {
     flex: 3;
     background: var(--primary-color);
@@ -439,7 +436,7 @@ header.hidden {
     background-color: #fff;
 }
 
-/* --- Modal & Form Styles (Reusable) --- */
+/* Modal */
 .modal-overlay {
     position: fixed;
     top: 0;
@@ -523,7 +520,7 @@ header.hidden {
     background-color: #b22222;
 }
 
-/* --- Applicant Detail Modal --- */
+/*  Detail Modal */
 #applicantDetailBody p {
     margin-bottom: 0.75rem;
     line-height: 1.6;
@@ -631,35 +628,32 @@ header.hidden {
 
 @media (max-width: 1141px) {
     .dashboard-summary {
-        flex-direction: column; /* Stack items vertically on smaller screens */
-        align-items: stretch; /* Stretch items to full width */
+        flex-direction: column;
+        align-items: stretch; 
     }
     .summary-item {
-        width: 100%; /* Full width for stacked items */
-        margin-bottom: 15px; /* Space between stacked items */
+        width: 100%; 
+        margin-bottom: 15px; 
     }
     .summary-item:last-child {
-        margin-bottom: 0; /* No margin after the last item */
+        margin-bottom: 0;
     }
 
     body {
-        /* Add more space at the top to prevent content from hiding under the wrapped navbar */
         padding-top: 100px;
     }
  
     .provider-container {
-        /* Stack the two main panels vertically */
         flex-direction: column;
         padding: 1rem;
     }
 
     .list-panel, .applicant-view-panel {
-        max-width: 100%; /* Allow panels to take full width */
+        max-width: 100%; 
     }
 
-    /* --- Responsive Table: Transform into a list of cards --- */
     #applicantsTable thead {
-        display: none; /* Hide the original table headers */
+        display: none;
     }
 
     #applicantsTable, 
@@ -679,7 +673,7 @@ header.hidden {
 
     #applicantsTable td {
         text-align: right;
-        padding-left: 50%; /* Make space for the label */
+        padding-left: 50%; 
         position: relative;
         border-bottom: 1px solid #eee;
     }
@@ -688,7 +682,6 @@ header.hidden {
         border-bottom: none;
     }
 
-    /* Use the 'data-label' from the JS to create labels */
     #applicantsTable td::before {
         content: attr(data-label);
         position: absolute;
@@ -717,7 +710,7 @@ header.hidden {
         padding-top: 100px; 
     }
 
-    /* --- Header/Navbar Styles --- */
+    /* Navbar Styles */
     header {
         transition: transform 0.3s ease-in-out;
         background-color: var(--primary-color);
@@ -764,7 +757,7 @@ header.hidden {
         font-size: 1.25rem;
     }
 
-    .add-thread-bar { /* This class is used for the "Add New" button */
+    .add-thread-bar {
         padding: 12px 15px;
     }
 
