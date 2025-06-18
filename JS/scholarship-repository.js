@@ -13,10 +13,10 @@ import {
 import {
     getDatabase,
     ref,
+    remove,
     onValue,
     get
 } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-database.js";
-
 
 // Firebase Config
 const firebaseConfig = {
@@ -34,6 +34,7 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 const rtdb = getDatabase(app);
+let isAdmin = false;
 let likedScholarshipIds = [];
 let currentUserId = null;
 let currentUserEmail = null;
@@ -46,40 +47,87 @@ onAuthStateChanged(auth, async (user) => {
     const sidebarProfileName = document.getElementById('sidebarProfileName');
     const sidebarProfileSchool = document.getElementById('sidebarProfileSchool');
     const sidebarProfileMajor = document.getElementById('sidebarProfileMajor');
+    // Hapus referensi ke elemen laporan jika tidak ada di halaman ini
+    // const reportsContent = document.querySelector('.reports-content');
+    // const reportsContainer = document.querySelector('.reports-container');
+
 
     if (user) {
         currentUserId = user.uid;
         currentUserEmail = user.email;
+
+        // Sembunyikan tombol login dan tampilkan profil secara default jika ada user
+        if (loginBtn) loginBtn.style.display = "none";
+        if (profileSection) profileSection.style.display = "flex"; // Pastikan ini 'flex' sesuai CSS
+
         try {
+            // === 2a: Ambil data pengguna biasa (seperti sebelumnya) ===
             const userDocRef = doc(db, "users", user.uid);
             const userDocSnap = await getDoc(userDocRef);
 
             if (userDocSnap.exists()) {
                 const userData = userDocSnap.data();
-                profileName.textContent = userData.name || "User";
-                sidebarProfileName.textContent = userData.name || "User";
-                sidebarProfileSchool.textContent = userData.school || "Unknown School";
-                sidebarProfileMajor.textContent = userData.major || "Unknown Major";
-                localStorage.setItem('userRole', userData.role);
+                if (profileName) profileName.textContent = userData.name || "User";
+                if (sidebarProfileName) sidebarProfileName.textContent = userData.name || "User";
+                if (sidebarProfileSchool) sidebarProfileSchool.textContent = userData.school || "Unknown School";
+                if (sidebarProfileMajor) sidebarProfileMajor.textContent = userData.major || "Unknown Major";
+                localStorage.setItem('userRole', userData.role || 'student'); // Simpan role, default 'student'
             } else {
-                profileName.textContent = "User";
+                if (profileName) profileName.textContent = "User";
+                 localStorage.setItem('userRole', 'student'); // Default 'student' jika user doc tidak ada
             }
 
+            // === 2b: Periksa apakah pengguna juga seorang admin ===
+            const adminDocRef = doc(db, "admins", user.uid);
+            const adminDocSnap = await getDoc(adminDocRef);
+
+            if (adminDocSnap.exists()) {
+                console.log("User is also verified as an admin.");
+                isAdmin = true; // Set status admin menjadi true jika ditemukan di koleksi admins
+                if (profileName) profileName.textContent = "Admin"; // Ganti nama profil menjadi Admin jika admin
+                // Anda bisa menambah logika UI khusus admin di sini jika perlu, tapi mungkin tidak banyak di halaman ini.
+            } else {
+                 isAdmin = false; // Pastikan status admin false jika tidak ditemukan di koleksi admins
+                 console.log("Authenticated user is not an admin.");
+            }
+
+
+            // === Ambil data liked scholarships (untuk siswa/user biasa) ===
+            // Logika ini tetap berjalan karena halaman ini bisa diakses siswa
             const likedDocRef = doc(db, "likedScholarships", user.uid);
             const likedSnap = await getDoc(likedDocRef);
 
             likedScholarshipIds = likedSnap.exists() ? likedSnap.data().scholarshipIds || [] : [];
 
-            loginBtn.style.display = "none";
-            profileSection.style.display = "flex";
+            // === Muat beasiswa ===
+            // loadScholarships() akan dipanggil di sini, dan fungsi itu akan
+            // menggunakan variabel 'isAdmin' untuk menambahkan tombol delete
             loadScholarships();
+
         } catch (error) {
-            console.error("Error getting user data:", error);
+            console.error("Error in Auth State Listener:", error);
+            // Tetap panggil loadScholarships bahkan jika ada error saat ambil data user/admin
+            // untuk memastikan beasiswa publik tetap tampil
+            loadScholarships();
         } finally {
-            document.body.classList.add('loaded');
+            document.body.classList.add('loaded'); // Sembunyikan loader setelah semua proses selesai
         }
-    }else {
-        localStorage.removeItem('userRole');
+    } else {
+        // Tidak ada pengguna yang terautentikasi
+        currentUserId = null;
+        currentUserEmail = null;
+        likedScholarshipIds = [];
+        isAdmin = false; // Pastikan status admin false jika tidak ada user
+        localStorage.removeItem('userRole'); // Hapus role jika logout
+
+        // Tampilkan tombol login dan sembunyikan profil jika tidak ada user
+        if (loginBtn) loginBtn.style.display = "block";
+        if (profileSection) profileSection.style.display = "none";
+
+        // Muat beasiswa untuk pengguna anonim (tanpa info like/apply)
+        loadScholarships();
+
+        document.body.classList.add('loaded'); // Sembunyikan loader
     }
 });
 
@@ -156,11 +204,16 @@ function calculateTimeAgo(createdTimeStr) {
 
 
 // Card Builder
+// Card Builder (Modified for Admin View Addition)
 function createScholarshipCard(data) {
-    console.log("Rendering scholarship:", data.id);
+    // console.log("Rendering scholarship:", data.id, " isAdmin:", isAdmin); // Debugging log
+
     const maxTags = 5;
-    const majors = Array.isArray(data.majors) ? data.majors : Object.values(data.majors || {});
-    const requirements = data.requirements || [];
+    // Penyesuaian untuk memastikan majors dan requirements adalah array
+    // Objek kosong ({}) digunakan sebagai fallback jika data.majors/requirements null/undefined
+    const majors = Array.isArray(data.majors) ? data.majors : (data.majors ? Object.values(data.majors) : []);
+    const requirements = Array.isArray(data.requirements) ? data.requirements : (data.requirements ? Object.values(data.requirements) : []);
+
 
     const tagsToShow = majors.slice(0, maxTags);
     const hiddenCount = majors.length > maxTags ? majors.length - maxTags : 0;
@@ -168,20 +221,21 @@ function createScholarshipCard(data) {
     const tagHTML = tagsToShow.map(tag => `<span class="tag">${tag}</span>`).join("");
     const overflowTag = hiddenCount > 0 ? `<span class="tag">+${hiddenCount}</span>` : "";
 
-
     const requirementSnippet = requirements.slice(0, 2).map((req, i) => `<li>${i + 1}. ${req.substring(0, 50)}${req.length > 50 ? '...' : ''}</li>`).join("");
 
     const wrapper = document.createElement("div");
     wrapper.classList.add("scholarship-card");
-    wrapper.style.cursor = "pointer";
-    wrapper.dataset.scholarshipId = data.id;
+    wrapper.style.cursor = "pointer"; // Tetap pointer karena modal mungkin masih digunakan
+    wrapper.dataset.scholarshipId = data.id; // Simpan ID beasiswa di dataset
 
+    // Logika applicationStatusHTML tetap ada karena ini di halaman yang sama untuk siswa
     let applicationStatusHTML = "";
     if (data.applicationStatus) {
         const statusText = data.applicationStatus.charAt(0).toUpperCase() + data.applicationStatus.slice(1);
         applicationStatusHTML = `<p class="application-status" style="font-weight: bold; color: #007bff; margin-top: 5px; margin-bottom: 5px;">Status: ${statusText}</p>`;
     }
 
+    // **Bagian HTML Card (Struktur Dasar)**
     wrapper.innerHTML = `
         <div class="scholarship-card-header">
             <div>
@@ -214,113 +268,229 @@ function createScholarshipCard(data) {
     `;
 
     const heartIcon = wrapper.querySelector('.heart-icon');
+    const cardFooter = wrapper.querySelector('.scholarship-card-footer'); // Ambil elemen footer
 
-    // Tandai jika sudah dilike
+    // Tandai jika sudah dilike (Logika ini tetap ada untuk tampilan siswa)
     if (currentUserId && likedScholarshipIds.includes(data.id)) {
-        heartIcon.classList.remove("bx-heart");
-        heartIcon.classList.add("bxs-heart");
-        heartIcon.style.color = "red";
+        if(heartIcon) { // Cek apakah heartIcon ada
+            heartIcon.classList.remove("bx-heart");
+            heartIcon.classList.add("bxs-heart");
+            heartIcon.style.color = "red";
+        }
     }
 
-    // Like/Unlike event
-    heartIcon.addEventListener("click", async (event) => {
-        event.stopPropagation();
-        if (!currentUserId) {
-            alert("Please login to like scholarships.");
-            return;
-        }
-        const scholarshipIdForLike = heartIcon.dataset.id;
-        const userDocRef = doc(db, "likedScholarships", currentUserId);
+    // Like/Unlike event (Logika ini tetap ada untuk tampilan siswa)
+    // Pastikan hanya menambahkan event listener jika heartIcon ada
+    if (heartIcon) {
+        heartIcon.addEventListener("click", async (event) => {
+            event.stopPropagation(); // Penting: Hentikan event dari bubble up ke wrapper card
 
-        try {
-            const userDocSnap = await getDoc(userDocRef);
-            let currentLiked = userDocSnap.exists() ? userDocSnap.data().scholarshipIds || [] : [];
-            const isLiked = currentLiked.includes(scholarshipIdForLike);
-
-            if (isLiked) {
-                currentLiked = currentLiked.filter(id => id !== scholarshipIdForLike);
-                heartIcon.classList.remove("bxs-heart");
-                heartIcon.classList.add("bx-heart");
-                heartIcon.style.color = "";
-            } else {
-                currentLiked.push(data.id);
-                heartIcon.classList.remove("bx-heart");
-                heartIcon.classList.add("bxs-heart");
-                heartIcon.style.color = "red";
+            if (!currentUserId || isAdmin) { // Jangan biarkan admin like/unlike dari sini
+                 // Jika isAdmin, biarkan event stopPropation saja, tidak perlu alert
+                 if (!isAdmin) alert("Please login to like scholarships.");
+                 return;
             }
+            const scholarshipIdForLike = heartIcon.dataset.id;
+            const userDocRef = doc(db, "likedScholarships", currentUserId);
 
-            await setDoc(userDocRef, { scholarshipIds: currentLiked });
-            likedScholarshipIds = currentLiked;
-        } catch (err) {
-            console.error("Error updating wishlist:", err);
-        }
-    });
-
-    // Modal
-    wrapper.addEventListener("click", async() => {
-        const modal = document.getElementById("scholarshipModal");
-        const modalBody = document.getElementById("modalBody");
-        const applyBtnModal = document.getElementById("applyNowBtnModal");
-
-        const fullRequirementListHTML = requirements.length > 0 ? requirements.map((req, i) => `<li>${i + 1}. ${req}</li>`).join("") : "<li>No specific requirements listed.</li>";
-        const fullMajorListHTML = majors.length > 0 ? majors.map(tag => `<span class="tag">${tag}</span>`).join("") : "Any major";
-
-        let modalApplicationStatusHTML = "";
-        if (data.applicationStatus) {
-            const statusText = data.applicationStatus.charAt(0).toUpperCase() + data.applicationStatus.slice(1);
-            modalApplicationStatusHTML = `<p style="font-weight:bold; color: #007bff; margin-bottom:10px;">Your Application Status: ${statusText}</p>`;
-        }
-
-        modalBody.innerHTML = `
-            <h2>${data.title || "Beasiswa"}</h2>
-            ${modalApplicationStatusHTML}
-            <p>${data.companyName}</p>
-            <p>${data.location}</p>
-            <p>${data.startDate || "?"} - ${data.deadline || "?"}</p>
-            <div class="modal-majors">${fullMajorListHTML}</div>
-            <p><strong>Requirements:</strong></p>
-            <ul style="padding-left: 1.2rem;">${fullRequirementListHTML}</ul>
-        `;
-        applyBtnModal.dataset.scholarshipId = data.id;
-        applyBtnModal.dataset.scholarshipTitle = data.title || "this scholarship"; // Untuk pesan konfirmasi
-
-        // NGILANGIN BUTTON
-        applyBtnModal.textContent = "Apply Now";
-        applyBtnModal.disabled = false;
-        applyBtnModal.style.display = "block";
-
-        if (currentUserId) {
             try {
-                const scholarshipApplicationDocRef = doc(db, "appliedScholar", data.id);
-                const docSnap = await getDoc(scholarshipApplicationDocRef);
+                const userDocSnap = await getDoc(userDocRef);
+                let currentLiked = userDocSnap.exists() ? userDocSnap.data().scholarshipIds || [] : [];
+                const isLiked = currentLiked.includes(scholarshipIdForLike);
 
-                if (docSnap.exists() && docSnap.data() && docSnap.data()[currentUserId]) {
-                    applyBtnModal.style.display = "none"; // Hide the button
-
-                    if (!modalApplicationStatusHTML) {
-                        const userApplication = docSnap.data()[currentUserId];
-                        const statusText = userApplication.status ? userApplication.status.charAt(0).toUpperCase() + userApplication.status.slice(1) : "Status Unknown";
-                         // Prepend or append this status to modalBody if desired
-                        const statusDiv = document.createElement('p');
-                        statusDiv.innerHTML = `<p style="font-weight:bold; color: #007bff; margin-bottom:10px;">Your Application Status: ${statusText}</p>`;
-                        modalBody.insertBefore(statusDiv, modalBody.firstChild);
-                    }
-
+                if (isLiked) {
+                    currentLiked = currentLiked.filter(id => id !== scholarshipIdForLike);
+                    heartIcon.classList.remove("bxs-heart");
+                    heartIcon.classList.add("bx-heart");
+                    heartIcon.style.color = "";
                 } else {
-                    applyBtnModal.style.display = "block";
+                    currentLiked.push(data.id);
+                    heartIcon.classList.remove("bx-heart");
+                    heartIcon.classList.add("bxs-heart");
+                    heartIcon.style.color = "red";
                 }
-            } catch (error) {
-                console.error("Error checking application status for modal:", error);
-                applyBtnModal.style.display = "block";
+
+                await setDoc(userDocRef, { scholarshipIds: currentLiked });
+                // Update array lokal likedScholarshipIds setelah berhasil setDoc
+                likedScholarshipIds = currentLiked; // Penting untuk UI instan pada kartu lain
+                console.log(`User ${currentUserId} updated liked scholarships.`);
+
+            } catch (err) {
+                console.error("Error updating wishlist:", err);
+                alert("Failed to update wishlist. Please try again.");
             }
-        } else {
-            applyBtnModal.style.display = "block"; 
+        });
+    }
+        wrapper.addEventListener("click", async() => {
+            const modal = document.getElementById("scholarshipModal");
+            const modalBody = document.getElementById("modalBody");
+            const applyBtnModal = document.getElementById("applyNowBtnModal"); // Pastikan ini ada di HTML modal
+
+            // Pastikan elements modal ditemukan sebelum diisi
+            if (!modal || !modalBody || !applyBtnModal) {
+                console.error("Modal elements not found!");
+                return; // Hentikan jika elemen modal tidak ada
+            }
+
+
+            const fullRequirementListHTML = requirements.length > 0 ? requirements.map((req, i) => `<li>${i + 1}. ${req}</li>`).join("") : "<li>No specific requirements listed.</li>";
+            const fullMajorListHTML = majors.length > 0 ? majors.map(tag => `<span class="tag">${tag}</span>`).join("") : "Any major";
+
+            let modalApplicationStatusHTML = "";
+             // Ambil status aplikasi spesifik user untuk modal (hanya jika ada user)
+            if (currentUserId) {
+                try {
+                     const scholarshipApplicationDocRef = doc(db, "appliedScholar", data.id);
+                    const docSnap = await getDoc(scholarshipApplicationDocRef);
+
+                    if (docSnap.exists() && docSnap.data() && docSnap.data()[currentUserId]) {
+                        const userApplication = docSnap.data()[currentUserId];
+                         const statusText = userApplication.status ? userApplication.status.charAt(0).toUpperCase() + userApplication.status.slice(1) : "Status Unknown";
+                         modalApplicationStatusHTML = `<p style="font-weight:bold; color: #007bff; margin-bottom:10px;">Your Application Status: ${statusText}</p>`;
+                    }
+                } catch (error) {
+                     console.error("Error fetching user application status for modal:", error);
+                     // Lanjutkan tanpa status aplikasi jika ada error
+                }
+            }
+
+
+            modalBody.innerHTML = `
+                <h2>${data.title || "Beasiswa"}</h2>
+                ${modalApplicationStatusHTML}
+                <p>${data.companyName}</p>
+                <p>${data.location}</p>
+                <p>${data.startDate || "?"} - ${data.deadline || "?"}</p>
+                <div class="modal-majors">${fullMajorListHTML}</div>
+                <p><strong>Requirements:</strong></p>
+                <ul style="padding-left: 1.2rem;">${fullRequirementListHTML}</ul>
+            `;
+            applyBtnModal.dataset.scholarshipId = data.id;
+            applyBtnModal.dataset.scholarshipTitle = data.title || "this scholarship"; // Untuk pesan konfirmasi
+
+            // Atur visibilitas tombol Apply Now (hanya jika ada user dan belum apply)
+             if (currentUserId) {
+                try {
+                    const scholarshipApplicationDocRef = doc(db, "appliedScholar", data.id);
+                    const docSnap = await getDoc(scholarshipApplicationDocRef);
+
+                    if (docSnap.exists() && docSnap.data()?.[currentUserId]) {
+                        applyBtnModal.style.display = "none"; // Sembunyikan tombol Apply jika sudah melamar
+                    } else {
+                        applyBtnModal.style.display = "block"; // Tampilkan jika belum melamar
+                    }
+                } catch (error) {
+                    console.error("Error checking application status for modal:", error);
+                    applyBtnModal.style.display = "block"; // Default: tampilkan tombol jika ada error cek
+                }
+            } else {
+                 applyBtnModal.style.display = "block"; // Tampilkan tombol Apply untuk user anonim (akan diminta login saat klik)
+            }
+
+
+            modal.style.display = "flex"; // Tampilkan modal
+        });
+
+    // === **TAMBAHAN:** Tambahkan Tombol Delete hanya jika Admin ===
+    if (isAdmin) {
+        // Buat elemen ikon tempat sampah (gunakan class Boxicons)
+        const deleteIcon = document.createElement('i');
+        deleteIcon.classList.add('bx', 'bx-trash'); // Class untuk ikon tempat sampah
+        deleteIcon.classList.add('delete-scholarship-icon'); // Class kustom untuk styling (opsional)
+        deleteIcon.dataset.scholarshipId = data.id; // Simpan ID beasiswa
+        deleteIcon.style.cursor = 'pointer';
+        deleteIcon.style.color = '#f44336'; // Warna merah untuk ikon delete (opsional)
+        deleteIcon.style.fontSize = '24px'; // Ukuran ikon (opsional)
+        deleteIcon.style.marginLeft = 'auto'; // Dorong ke kanan di dalam footer flexbox (sesuaikan CSS footer Anda)
+
+        // Tambahkan ikon delete ke footer kartu
+        if (cardFooter) {
+             // Hapus ikon heart dan rating karena tidak relevan untuk admin
+             const heartIconElement = cardFooter.querySelector('.heart-icon');
+             const ratingElement = cardFooter.querySelector('.rating');
+             if(heartIconElement) heartIconElement.remove();
+             if(ratingElement) ratingElement.remove();
+
+            // Tambahkan ikon delete
+             cardFooter.appendChild(deleteIcon);
+             // Sesuaikan layout footer jika hanya ada ikon delete (misal: justify-content: flex-end)
+             // Ini bisa dilakukan di CSS dengan class .scholarship-card-footer jika .delete-scholarship-icon ada di dalamnya
+             cardFooter.style.justifyContent = 'flex-end'; // Contoh pengaturan flexbox via JS
         }
-        modal.style.display = "flex";
-    });
+
+
+        // Tambahkan event listener ke ikon delete
+        deleteIcon.addEventListener('click', async (event) => {
+            event.stopPropagation(); // Sangat penting: Hentikan event klik dari bubble ke wrapper card
+            console.log("Delete icon clicked for:", data.id);
+
+            const scholarshipIdToDelete = event.target.dataset.scholarshipId;
+            const scholarshipTitleToDelete = data.title || "this scholarship"; // Ambil judul untuk konfirmasi
+
+            if (confirm(`Are you sure you want to delete the scholarship "${scholarshipTitleToDelete}"? This action cannot be undone.`)) {
+                // Panggil fungsi hapus beasiswa
+                await deleteScholarship(scholarshipIdToDelete);
+            }
+        });
+    } // Penutup if (isAdmin)
+
 
     return wrapper;
 }
+
+// === Delete Scholarship Function (For Admin) ===
+async function deleteScholarship(scholarshipId) {
+    if (!scholarshipId) {
+        console.error("Error: No scholarship ID provided for deletion.");
+        alert("Error deleting scholarship.");
+        return;
+    }
+
+    // Tampilkan pesan loading/indikator jika diinginkan
+    console.log(`Attempting to delete scholarship with ID: ${scholarshipId}`);
+
+    try {
+        // Buat referensi ke lokasi beasiswa di Realtime Database
+        const scholarshipRefToDelete = ref(rtdb, `scholarships/${scholarshipId}`);
+
+        // Hapus data di lokasi tersebut
+        await remove(scholarshipRefToDelete);
+
+        console.log(`Scholarship ${scholarshipId} successfully deleted.`);
+        // onValue listener di loadScholarships akan otomatis memperbarui tampilan setelah data dihapus
+
+        alert("Scholarship deleted successfully!");
+
+        // Opsional: Hapus juga data terkait di Firestore jika ada (misal: like/apply data)
+        // Ini lebih kompleks dan mungkin memerlukan Cloud Functions jika skala besar.
+        // Untuk sementara, kita hanya fokus menghapus dari RTDB.
+        // Contoh (memerlukan penanganan data di Firestore):
+        // const likedScholarshipsQuery = query(collection(db, "likedScholarships"), where("scholarshipIds", "array-contains", scholarshipId));
+        // const likedSnaps = await getDocs(likedScholarshipsQuery);
+        // likedSnaps.forEach(async (docSnap) => {
+        //     const userId = docSnap.id;
+        //     const currentLiked = docSnap.data().scholarshipIds || [];
+        //     const newLiked = currentLiked.filter(id => id !== scholarshipId);
+        //     await updateDoc(docSnap.ref, { scholarshipIds: newLiked });
+        // });
+        // console.log(`Removed scholarship ID ${scholarshipId} from liked lists.`);
+
+         // Mungkin juga perlu menghapus data di koleksi 'appliedScholar' yang terkait dengan scholarshipId ini
+         // Ini juga bisa kompleks jika ada banyak aplikasi.
+         // Contoh:
+         // const appliedDocRef = doc(db, "appliedScholar", scholarshipId);
+         // await deleteDoc(appliedDocRef); // Hapus dokumen aplikasi spesifik untuk beasiswa ini
+         // console.log(`Deleted application document for scholarship ID ${scholarshipId}.`);
+
+
+    } catch (error) {
+        console.error(`Error deleting scholarship ${scholarshipId}:`, error);
+        alert("Failed to delete scholarship. Please try again.");
+    }
+     // Sembunyikan pesan loading/indikator jika ada
+}
+
+
 
 function searchScholarships(keyword) {
     console.log("Searching...")
@@ -647,7 +817,7 @@ async function showInProgressApplications() {
         if (cardsRendered === 0 && inProgressScholarshipData.length > 0) {
             scholarshipContainer.innerHTML = `<p style="padding: 2rem;">Details for your in-progress applications could not be loaded or they are no longer available.</p>`;
         } else if (cardsRendered === 0) { 
-             scholarshipContainer.innerHTML = `<p style="padding: 2rem;">You have no applications currently matching the in-progress statuses.</p>`;
+            scholarshipContainer.innerHTML = `<p style="padding: 2rem;">You have no applications currently matching the in-progress statuses.</p>`;
         }
 
     } catch (error) {

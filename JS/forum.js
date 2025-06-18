@@ -33,6 +33,7 @@ const auth = getAuth(app);
 const db = getFirestore(app);
 
 let currentUser = null;
+let isAdmin = false;
 let isProviderUser = false;
 
 async function getUserDataByUid(uid) {
@@ -47,46 +48,77 @@ async function getUserDataByUid(uid) {
 onAuthStateChanged(auth, async (user) => {
   const profileSection = document.getElementById('profileSection');
   const loginBtn = document.getElementById('loginBtn');
-  
+
+  // Reset status admin di awal setiap kali auth state berubah
+  isAdmin = false; // Penting: Atur ulang setiap kali
+
   if (user) {
     currentUser = user;
-    
-    // Ambil data pengguna dari Firestore
-    try {
-      const userDoc = await getDoc(doc(db, "users", user.uid)); // Perbaikan: gunakan user.uid
-      const userData = userDoc.data();
 
+    // Sembunyikan tombol login dan tampilkan profil secara default jika ada user
+    if (loginBtn) loginBtn.style.display = 'none';
+    if (profileSection) profileSection.style.display = 'flex';
+
+    try {
+      // Ambil data pengguna dari Firestore (untuk nama, role, dll.)
       const userDocRef = doc(db, "users", user.uid);
       const userDocSnap = await getDoc(userDocRef);
+      const userData = userDocSnap.exists() ? userDocSnap.data() : null; // Dapatkan userData atau null
+
       if (userDocSnap.exists()) {
-        const userData = userDocSnap.data();
-        // Simpan role di localStorage
-        localStorage.setItem('userRole', userData.role);
+        // Simpan role di localStorage jika dokumen user ada
+        localStorage.setItem('userRole', userData.role || 'student'); // Default 'student'
+        if (profileName) document.getElementById('profileName').textContent = userData.name || "Pengguna"; // Pastikan profileName diinisialisasi
+      } else {
+         // Jika dokumen user tidak ada, tampilkan nama default
+         if (profileName) document.getElementById('profileName').textContent = "Pengguna";
+         localStorage.setItem('userRole', 'student'); // Asumsi default siswa
+      }
+
+       // isProviderUser = (userData?.role === 'admin'); // Baris ini bisa dihapus atau disesuaikan
+
+
+      // === **TAMBAHAN:** Periksa apakah pengguna juga seorang admin ===
+      const adminDocRef = doc(db, "admins", user.uid);
+      const adminDocSnap = await getDoc(adminDocRef);
+
+      if (adminDocSnap.exists()) {
+          console.log("User is also verified as an admin.");
+          isAdmin = true; // **SET STATUS ADMIN JADI TRUE**
+          if (profileName) document.getElementById('profileName').textContent = "Admin"; // Ganti nama profil jika admin
+      } else {
+           isAdmin = false; // Pastikan status admin false jika tidak ditemukan
+           console.log("Authenticated user is not an admin.");
       }
 
 
-      isProviderUser = (userData?.role === 'admin');
-
-      // Tampilkan profil
-      profileSection.style.display = 'flex';
-      document.getElementById('profileName').textContent = userData?.name || "Pengguna";
-      loginBtn.style.display = 'none';
-      
-      // Load posts setelah auth selesai
+      // Load posts setelah auth selesai (status admin/user sudah diketahui)
       loadPosts();
+
     } catch (error) {
-      console.error("Error fetching user data:", error);
-      profileSection.style.display = 'none';
-      loginBtn.style.display = 'block';
+      console.error("Error fetching user data or checking admin status:", error);
+      // Jika ada error, perlakukan sebagai non-admin dan coba muat post
+      isAdmin = false;
+      if (profileName) document.getElementById('profileName').textContent = "Pengguna"; // Tampilkan nama default
+      profileSection.style.display = 'flex'; // Tetap tampilkan profil dasar jika terautentikasi
+      loginBtn.style.display = 'none';
+      localStorage.setItem('userRole', 'unknown'); // Status tidak diketahui
+
+      loadPosts(); // Coba muat post
+
     } finally {
-      document.body.classList.add('loaded');
+      document.body.classList.add('loaded'); // Sembunyikan loader
     }
   } else {
-    // Tampilkan tombol login
+    // Tidak ada pengguna yang terautentikasi
     profileSection.style.display = 'none';
     loginBtn.style.display = 'block';
     currentUser = null;
+    isAdmin = false; // Pastikan status admin false jika tidak ada user
     localStorage.removeItem('userRole');
+
+    loadPosts(); // Muat post untuk pengguna anonim (tanpa delete/vote/reply)
+    document.body.classList.add('loaded'); // Sembunyikan loader
   }
 });
 
@@ -110,14 +142,13 @@ document.getElementById('homeLink')?.addEventListener('click', function(e) {
   e.preventDefault();
   
   const userRole = localStorage.getItem('userRole');
-  
+
   if (userRole === 'student') {
     window.location.href = 'student-dashboard.html';
   } 
   else if (userRole === 'provider' || userRole === 'admin') {
     window.location.href = 'provider-dashboard.html';
-  } 
-  else {
+  }else {
     window.location.href = 'index.html';
   }
 });
@@ -126,7 +157,7 @@ document.getElementById('scholarLink')?.addEventListener('click', function(e) {
   e.preventDefault();
   
   const userRole = localStorage.getItem('userRole');
-  
+
   if (userRole === 'student') {
     window.location.href = 'scholarship-repository.html';
   } 
@@ -255,7 +286,7 @@ async function loadPosts() {
       }
 
       const isAuthor = currentUser && currentUser.email === post.userEmail;
-      const canDelete = isAuthor || isProviderUser;
+      const canDelete = isAuthor || isProviderUser || isAdmin;
       // FIX: Prevent modal popup on delete by stopping propagation
       const deleteBtn = canDelete
         ? `<button onclick="event.stopPropagation(); deletePost('${postId}')"> <img src="../Assets/trash-alt.png" alt="delete" style="width: 20px; height: 20px; cursor: pointer;" /></button>`
