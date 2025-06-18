@@ -164,6 +164,7 @@ header.hidden {
 .profile-section:hover,
 .profile-section:hover .bx-user-circle {
     color: var(--text-color);
+}
 
 .profile-section .bx-user-circle {
     font-size: 34px;
