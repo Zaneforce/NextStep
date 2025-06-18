@@ -85,6 +85,7 @@ onAuthStateChanged(auth, async (user) => {
       if (adminDocSnap.exists()) {
           console.log("User is also verified as an admin.");
           isAdmin = true; // **SET STATUS ADMIN JADI TRUE**
+          localStorage.setItem('userRole', 'admin'); // Simpan status admin di localStorage
           if (profileName) document.getElementById('profileName').textContent = "Admin"; // Ganti nama profil jika admin
       } else {
            isAdmin = false; // Pastikan status admin false jika tidak ditemukan
@@ -130,9 +131,12 @@ document.getElementById('homeLogo')?.addEventListener('click', function(e) {
   if (userRole === 'student') {
     window.location.href = 'student-dashboard.html';
   } 
-  else if (userRole === 'provider' || userRole === 'admin') {
+  else if (userRole === 'provider') {
     window.location.href = 'provider-dashboard.html';
-  } 
+  }
+  else if (userRole === 'admin') {
+    window.location.href = 'admin-dashboard.html';
+  }
   else {
     window.location.href = 'index.html';
   }
@@ -142,13 +146,17 @@ document.getElementById('homeLink')?.addEventListener('click', function(e) {
   e.preventDefault();
   
   const userRole = localStorage.getItem('userRole');
-
+  
   if (userRole === 'student') {
     window.location.href = 'student-dashboard.html';
   } 
-  else if (userRole === 'provider' || userRole === 'admin') {
+  else if (userRole === 'provider') {
     window.location.href = 'provider-dashboard.html';
-  }else {
+  }
+  else if (userRole === 'admin') {
+    window.location.href = 'admin-dashboard.html'; 
+  }
+  else {
     window.location.href = 'index.html';
   }
 });

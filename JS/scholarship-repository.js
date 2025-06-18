@@ -84,6 +84,7 @@ onAuthStateChanged(auth, async (user) => {
             if (adminDocSnap.exists()) {
                 console.log("User is also verified as an admin.");
                 isAdmin = true; // Set status admin menjadi true jika ditemukan di koleksi admins
+                localStorage.setItem('userRole', 'admin'); // Simpan role sebagai admin
                 if (profileName) profileName.textContent = "Admin"; // Ganti nama profil menjadi Admin jika admin
                 // Anda bisa menambah logika UI khusus admin di sini jika perlu, tapi mungkin tidak banyak di halaman ini.
             } else {
@@ -139,9 +140,12 @@ document.getElementById('homeLogo')?.addEventListener('click', function(e) {
   if (userRole === 'student') {
     window.location.href = 'student-dashboard.html';
   } 
-  else if (userRole === 'provider' || userRole === 'admin') {
+  else if (userRole === 'provider') {
     window.location.href = 'provider-dashboard.html';
-  } 
+  }
+  else if (userRole === 'admin') {
+    window.location.href = 'admin-dashboard.html';
+  }
   else {
     window.location.href = 'index.html';
   }
@@ -155,9 +159,12 @@ document.getElementById('homeLink')?.addEventListener('click', function(e) {
   if (userRole === 'student') {
     window.location.href = 'student-dashboard.html';
   } 
-  else if (userRole === 'provider' || userRole === 'admin') {
+  else if (userRole === 'provider') {
     window.location.href = 'provider-dashboard.html';
-  } 
+  }
+  else if (userRole === 'admin') {
+    window.location.href = 'admin-dashboard.html'; 
+  }
   else {
     window.location.href = 'index.html';
   }
