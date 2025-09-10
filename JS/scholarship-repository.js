@@ -147,7 +147,7 @@ document.getElementById('homeLogo')?.addEventListener('click', function(e) {
     window.location.href = 'admin-dashboard.html';
   }
   else {
-    window.location.href = 'index.html';
+    window.location.href = '../index.html';
   }
 });
 
@@ -166,7 +166,7 @@ document.getElementById('homeLink')?.addEventListener('click', function(e) {
     window.location.href = 'admin-dashboard.html'; 
   }
   else {
-    window.location.href = 'index.html';
+    window.location.href = '../index.html';
   }
 });
 
@@ -573,6 +573,12 @@ function loadScholarships() {
 }
 
 function showLikedScholarships() {
+    if (!currentUserId) {
+        alert("Please login to see your liked scholarships.");
+        loadScholarships();
+        return;
+    }
+
     const scholarshipContainer = document.getElementById("scholarshipCards");
     const scholarshipsRef = ref(rtdb, 'scholarships');
 

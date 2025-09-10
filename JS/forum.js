@@ -138,7 +138,7 @@ document.getElementById('homeLogo')?.addEventListener('click', function(e) {
     window.location.href = 'admin-dashboard.html';
   }
   else {
-    window.location.href = 'index.html';
+    window.location.href = '../index.html';
   }
 });
 
@@ -157,7 +157,7 @@ document.getElementById('homeLink')?.addEventListener('click', function(e) {
     window.location.href = 'admin-dashboard.html'; 
   }
   else {
-    window.location.href = 'index.html';
+    window.location.href = '../index.html';
   }
 });
 
@@ -173,7 +173,7 @@ document.getElementById('scholarLink')?.addEventListener('click', function(e) {
     window.location.href = 'scholarship-provider.html';
   } 
   else {
-    window.location.href = 'index.html';
+    window.location.href = 'scholarship-repository.html';
   }
 });
 
@@ -189,7 +189,7 @@ document.getElementById('internLink')?.addEventListener('click', function(e) {
     window.location.href = 'internship-provider.html';
   } 
   else {
-    window.location.href = 'index.html';
+    window.location.href = 'internship-repository.html';
   }
 });
 

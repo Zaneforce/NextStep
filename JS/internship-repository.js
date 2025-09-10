@@ -37,7 +37,7 @@ const rtdb = getDatabase(app);
 const internshipContainer = document.getElementById("internshipCards");
 const internshipsRef = ref(rtdb, "internships");
 
-let likedInternshipIds = new Set(); // ✅ store liked IDs
+let likedInternshipIds = new Set(); 
 let isAdmin = false;
 let allInternshipsData = [];
 let currentUserId = null;
@@ -55,7 +55,7 @@ function displayInternships(internshipList) {
     });
 }
 
-// 🔄 Listen to internships and likes after auth
+// internships and likes after auth
 onAuthStateChanged(auth, async (user) => {
     const loginBtn = document.getElementById('loginBtn');
     const profileSection = document.getElementById('profileSection');
@@ -161,9 +161,9 @@ onAuthStateChanged(auth, async (user) => {
         if (loginBtn) loginBtn.style.display = "block";
         if (profileSection) profileSection.style.display = "none";
         // Kosongkan sidebar jika tidak ada user
-         if (sidebarProfileName) sidebarProfileName.textContent = "";
-         if (sidebarProfileSchool) sidebarProfileSchool.textContent = "";
-         if (sidebarProfileMajor) sidebarProfileMajor.textContent = "";
+        //  if (sidebarProfileName) sidebarProfileName.textContent = "";
+        //  if (sidebarProfileSchool) sidebarProfileSchool.textContent = "";
+        //  if (sidebarProfileMajor) sidebarProfileMajor.textContent = "";
 
 
         // Muat magang untuk pengguna anonim (tanpa info like/apply/admin)
@@ -189,7 +189,7 @@ document.getElementById('homeLogo')?.addEventListener('click', function(e) {
     window.location.href = 'admin-dashboard.html';
   }
   else {
-    window.location.href = 'index.html';
+    window.location.href = '../index.html';
   }
 });
 
@@ -208,7 +208,7 @@ document.getElementById('homeLink')?.addEventListener('click', function(e) {
     window.location.href = 'admin-dashboard.html'; 
   }
   else {
-    window.location.href = 'index.html';
+    window.location.href = '../index.html';
   }
 });
 
@@ -334,10 +334,6 @@ function createInternshipCard(data) {
          heartIcon.classList.remove("bx-heart");
          heartIcon.classList.add("bxs-heart");
          heartIcon.style.color = "red";
-    }
-    else{
-        heartIcon.style.display = "none";
-        ratingElement.style.display = "none";
     }
 
     // Event listener Like/Unlike (Hanya jika BUKAN admin dan ada heartIcon)
