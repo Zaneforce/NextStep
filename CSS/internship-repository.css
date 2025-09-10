@@ -396,7 +396,6 @@ header.hidden {
 /*internship card*/
 
 .internship-card-container{
-    align-items: center;
     flex: 1;
     display: grid;
     gap: 1.5rem;
